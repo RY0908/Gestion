@@ -1,0 +1,91 @@
+@media print {
+
+    /* Masquer toute l'interface sauf le document en cours */
+    body>*:not(#print-root) {
+        display: none !important;
+    }
+
+    /* A4 Portrait par défaut */
+    @page {
+        size: A4 portrait;
+        margin: 15mm 15mm 20mm 20mm;
+    }
+
+    /* A4 Paysage pour BonReception et InventaireGlobal */
+    @page landscape {
+        size: A4 landscape;
+        margin: 10mm;
+    }
+
+    /* Anti-coupure de lignes */
+    tr,
+    .no-break {
+        page-break-inside: avoid;
+    }
+
+    /* Répétition en-têtes sur chaque page imprimée */
+    thead {
+        display: table-header-group;
+    }
+
+    tfoot {
+        display: table-footer-group;
+    }
+
+    /* Saut de page forcé */
+    .page-break {
+        page-break-after: always;
+    }
+
+    /* Forcer les couleurs même en mode économie d'encre */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Masquer les éléments UI non imprimables */
+    .no-print,
+    nav,
+    sidebar,
+    .modal-overlay,
+    button:not(.print-only) {
+        display: none !important;
+    }
+
+    /* Table styles */
+    .print-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .print-table th {
+        background-color: #E87722 !important;
+        color: white !important;
+        font-weight: bold;
+        font-size: 10pt;
+        border: 0.5pt solid #CCCCCC;
+        padding: 4px 8px;
+        text-align: left;
+    }
+
+    .print-table td {
+        border: 0.5pt solid #CCCCCC;
+        padding: 4px 8px;
+        font-size: 9pt;
+        font-family: Arial, sans-serif;
+    }
+
+    .print-table-dense td,
+    .print-table-dense th {
+        font-size: 7pt !important;
+        padding: 2px 4px !important;
+    }
+
+    .print-table tr:nth-child(even) td {
+        background-color: #FDE9D9 !important;
+    }
+
+    .text-right {
+        text-align: right !important;
+    }
+}

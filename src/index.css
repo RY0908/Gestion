@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 64px;
+    --color-primary: #1B6B3A;
+    --color-primary-dark: #144F2B;
+    --color-accent: #C8960C;
+    --color-bg: #F6F8FA;
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F0F3F6;
+    --color-border: #D1D9E0;
+    --color-text: #1C2128;
+    --color-muted: #57606A;
+    --color-navy: #1A2F45;
+    --color-navy-mid: #243B53;
+    --color-navy-light: #2E4A66;
+    --color-flame: #E53E3E;
+    --color-flame-light: #FFF5F5;
+    --color-amber: #D69E2E;
+    --color-amber-light: #FFFFF0;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 999px;
+  }
+
+  .dark {
+    --color-bg: #0D1117;
+    --color-surface: #161B22;
+    --color-surface-alt: #1C2333;
+    --color-border: #30363D;
+    --color-text: #E6EDF3;
+    --color-muted: #8B949E;
+    --color-navy: #0D1B2A;
+    --color-navy-mid: #162033;
+    --color-navy-light: #1F2D40;
+    --color-flame-light: #2D1010;
+    --color-amber-light: #2D2A10;
+  }
+
+  * {
+    @apply border-[var(--color-border)];
+  }
+
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[var(--color-border)] rounded-full;
+}
+
+/* ─── Micro-Animations ──────────────────────────────────── */
+@layer utilities {
+
+  /* Button press effect */
+  .btn-press {
+    @apply transition-transform duration-150 ease-out;
+  }
+
+  .btn-press:active {
+    transform: scale(0.97);
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Shimmer skeleton animation */
+  .skeleton-shimmer {
+    background: linear-gradient(90deg,
+        var(--color-surface-alt) 25%,
+        var(--color-bg) 50%,
+        var(--color-surface-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Pulse for critical badges */
+  .pulse-critical {
+    animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse-badge {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ─── Focus Visible ─────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Skip to Content ───────────────────────────────────── */
+.skip-to-content {
+  @apply sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[var(--color-primary)] focus:text-white focus:rounded;
+}
+
+/* ─── Print Styles ──────────────────────────────────────── */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    border: none;
+    background: white;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  @page {
+    margin: 1cm;
+  }
+}
