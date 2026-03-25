@@ -32,7 +32,7 @@
  */
 
 /**
- * @typedef {'ADMIN'|'IT_MANAGER'|'IT_TECHNICIAN'|'EMPLOYEE'|'AUDITOR'} UserRole
+ * @typedef {'ADMIN'|'SUPERVISOR'|'TECHNICIAN'|'USER'} UserRole
  */
 
 /**
@@ -45,6 +45,9 @@
  * @property {string} phone
  * @property {string} employeeId - e.g. "STR-EMP-00342"
  * @property {Department} department
+ * @property {string} departmentId
+ * @property {string} locationId
+ * @property {string|null} managerId
  * @property {string} position
  * @property {UserRole} role
  * @property {string|null} avatar

@@ -1,11 +1,17 @@
-import { useRequests } from '@/hooks/useRequests.js'
+import { useRequests, useAssignRequest, useResolveRequest } from '@/hooks/useRequests.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
-import { formatDate } from '@/lib/utils.js'
-import { cn } from '@/lib/utils.js'
+import { formatDate, cn } from '@/lib/utils.js'
 import { AssetTypeBadge } from '@/components/atoms/AssetTypeBadge.jsx'
+import { REQUEST_STATES } from '@/lib/constants.js'
+import { ACTIONS } from '@/lib/permissions.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { Check, ClipboardList } from 'lucide-react'
 
 export default function RequestListPage() {
     const { data, isLoading } = useRequests({})
+    const { user, canDo } = useAuthStore()
+    const assignReq = useAssignRequest()
+    const resolveReq = useResolveRequest()
 
     const columns = [
         {
@@ -50,16 +56,51 @@ export default function RequestListPage() {
             header: 'Statut',
             cell: info => {
                 const status = info.getValue()
+                const stateObj = REQUEST_STATES.find(s => s.value === status)
                 return (
                     <span className={cn(
                         "px-2.5 py-1 rounded text-xs font-medium",
-                        status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-                            status === 'APPROVED' ? 'bg-blue-100 text-blue-800' :
-                                status === 'FULFILLED' ? 'bg-green-100 text-green-800' :
-                                    'bg-red-100 text-red-800'
+                        stateObj?.color || 'bg-gray-100 text-gray-800'
                     )}>
-                        {status}
+                        {stateObj?.label || status}
                     </span>
+                )
+            }
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: info => {
+                const req = info.row.original
+                
+                const canAssign = req.status === 'PENDING' && canDo(ACTIONS.TICKET_ASSIGN)
+                const canResolve = req.status === 'ASSIGNED' && canDo(ACTIONS.TICKET_RESOLVE) && (user.role === 'ADMIN' || req.assignedTo?.id === user.id)
+
+                if (!canAssign && !canResolve) return null
+
+                return (
+                    <div className="flex items-center gap-2">
+                        {canAssign && (
+                            <button
+                                onClick={() => assignReq.mutate({ id: req.id, data: { assignedToId: 'usr-1003' } })} // Mock assignment to first technician
+                                disabled={assignReq.isPending}
+                                className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                title="Assigner au technicien (Simulation)"
+                            >
+                                <ClipboardList className="w-4 h-4" />
+                            </button>
+                        )}
+                        {canResolve && (
+                            <button
+                                onClick={() => resolveReq.mutate({ id: req.id, data: { notes: 'Résolu' } })}
+                                disabled={resolveReq.isPending}
+                                className="p-1 text-sonatrach-green hover:bg-sonatrach-green/10 rounded transition-colors"
+                                title="Clôturer"
+                            >
+                                <Check className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
                 )
             }
         }

@@ -1,0 +1,467 @@
+Introduction
+Pendant les quatre semestres de formation, le stagiaire a acquis un savoir (connaissance), un savoir faire (des compétences pratiques) et un savoir être (un bon comportement ).
+Une fois la période de formation terminée, le stagiaire doit mettre en pratique ce qu‘il a apprit et cela pendant le cinquième semestre en alternance au niveau d’une entreprise et aussi au sein de l’établissement de formation.
+Ce qu’il faut entreprendre avant la fin du semestre 4 :
+- Le stagiaire doit trouver une entreprise capable de lui fournir un sujet de fin de stage. Le sujet doit être a la portée de l’élève ni très complique ni très facile.
+- Le choix des encadreurs au niveau de l’entreprise et au niveau de l’école.
+- Le choix du binôme (par rapport au niveau, a la proximité et la disponibilité).
+Ce qu’il faut entreprendre au début du semestre 5 :
+- Validation du sujet au niveau de l’école dans les plus brefs délais.
+- Suivre une ligne directrice avec son binôme concernant :
+Les déplacements au niveau de l’entreprise et de l’école (ensemble ou pas).
+Distribution des tâches.
+Maitrise du langage utilisé.
+Le déroulement du stage :
+- Entamer l’étude et la conception du projet et cela en mettant en pratique les acquis des modules UML et SGBD. C’est à dire concevoir l’architecture globale du projet.
+- Rédiger son mémoire de fin de stage.
+- Dés que l’architecture globale définit, on doit commencer la réalisation.
+- A la fin de l’étude et réalisation, faire un résumé du travail réalisé pour pouvoir le présenter dans une pré-soutenance.
+Qu’est qu’un mémoire de stage ?
+Il s’agit d’un rapport écrit de plusieurs dizaines de pages qui permet au jury et aux professeurs de votre formation de savoir comment s’est déroulé votre stage. Il leur permet notamment d’évaluer en quoi le stage vous a été utile et vous a permis de développer vos compétences.
+Le mémoire est conçu selon un plan structuré et des parties bien identifiées, dont :
+Une introduction,
+Un développement,
+Une conclusion,
+Des remerciements
+Une bibliographie.
+Le mémoire demande une pensée structurée (Plan). Il débute par une réflexion autour d’une problématique de départ. Il présente la situation et les difficultés rencontrées, puis expose les analyses et solutions apportées par le stagiaire. La conclusion fait  le bilan et peut ouvrir sur des perspectives.
+On parle de « rapport de stage » pour des stages de courte durée (au lycée par exemple).
+Dans l’enseignement supérieur, on parle plutôt de « mémoire de stage », travail plus complet qui peut être réalisé au cours d’un cursus universitaire ou en institut de formation.
+Mémoire de stage, rapport de stage : quelles différences ?
+L’objectif du rapport de stage est de présenter le stage effectué, le lieu, les dates, les missions, les objectifs et les résultats. C’est un retour d’expérience.
+Un mémoire de stage va généralement plus loin : sa thématique est plus large. Le mémoire s’appuie sur le stage effectué mais également sur vos connaissances théoriques et sur ce que vous avez appris au cours de votre formation.
+Mémoire de stage : comment présenter ses missions ?
+Le mémoire de stage doit présenter la structure qui accueille le stagiaire. Cela  peut être une entreprise privée ou un organisme public.
+Doivent figurer dans le mémoire divers éléments d’information permettant de comprendre le secteur d’activité de la structure, son marché, ses clients, ses spécificités, ses projets…
+La mission qui vous est confiée ou sur laquelle vous intervenez doit être présentée de manière détaillée. Vous devez montrer à quelle problématique elle répond.
+En fonction de votre formation, les missions peuvent être variées. Il peut s’agir, pour un étudiant en design d’espace, de rendre l’accueil d’un musée plus convivial ; pour un étudiant en informatique, de développer l’intranet d’un organisme public ; pour un ingénieur stagiaire, d’améliorer un process de fabrication dans une entreprise industrielle, etc.
+N’oubliez pas de mentionner dans quel contexte la mission est effectuée : environnement de travail, service, nombre de salariés, durée, moyens mis en œuvre, matériels et équipements…
+Pensez aussi, au fur et à mesure du stage, à prendre des notes, en particulier lorsque vous vous retrouvez face à des problématiques ou en cas d’événements importants. Effectuez régulièrement des synthèses pour ne rien oublier au moment de la rédaction.
+Comment construire le plan de son mémoire ?
+Le mémoire de stage suit en général un plan type défini, composé de plusieurs parties : une introduction, un développement et une conclusion.
+Pour établir ce plan, vous devez, au terme de votre stage, vous posez quelques questions :
+quel était l’objectif de la mission qui vous a été confiée ?
+quel bilan faites-vous ? Estimez-vous qu’il soit positif ? Négatif ? Pourquoi ?
+quels problèmes avez-vous rencontrés et comment les avez-vous abordés ?
+quelles solutions ont été apportées et par quels moyens ?
+Grâce à vos réponses, vous allez pouvoir faire émerger une problématique et présenter la démarche que vous avez adoptée pour mener à bien votre mission.
+L’introduction
+L’introduction présente le contexte dans lequel le stage a été effectué : l’entreprise, les missions et objectifs. Une fois la problématique posée, l’introduction expose le plan adopté dans le mémoire.
+Le développement
+Le développement constitue la partie la plus riche du mémoire. Il s’agit ici d’exposer la problématique du stage, les enjeux et les solutions qui ont été trouvées.
+C’est ici que vous présentez plus précisément l’entreprise et ses spécificités. Dressez un état des lieux et faite apparaître l’objectif de votre mission. Expliquez les questions que vous vous êtes posées, vos réflexions, les difficultés que vous avez pu rencontrer et la façon dont vous y avez répondu. Mettez en avant les compétences acquises ou développées lors du stage.
+L’objectif de cette partie est de permettre au jury de comprendre votre cheminement professionnel tout au long du stage, vos réflexions et votre capacité à faire évoluer votre démarche, à vous remettre en question, à prendre du recul.
+Pour plus de clarté, n’hésitez pas à bien structurer le développement en chapitres et sous-chapitres.
+La conclusion
+Elle dresse le bilan du stage. Elle résume le contenu de la mission, le travail effectué, les compétences acquises. Elle permet de comprendre si la problématique a été résolue et les objectifs atteints. Elle peut ouvrir sur des perspectives futures.
+Rédaction du mémoire :
+La rédaction du mémoire se fait sur PC en utilisant le Logiciel Microsoft Word.
+Microsoft Word
+Définition :
+C’est un logiciel de traitement de texte qui se trouve dans le pack Office. Le pack Office contient les programmes suivants :
+Microsoft Word.
+Microsoft Excel.
+Microsoft power point.
+Microsoft Access.
+Microsoft Outlook.
+Microsoft InfoPath.
+Microsoft Publisher.
+Il existe plusieurs versions D’Office :
+- Office 97. Office 2000.
+- Office XP.
+- Office 2003.
+- Office 2007.
+- Office 2013.
+- Office 2016.
+- Office 2019.
+- Office 2021.
+Remarque :
+On ne peut pas installer Office Version X  sur n’importe quelle Windows.
+- Office 97 s’installe sur Windows95 ou Windows98.
+- Office 2000 et Office XP s’installent sur Windows XP.
+- Office 2003 s’installe sur Windows XP ou Windows7.
+- Office 2007 s’installe sur Windows XP ou Windows7 ou Windows10.
+- Office 2013 ou Plus s’installent sur Windows10 ou Windows11.
+Rôle de l’application Microsoft Word :
+M
+icrosoft Word est un programme qui permet la création de n’importe quel type de document (mémoire, lettre administrative, livre, rapport, CV, exposé, sujet d’examen,...).
+Règles d’écritures :
+1) Un texte est composé de plusieurs paragraphes.
+2) Un paragraphe peut être composé de plusieurs phrases et plusieurs lignes.
+3) Une phrase est composée de plusieurs mots. Entre un mot et un autre mot on a un seul espace.
+4) Une phrase débute par une majuscule et se termine par un point.
+5) Entre un paragraphe et un autre, on a une ou deux lignes vides.
+6) Un soulignement rouge indique une éventuelle faute d’orthographe.
+7) Un soulignement vert ou bleu indique une éventuelle faute de grammaire.
+La ponctuation :
+pas d’espace .  espace
+pas d’espace , espace
+espace : espace
+espace ; espace
+espace ? espace
+espace ! espace
+L’alignement :
+Alignement du texte gauche
+Alignement du texte centré
+Alignement du texte Droite
+La Police de caractère :
+La propriété Police possède plusieurs sous propriétés :
+La taille de Police : 12, 14, 16, 20......etc
+Le nom de la police : Arial, Times New Roman, Monotype Corsiva, ......etc.
+Le Style de Police : Gras, Italique, Souligné, Normal.
+L’interligne :
+C’est l’espace entre les lignes d’un paragraphe, il peut être : Simple, 1.5, Double ou Multiple.
+L’alignement Justifié :
+Les fins de lignes d’un paragraphe doivent avoir le même alignement, c’est à dire un alignement justifié.
+Exemple :
+Les disques durs SSD ont de plus en plus tendance à remplacer les disques durs en tant que mémoire de masse principale. Leur rapidité et leur mobilité offrent des avantages indéniables. Les données sont lues et écrites électriquement, et non pas mécaniquement. Contrairement aux disques durs HDD, ils n’ont ni tête de lecture, ni tête d’écriture, ni plateaux rotatifs. Chaque bloc est accessible à la même vitesse. Peu importe qu’ils se trouvent l’un à côté de l’autre ou sur un autre module. Les défragmenter n’a donc aucun sens. Les temps d’accès sont plus courts, et les vitesses de lecture et d’écriture, plus élevées.
+La sélection de texte :
+Pour appliquer une mise en forme de texte, il faut sélectionner le texte d’abord.
+La sélection avec la souris :
+Sélection d’un mot : Pointer le mot puis double cliquer.
+Sélection d’une phrase : Pointer le début de la phrase, enfoncer le bouton gauche de la souris et faites glisser la souris jusqu’à ce que toute la phrase soit sélectionnée et relâcher le bouton gauche.
+Sélection d’un paragraphe : Pointer la marge de gauche au  même niveau que le paragraphe et cliquer deux fois.
+Sélection de tous le Document : Pointer la marge de gauche et cliquer 3 fois.
+La sélection avec le clavier :
+Sélection d’une phrase : Placer le curseur au début de la phrase, enfoncer la touche Shift puis appuyer sur la touche de direction droite jusqu’à la fin.
+Sélection d’un mot : Placer le curseur sur le mot puis appuyer deux fois sur la touche de fonction F8.
+Sélection d’une phrase : Placer le curseur sur la phrase puis appuyer trois fois sur la touche de fonction F8.
+Le retrait de la première ligne d’un paragraphe :
+Un paragraphe possède plusieurs lignes. La première ligne d’un paragraphe possède un retrait qui doit être  réalisé par la touche Tabulation.
+Comment Modifier le nom de la Police d’un texte ?
+- Sélectionner le texte.
+-  Dans l’onglet « Accueil », sélectionner une autre police
+Comment  Modifier la taille de la Police d’un texte ?
+- Sélectionner le texte.
+- Dans l’onglet « Accueil », sélectionner une autre taille
+Comment Modifier la couleur d’un texte ?
+-  Sélectionner le texte.
+-  Dans l’onglet « Accueil », sélectionner une autre couleur
+Comment Modifier le style  de la Police d’un texte ?
+Le style peut être Gras ou Italique ou Souligné.
+- Sélectionner le texte.
+-  Dans l’onglet « Accueil », sélectionner le style
+Comment Modifier l’alignement d’un texte ?
+- Placer le curseur sur le texte.
+- Dans l’onglet « Accueil », sélectionner le bon alignement
+Comment Modifier l’espace entre les lignes d’un paragraphe ?
+- Sélectionner  le paragraphe ou placer le curseur sur le paragraphe.
+- Dans l’onglet « Accueil », cliquer sur la petite flèche du bouton qui permet cela
+- Sélectionner la commande « Option d’interligne ».
+Une boite de dialogue apparait, dans la catégorie « Espacement » il faut mettre la valeur 0 au paramètre « Avant » et « Après » puis dans la zone de sélection « Interligne », sélectionner un autre interligne Simple ou 1,5 ou Double puis cliquer sur Ok.
+Les formes géométriques :
+Comment dessiner une forme géométrique ?
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Forme ».
+- Cliquer une fois sur la forme voulue.
+- Pointer l’endroit d’insertion de la forme.
+- Enfoncer le bouton gauche, faites glisser la souris jusqu’à obtention de la bonne taille puis relâcher le bouton gauche.
+Comment insérer une image ?
+- Placer le curseur à l’endroit d’insertion.
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur le du bouton « Image ».
+- Une boite de dialogue apparait, sélectionner l’image voulue puis cliquer sur le bouton « Insérer ».
+Résultat :
+L’image est insérée. Appliquer à l’image un habillage « Carré » ou « Encadré » pour pouvoir la positionnée facilement puis redimensionner la taille de l’image.
+Les Puces ou caractères spéciaux :
+Exemple :
+Les périphériques de stockage sont :
+Le disque dur
+Les lecteurs
+Comment insérer des puces ?
+- Sélectionner les choix.
+-  Dans l’onglet « Accueil », sélectionner le bouton « Puce » puis sélectionner la bonne puce
+Comment insérer un Symbole ?
+Exemple :
+- Placer le curseur à l’endroit d’insertion.
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Symbole » puis le choix « autres symbole ... » pour avoir tous les symboles possibles.
+- Une boite de dialogue apparait, sélectionner d’abord la police qui contient le symbole puis sélectionner le caractère spécial et enfin cliquer sur le bouton « Insérer ».
+Comment insérer un Objet WordArt ?
+Exemple :
+- Placer le curseur à l’endroit d’insertion.
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Wordart ».
+- Une boite de dialogue apparait, sélectionner le style qui convient.
+- Une boite de dialogue apparait, écrire votre texte, Modifier sa taille et sa police puis cliquer sur le bouton Ok.
+Les tableaux :
+Il existe deux types de tableaux :
+Tableau uniforme.
+Tableau non uniforme.
+- Dans un tableau uniforme, le nombre de ligne et de colonne est connu.
+Voici un exemple :
+- Dans un tableau non uniforme, le nombre de ligne et de colonne n’est pas connu.
+Voici un exemple :
+Un tableau uniforme doit être inséré et un tableau non uniforme doit être dessiné.
+Comment insérer un tableau ?
+- Placer le curseur à l’endroit d’insertion.
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Tableau ».
+- Sélectionner la commande « Insérer un Tableau ».
+- Une boite de dialogue apparait, elle demande le nombre de ligne et de colonne. Saisir le nombre de ligne et de colonne puis cliquer sur OK.
+Comment Dessiner un tableau ?
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Tableau ».
+- Sélectionner la commande « Dessiner un Tableau ».
+- Le pointeur de souris aura l’aspect d’un crayon, dessiner le contour puis dessiner les autres bordures.
+Les entêtes et les pieds de page :
+Un entête peut être un nom de chapitre (Dans un mémoire ou livre) ou la dénomination et le Logo d’une entreprise (Dans une facture).
+Le pied de page peut être un numéro de page ou une adresse.
+L’entête doit être écrit dans la marge de haut d’une page et le pied de page doit être écrit dans la marge de bas.
+Comment réaliser un entête ?
+- Double cliquer sur la marge de Haut puis écrire l’entête et enfin double cliquer sur la page.
+Comment réaliser un Pied de page ?
+- Double cliquer sur la marge de Bas puis écrire le pied de page et enfin double cliquer sur la page.
+Remarque :
+Dans le cas où on applique un entête dans une page alors ce même entête va être reproduit dans toutes les autres pages. Si on le modifie dans une autre page alors cette modification sera effective partout.
+Dans le cas où on applique un pied de page dans une page alors ce même pied de page va être reproduit dans toutes les autres pages. Si on le modifie dans une autre page alors cette modification sera effective partout.
+Comment appliquer un entête différent dans une nouvelle page « Page4 » ?
+Il faudra diviser le document en section. C’est à dire que la page 4 doit appartenir à une nouvelle section.
+Comment diviser le document en section ?
+- Placer le curseur sur la fin de la 3ème page.
+- Sélectionner l’onglet « Mise en page » puis le paramètre « Saut de Pages » puis la commande « Saut de section Page suivante ».
+Résultat : Le curseur apparait dans la Page4.
+- Double cliquer sur la marge de Haut mais avant d’effacer l’ancien entête, il faudra désactiver le Bouton « Lier au précédent » de l’onglet « Création »
+- Effacer l’ancien entête puis écrire le nouvel entête et enfin double cliquer sur la page.
+Remarque :
+Même principe pour un pied de page différent.
+Comment Insérer un numéro de page ?
+Sélectionner l’onglet « Insertion » puis le bouton « Numéro de page’ puis sélectionner à quelle position doit-il être inséré : Marge de bas ou de haut et dans quel alignement.
+Les marges :
+Dans une page Word, on a quatre marges :
+La marge de haut.
+La marge de bas.
+La marge de gauche.
+La marge de droite.
+Comment personnaliser les marges ?
+- Sélectionner la page.
+- Sélectionner l’onglet « Mise en page » puis cliquer sur la petite flèche du bouton « Marge ».
+- Sélectionner la commande « Marges personnalisées ».
+Une boite de dialogue apparait :
+- Personnaliser les marges puis dans la zone de sélection « appliquer à », Faites le bon choix.
+L’orientation de la page :
+La page Word peut être orientée en Paysage (en largeur) ou en Portrait (en hauteur).
+Comment Modifier l’orientation de la page ?
+- Sélectionner la page.
+- Sélectionner l’onglet « Mise en page » puis cliquer sur la petite flèche du bouton « Marge ».
+- Sélectionner la commande « Marges personnalisées ».
+Une boite de dialogue apparait, dans l’onglet « Marges » :
+- Sélectionner l’option « Portrait » ou « Paysage » puis dans la zone de sélection « appliquer à », Faites le bon choix.
+La lettrine :
+U
+ne lettrine est la première lettre d’un paragraphe au niveau de laquelle on peut avoir plusieurs lignes. On a une seule lettrine par paragraphe.
+Comment réaliser une lettrine ?
+- Placer le curseur sur le paragraphe.
+- Sélectionner l’onglet « Insertion ».
+- Cliquer sur la petite flèche du bouton « Lettrine ».
+- Sélectionner la commande « Option de Lettrine ».
+Une boite de dialogue apparait :
+- Cliquer sur la zone « Dans le texte » puis spécifier le nombre de ligne à hauteur de la lettrine dans la zone de sélection « Hauteur (ligne) ».
+Les colonnes :
+Un paragraphe ou un texte peut être écrit sous forme de colonne pour reproduire la mise en page caractéristique des journaux et des magazines. Pour ce faire, il faut d’abord écrire le paragraphe puis le sélectionner sans dépasser le dernier caractère (Le point). Puis cliquer sur l’onglet « Mise en page » puis cliquer sur la petite flèche du bouton « Colonnes » et enfin sélectionner la commande « Autres colonnes ». Une boite de dialogue apparait, spécifier le nombre de colonne et si oui ou non on a une ligne séparatrice puis cliquer sur OK.
+Comment afficher la règle ?
+- Sélectionner l’onglet « Affichage ».
+- Cocher la case à cocher « Règle ».
+Comment afficher l’aperçu de la page avant de l’imprimer ?
+- Sélectionner Le menu principal office.
+- Cliquer sur le sous menu « Imprimer ».
+- Sélectionner la commande « Aperçu avant impression ».
+Les Bordures de page :
+La page de garde d’un mémoire peut contenir une Bordure de page.
+Comment réaliser une bordure de page ?
+- Placer le curseur sur la page.
+- Cliquer sur l’onglet « Mis en Page » puis sur le bouton « Bordure de page ».
+Une boite de dialogue apparait :
+- Sélectionner l’onglet « Bordure de page » puis sélectionner le style.
+- Dans la zone de sélection « Appliquer à », faites le bon choix puis cliquer sur Ok.
+Comment avoir l’image d’une boite de dialogue sur la page ?
+Exemple : On veut avoir l’image de la boite de dialogue Lettrine.
+- Faire apparaitre la boite de dialogue.
+- Appuyer une fois sur la touche spéciale du clavier « Print screen ».
+- Faire appel au logiciel « Paint ».
+- Cliquer sur le Bouton Coller
+- Cliquer sur le bouton Sélectionner pour faire une sélection rectangulaire.
+- Sélectionner la partie voulue puis copier cette partie.
+- Dans la page Word, pointer le bon endroit puis coller.
+Autre Méthode :
+- Faire apparaitre la boite de dialogue.
+- Sélectionner le menu principal Windows.
+- Sélectionner le programme « Outil capture ».
+Une petite fenêtre apparait :
+- Sélectionner le bouton « Nouveau »
+- Faites la sélection voulue.
+- Copier cette sélection puis coller dans la page Word à la position voulue.
+La forme du mémoire et le style
+La présentation du mémoire est aussi importante que le fond. Le mémoire doit être propre, structuré et aéré. Il ne doit pas contenir de fautes d’orthographe. Faites-le relire par vos proches pour vérifier les éventuelles erreurs, les lourdeurs ou le manque de clarté.
+La mise en page peut varier. Par exemple, un étudiant en formation artistique pourra (ou devra) mettre un accent particulier sur la forme, les couleurs ou la typographie, à l’inverse d’un étudiant en droit  travailler dans un style plus neutre et plus sobre.
+Taille de Police = 12 ou 13               et         Style = Normal
+La taille des Titres =14 ou 15             et         Style = Gras/Souligné
+L’interligne = 1.5
+Marges = 2,5 cm partout
+Espacement entre les paragraphes = Une à deux lignes vides.
+Conseils Pratiques :
+- Ne pas s'y mettre à la dernière minute :
+Un rapport de stage comprend en général plus de 60 pages. Ce qui signifie que vous devrez produire un certain nombre de contenus. Pour y parvenir, vous avez tout intérêt à anticiper la phase d'écriture en prenant des notes, mais aussi en rassemblant et en lisant les documents nécessaires à la rédaction de votre mémoire. Un travail important et fastidieux qui nécessite que vous ne vous y preniez pas à la dernière minute.
+- Ne pas faire de plagiat
+Le contenu de votre mémoire de stage devra être original. Autrement dit, écrit par vous, et non copié sur celui d’un (ou plusieurs) autre(s) étudiant(s).
+Les établissements de formation possèdent aujourd’hui des logiciels anti-plagiat pour traquer les contenus dupliqués sur Internet.
+N'oubliez pas que ce qui intéresse vos professeurs finalement, c’est votre vision personnelle du stage, pas celle de quelqu’un d’autre. Et si vous tenez malgré tout à faire figurer des bouts de texte n'ayant pas été rédigés par vos soins, pensez à toujours citer vos sources.
+Enfin, pour les fins connaisseurs des dernières innovations technologiques, sachez que l’utilisation de Chat GPT, est tout sauf une bonne idée : face à la multiplication du nombre d’étudiants y ayant recours pour rédiger leurs mémoires.
+Open AI, l’entreprise derrière Chat GPT, a développé un outil anti-triche. Destiné au monde enseignant, il est capable de révéler si un texte a été généré par une IA.
+- Ne pas faire de faute d'orthographe
+Il n’y a rien de plus désagréable pour un enseignant que de lire un mémoire de stage rempli de fautes d’orthographe. Vous pouvez faire appel à un correcteur professionnel qui pourra vous aider à rendre un mémoire sans aucune faute.
+Soigner la partie visuelle de votre mémoire de stage
+Pour rendre votre mémoire plus « digeste », rien ne vous empêche de l’aérer
+Des paragraphes courts.
+L’insertion de listes à puces pour clarifier votre propos.
+Des tableaux ou des encadrés.
+L’interligne.
+LES DIFFÉRENTES PARTIES D’UN MÉMOIRE DE STAGE
+Plan du mémoire de stage :
+Le plan d’un mémoire de stage suit bien souvent une structure type, peu importe l’établissement. Parfois, des différences mineures. Il doit répondre à votre problématique. Une fois que le plan est défini, vous pouvez commencer la rédaction des différentes parties du mémoire.
+Un mémoire de stage comprend les parties suivantes :
+1- Une page de garde cartonnée.
+2- La même page de garde sur une feuille normale.
+3- Des remerciements (Une page).
+4- Des dédicaces (Une page ou deux).
+5- Un sommaire. On peut avoir juste après une page contenant la liste des figures illustrées dans le mémoire sous forme d’un sommaire.
+6- Une introduction générale (Quelques paragraphes 2 ou 3) puis une Présentation du sujet (Un ou deux paragraphes) puis une Problématique (Un ou deux paragraphes) et enfin des objectifs (Un ou deux paragraphes).
+7- Chapitre 1 : Une présentation de l’organisme d’accueil (Quelques pages).
+8- Chapitre 2 : Etude de l’existant ou du système existant (Quelques pages).
+9- Chapitre 3 : Etude conceptuelle ou conception du nouveau système (Quelques pages).
+10- Chapitre 4 : La Réalisation du système.
+11- Une Conclusion générale.
+12- Une Bibliographie.
+Description détaillée de chaque partie :
+La Page de garde :
+La page de garde est la première page de votre document. Elle porte donc la lourde responsabilité d’attirer l’attention de votre lecteur.
+La page de garde contient le titre (et le sous-titre) et, si vous le souhaitez, une jolie illustration en lien avec votre sujet.
+République Algérienne Démocratique Et Populaire
+Ministère De La Formation Et De l’Enseignement Professionnels
+La dénomination de l’organisme où va se dérouler votre soutenance Centre National de l’Enseignement  Professionnel à Distance C.N.E.P.D
+La dénomination de l’organisme où va se dérouler votre soutenance
+Centre National de l’Enseignement  Professionnel à Distance C.N.E.P.D
+Mémoire de fin de formation pour l’obtention du diplôme de Technicien Supérieur en Informatique
+Option : Base de données (Par exemple)
+Conception et Réalisation d’une Application .................................................................................................................... Thème
+Conception et Réalisation d’une Application .............................
+.......................................................................................
+Organisme d’accueil
+Nom de l’entreprise
+Réalisé par :       Encadreur : Me X
+Melle
+Mr   Promoteur : Mr Y
+Promotion : 2022 - 2024
+Les remerciements
+La partie remerciements permet de remercier tous ceux qui ont aidé à la rédaction de votre mémoire.
+Les dédicaces
+Les dédicaces dans un mémoire de fin stage sont une expression de gratitude et de reconnaissance, adressée aux personnes qui ont contribué, directement ou indirectement, à la réalisation du travail. Elles doivent êtres courtes et simples.
+Exemple :
+Je tiens à adresser mes remerciements aux personnes qui m'ont aidé dans la réalisation de ce mémoire .............
+ou
+Un grand merci à toutes les personnes qui ont contribué à ce mémoire .............. ...
+Le sommaire
+Le sommaire liste l’ensemble des chapitres, ainsi que leurs numéros de pages. Le sommaire donne à votre lecteur un aperçu général de votre mémoire. Le lecteur peut également savoir à quelle page commence tel ou tel chapitre et peut ainsi naviguer facilement à travers votre manuscrit. Le sommaire présente donc la structure et le plan de votre mémoire.
+Toutes les parties de votre document doivent y figurer dans le Sommaire. Word vous permet d’en générer un Sommaire automatiquement et sans difficulté.
+Remarque :
+La numérotation des pages commence par la première page du chapitre « Présentation de l’organisme d’accueil » en prenons compte des pages précédentes :
+Les deux pages de garde + Remerciements + dédicaces + Introduction générale + présentation du sujet, Problématique et objectifs.
+Donc commencer la numérotation par 9 par exemple.
+SOMMAIRE
+Introduction Générale
+1. Présentation du sujet
+2. Problématique et objectif
+Chapitre N°1 : Présentation de l’organisme d’accueil....................................................................8
+1.1 AAAA ......................................................................................................................................10
+1.2 BBBB .......................................................................................................................................12
+1.3 CCCC .......................................................................................................................................16
+Chapitre N°2 : Etude de l’existant.....................................................................................................20
+2.1 AAAB ......................................................................................................................................23
+2.2 BBBC .......................................................................................................................................24
+2.3 CCCD .......................................................................................................................................35
+Chapitre N°3 : Conception du nouveau système.................................................................................43
+3.1 AAAB ......................................................................................................................................45
+3.2 BBBC .......................................................................................................................................52
+3.3 CCCD .......................................................................................................................................56
+Chapitre N°4 : Réalisation du système ..............................................................................................58
+4.1 AAAB ......................................................................................................................................60
+4.2 BBBC .......................................................................................................................................64
+4.3 CCCD .......................................................................................................................................69
+Conclusion générale.
+Bibliographie.
+L’introduction générale
+Dans l’introduction générale, vous devez introduire le sujet et la problématique. Vous devez également décrire le développement de votre mémoire et donc son plan. Une introduction claire et bien rédigée vous permettra de donner à votre lectorat l’envie de continuer sa lecture.
+L’introduction générale suit le schéma suivant :
+On doit parler de l’apport considérable et important de l’outil informatique et du génie logiciel de manière générale dans la gestion des entreprises (Un ou deux paragraphes).
+Puis :
+Parler de ce que vous allez réaliser pour cette entreprise et des avantages apportés dans sa gestion (Un paragraphe).
+Puis :
+Notre mémoire est structuré en quatre chapitres :
+Ou
+Le présent rapport décrit les différentes étapes de notre travail et comporte quatre chapitres :
+Décrire les chapitres.
+Présentation du sujet :
+Dans cette partie, vous devez présenter brièvement ce que vous allez développer comme solution pour cette entreprise.
+Problématique :
+La problématique est un élément important pour la rédaction d’un mémoire de stage. Lorsque vous avez un sujet, ce dernier peut être assez vaste, et donc impossible de l’explorer dans son ensemble. Avec une problématique, vous avez un angle d’attaque pour mieux aborder le sujet.
+Lors de la rédaction, vous devez préciser votre problématique. Vous pourrez alors articuler votre rédaction autour de cette problématique et essayer de répondre à la question centrale qui en découle. La réponse devra être énoncée clairement dans la conclusion générale du mémoire.
+Comment rédiger une problématique pour un mémoire de stage ?
+Suite aux entretiens (interviews) avec les responsables du département ou de la division, on a pu identifier les problèmes suivants :
+Difficulté à .........
+Perte de ......
+Incapacité de .....
+Manque de ..........
+Absence de
+Processus très long à ....
+Mauvaise prise en charge de .....
+Objectifs :
+Dans cette partie, vous devez décrire en quoi consiste votre travail. C’est à dire quelles sont les solutions apportées à l’entreprise par la réalisation de l’application.
+Chapitre N°1 : Présentation de l’organisme d’accueil
+Avant de se lancer dans un projet, on doit d’abord connaitre l’environnement dans lequel se déroule le stage pratique. Donc, il faudra décrire l’organisation, les missions, l’organigramme général, la situation informatique et les moyens humains.
+Chapitre N°2 : Etude de l’existant
+C’est une étape importante dans chaque projet de fin de stage. Elle rassemble l’ensemble des supports d’information (Documents) utilisés jusqu’à présent et qui représente la matière première utilisées dans la conception du nouveau système.
+Cette partie décrit :
+- Les flux d’information.
+- La légende utilisée dans le diagramme des flux.
+- Le diagramme des flux.
+- Un tableau descriptif des flux.
+- L’étude des postes.
+- L’étude des documents.
+- Codification existante.
+- Diagnostique de l’existant (Critiques et suggestions).
+Chapitre N°3 : Conception du nouveau système
+Vous devez présenter dans cette partie l’étude conceptuelle en se basant sur les objectifs visés, les besoins des utilisateurs et les insuffisances dénotées dans la partie études de l’existant. Cette phase est essentielle dans tout projet informatique. Vous devez modéliser le système d’information sur lequel vous travaillez, donc :
+Présenter la solution informatique projetée.
+Proposer une codification.
+Présenter un nouveau flux d’information (Si nécessaire).
+Schéma de la solution informatique.
+Tableau descriptif des services et des tâches automatisées.
+Le dictionnaire des données.
+Les règles de gestion.
+Elaborer le MCD.
+Elaborer le MLD.
+Chapitre N°4 : Réalisation
+Après la phase conceptuelle, vous devez entamer la phase réalisation de l’application. On doit présenter en premier lieu les outils utilisés pour l’implémentation de la base de données et aussi le langage utilisé brièvement. On doit aussi décrire le script de création de la base de données, des captures d’écran confirmant cela, le schéma physique de la base de données, présenter l’application (des captures des pages authentification, page d’accueil et autres)
+La conclusion
+La conclusion d'un rapport de stage est la partie finale du document. Elle doit donc être percutante. Elle fournit une réponse à votre problématique. La conclusion résume les points clés du rapport et présente un bilan global du stage. Elle doit laisser des perspectives d’avenir, et des recommandations
+La bibliographie
+Vous avez certainement passé des heures à lire des ouvrages et tout type d’information intéressante pour rédiger votre mémoire. C’est déjà à votre avantage, car cela vous a permis d’acquérir de la connaissance supplémentaire. La bibliographie est une liste des références de toutes les sources que vous avez utilisées dans votre travail (livres, articles, sites web, etc.). Elle permet de reconnaître le travail des auteurs que vous avez consulté, ou dont vous vous êtes inspiré, pour construire votre propre contenu. Elle se trouve à la fin du mémoire, après la conclusion
+Pour  présenter la bibliographie dans un mémoire,  l'approche est similaire à quelques détails près. On indique :
+Le nom de l'auteur ou des auteurs.
+Le titre de l'article.
+Le titre du journal en italiques avec la mention [en ligne]
+La date de la publication.
+Le numéro de volume du journal.
+La date de la consultation entre crochets.
+L’objectif de la bibliographie
+La bibliographie a deux (2) objectifs principaux :
+Éviter le plagiat :
+Comme évoqué plus haut, la bibliographie est utile pour vos lecteurs, mais elle constitue également un gage de respect pour les auteurs des ouvrages – droit d’auteur – sur lesquels vous vous êtes appuyés dans votre étude. Cela vous évite de tomber dans le plagiat.
+Attester de la qualité de vos sources dans vos travaux de recherches :
+Votre travail sera soumis à l’examen d’un jury composé de professeurs et/ou de professionnels de votre domaine d’étude. Ils jugeront vos recherches, le traitement que vous avez fait des résultats, mais aussi la qualité de vos sources, donc de votre bibliographie.
+La forme de la bibliographie
+En pratique, la bibliographie prend la forme d’une liste structurée classées :
+Par ordre alphabétique (d’auteurs) ;
+par ordre d’apparition lors de la rédaction ;
+Insérer une note de bas de page :
+Avec Word, vous pouvez aisément le faire. La bibliographie en fin de document suivra alors l’ordre d’apparition des citations dans le texte.

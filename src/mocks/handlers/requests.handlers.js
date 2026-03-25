@@ -38,28 +38,30 @@ export const requestHandlers = [
         return HttpResponse.json({ data: requests[idx], success: true })
     }),
 
-    http.patch('/api/requests/:id/approve', async ({ params, request }) => {
+    http.patch('/api/requests/:id/assign', async ({ params, request }) => {
         await delay(450)
         const body = await request.json()
         const idx = requests.findIndex(r => r.id === params.id)
         if (idx === -1) return new HttpResponse(null, { status: 404 })
 
-        requests[idx].status = 'APPROVED'
-        requests[idx].reviewedAt = new Date().toISOString()
-        requests[idx].reviewNotes = body.reviewNotes
+        requests[idx].status = 'ASSIGNED'
+        // Mock finding the user
+        const { users } = await import('../fixtures/users.fixtures.js')
+        const technician = users.find(u => u.id === body.assignedToId)
+        if (technician) requests[idx].assignedTo = technician;
 
         return HttpResponse.json({ data: requests[idx], success: true })
     }),
 
-    http.patch('/api/requests/:id/reject', async ({ params, request }) => {
+    http.patch('/api/requests/:id/resolve', async ({ params, request }) => {
         await delay(450)
         const body = await request.json()
         const idx = requests.findIndex(r => r.id === params.id)
         if (idx === -1) return new HttpResponse(null, { status: 404 })
 
-        requests[idx].status = 'REJECTED'
-        requests[idx].reviewedAt = new Date().toISOString()
-        requests[idx].reviewNotes = body.reviewNotes
+        requests[idx].status = 'RESOLVED'
+        requests[idx].resolvedAt = new Date().toISOString()
+        requests[idx].notes = body.notes
 
         return HttpResponse.json({ data: requests[idx], success: true })
     }),

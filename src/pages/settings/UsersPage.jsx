@@ -41,15 +41,14 @@ export default function UsersPage() {
             header: 'Rôle Système',
             cell: info => {
                 const role = info.getValue()
+                let badgeClass = 'bg-gray-100 text-gray-800' // USER
+                if (role === 'ADMIN') badgeClass = 'bg-purple-100 text-purple-800'
+                else if (role === 'SUPERVISOR') badgeClass = 'bg-indigo-100 text-indigo-800'
+                else if (role === 'TECHNICIAN') badgeClass = 'bg-cyan-100 text-cyan-800'
+
                 return (
-                    <span className={cn(
-                        "px-2.5 py-1 rounded text-xs font-medium",
-                        role === 'ADMIN' ? 'bg-purple-100 text-purple-800' :
-                            role.includes('IT') ? 'bg-blue-100 text-blue-800' :
-                                role === 'AUDITOR' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-gray-100 text-gray-800'
-                    )}>
-                        {role.replace('_', ' ')}
+                    <span className={cn("px-2.5 py-1 rounded text-xs font-medium", badgeClass)}>
+                        {role}
                     </span>
                 )
             }

@@ -29,19 +29,16 @@ import { cn, initials } from '@/lib/utils.js'
 
 const NAV_ITEMS = [
     { label: 'Tableau de bord', icon: LayoutDashboard, to: '/dashboard' },
-    { label: 'Inventaire', icon: Package, to: '/assets', badgeKey: 'assets' },
+    { label: 'Inventaire', icon: Package, to: '/assets', badgeKey: 'assets', action: 'asset:view' },
     { label: 'Affectations', icon: UserCheck, to: '/assignments', action: 'asset:assign' },
     { label: 'Licences', icon: Key, to: '/licenses', action: 'license:manage' },
-    { label: 'Maintenance', icon: Wrench, to: '/maintenance', action: 'maintenance:manage', badgeKey: 'maintenance' },
-    { label: 'Demandes', icon: ClipboardList, to: '/requests' },
+    { label: 'Maintenance / Tickets', icon: Wrench, to: '/maintenance', action: 'maintenance:manage', badgeKey: 'maintenance' },
+    { label: 'Demandes (Intervention / Matériel)', icon: ClipboardList, to: '/requests' }, // Everyone sees requests
     { divider: true },
-    { label: 'Documents', icon: FolderOpen, to: '/documents' },
+    { label: 'Documents & Décharges', icon: FolderOpen, to: '/documents', action: 'asset:view' },
     { divider: true },
-    { label: 'Salles', icon: DoorOpen, to: '/rooms' },
     { label: 'Rapports', icon: BarChart2, to: '/reports', action: 'report:export' },
     { divider: true },
-    { label: 'Journal d\'audit', icon: History, to: '/audit-log', action: 'user:manage' },
-    { label: 'Utilisateurs', icon: Users, to: '/settings/users', action: 'user:manage' },
     { label: 'Paramètres', icon: Settings, to: '/settings', action: 'user:manage' },
 ]
 

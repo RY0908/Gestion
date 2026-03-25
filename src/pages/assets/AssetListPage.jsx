@@ -10,6 +10,8 @@ import { CopyableText } from '@/components/atoms/CopyableText.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { ASSET_STATUSES, ASSET_CATEGORIES } from '@/lib/constants.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { canViewAsset } from '@/lib/permissions.js'
 import { cn } from '@/lib/utils.js'
 
 const VIEW_MODES = [
@@ -23,6 +25,7 @@ export default function AssetListPage() {
     const [page, setPage] = useState(1)
     const [viewMode, setViewMode] = useState('table')
     const pageSize = 15
+    const user = useAuthStore(s => s.user)
 
     const { assets: filters, setAssetFilters, clearAssetFilters } = useFilterStore()
 
@@ -189,11 +192,10 @@ export default function AssetListPage() {
                 </button>
             </div>
 
-            {/* Content */}
             {viewMode === 'table' ? (
                 <DataTable
                     columns={columns}
-                    data={data?.data}
+                    data={data?.data ? data.data.filter(a => canViewAsset(user, a)) : []}
                     totalRows={data?.total}
                     isLoading={isLoading}
                     pageSize={pageSize}
@@ -216,7 +218,7 @@ export default function AssetListPage() {
                             <div key={i} className="h-36 skeleton-shimmer rounded-xl" />
                         ))
                     ) : data?.data?.length > 0 ? (
-                        data.data.map(asset => (
+                        data.data.filter(asset => canViewAsset(user, asset)).map(asset => (
                             <div
                                 key={asset.id}
                                 onClick={() => navigate(`/assets/${asset.id}`)}

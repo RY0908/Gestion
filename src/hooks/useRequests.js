@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient, queryOptions } from '@tanstack/react-query'
-import { fetchRequests, fetchRequest, createRequest, updateRequest, deleteRequest, approveRequest, rejectRequest } from '@/lib/api/requests.api.js'
+import { fetchRequests, fetchRequest, createRequest, updateRequest, deleteRequest, assignRequest, resolveRequest } from '@/lib/api/requests.api.js'
 import toast from 'react-hot-toast'
 
 export const requestsQueryOptions = (params) =>
@@ -52,27 +52,27 @@ export function useUpdateRequest() {
     })
 }
 
-export function useApproveRequest() {
+export function useAssignRequest() {
     const qc = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }) => approveRequest(id, data),
+        mutationFn: ({ id, data }) => assignRequest(id, data),
         onSuccess: (_, { id }) => {
             qc.invalidateQueries({ queryKey: ['requests', id] })
             qc.invalidateQueries({ queryKey: ['requests'] })
-            toast.success('Demande approuvée')
+            toast.success('Demande assignée avec succès')
         },
         onError: (err) => toast.error(err.message),
     })
 }
 
-export function useRejectRequest() {
+export function useResolveRequest() {
     const qc = useQueryClient()
     return useMutation({
-        mutationFn: ({ id, data }) => rejectRequest(id, data),
+        mutationFn: ({ id, data }) => resolveRequest(id, data),
         onSuccess: (_, { id }) => {
             qc.invalidateQueries({ queryKey: ['requests', id] })
             qc.invalidateQueries({ queryKey: ['requests'] })
-            toast.success('Demande rejetée')
+            toast.success('Demande clôturée avec succès')
         },
         onError: (err) => toast.error(err.message),
     })

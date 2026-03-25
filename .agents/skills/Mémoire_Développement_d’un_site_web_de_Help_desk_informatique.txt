@@ -1,0 +1,1557 @@
+République Algérienne Démocratique et Populaire
+Ministère de la Formation et de l’Enseignement Professionnels
+Institut National Spécialisé de la Formation Professionnelle
+[(IFP) Kerrar Mouloud- Birkhadem– D’Alger]
+Section Détachée au Centre de Formation Professionnelle
+Rabah Ben Yaya Ain- Naadja
+Mémoire de Fin de Formation
+Présenté pour l’obtention du diplôme de :
+Technicien Supérieur en Informatique Option : Base de données
+ThèmeThème
+Thème
+Thème
+Développement d’un site web de Help desk informatiqueDéveloppement d’un site web de Help desk informatique
+Développement d’un site web de Help desk informatique
+Développement d’un site web de Help desk informatique
+Organisme d’accueil : SONATRACH
+Présenté par : Karim Halkoum
+Encadré par : Mazouz Amel
+Promotrice : Mme Talbi Zakia
+Année de formation : 2026
+✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦
+Remerciement
+Avant tout, je veux remercier le bon Dieu le Tout-Puissant qui m'a accompagné tout au long de ce parcours.
+Je tiens à exprimer ma profonde reconnaissance à Madame   Mazouz Amel ,mon encadrante, qui a été un véritable mentor. Votre patience face à mes questionnements, votre disponibilité malgré vos responsabilités, et surtout la confiance que vous m'avez accordée dès le départ ont été essentielles.
+Un grand merci à mes formateurs de ma section a CFPA de Ain Nadja surtout ma Promotrice madame Tabi Zakia Qui n'a rien lésiné sur moi, qui a été comme une seconde mère pour moi et qui m'a suivi dans mon parcours de formation, ainsi que j’ai remercié madame hamza parmi les meilleurs profs que j’ai connu.
+Mes remerciements vont également à mes camarades de promotion pour les échanges d’idées, l’entraide, et l’ambiance studieuse que nous avons partagée durant ces 30 mois de formation.
+Merci à tous et à toutes pour avoir rendu cette aventure possible.
+Dédicace
+Je dédie ce modeste travail à
+À mes chers parents qui ont été toujours près de moi, pour m’écouter et me soutenir. Puisse ce travail exprimer le respect et l’amour que je vous porte.
+A mon oncle pour son soutien et son encouragement
+À mes frères et sœurs
+À tous ceux que j’aime
+HALKOUM karim
+Table des matières
+Remerciements
+Dédicace
+Introduction générale1
+Présentation des besoins :3
+1Chapitre : Étude de l'existant4
+1.1Présentation de l'organisme d'accueil (SONATRACH) :4
+1.2Historique de Sonatrach :6
+1.3Mission et objectifs de de la SONATRACH :6
+1.4Organigramme général SONATRACH:8
+1.5Présentation de la structure d’accueil :9
+1.6Analyse de l’existant12
+1.6.1Analyse des postes de travail :12
+1.6.2Cartographie des flux d’information :17
+1.6.3Etude de document :19
+1.6.4Analyse des procédures en place :23
+1.7Critique de l’existant et suggestion26
+1)Critiques organisationnelles26
+2)Suggestion organisationnelles27
+3)Critiques informationnelles27
+4)Suggestions informationnelles27
+1.8Proposition de différentes solutions informatiques possibles28
+2Chapitre : Conception de la solution32
+2.1Dictionnaire des données32
+2.2Présentation du langage UML (Unified Modeling Language)33
+2.2.1Pourquoi choisir UML ?34
+2.2.2Objectif principal de l’UML34
+2.2.3Caractéristiques de l’UML34
+2.2.4Types de diagrammes UML34
+2.2.5Les Diagrammes UML Utilisés36
+2.3Elaboration du Diagramme de cas d’utilisation36
+2.4Elaboration du Diagramme de classes38
+2.5Elaboration du Diagramme de séquence42
+3Chapitre : Réalisation47
+3.1Généralités sur SGBD et de base de données47
+3.1.1Système de Gestion de Base de Données (SGBD):47
+3.1.2Base de données :47
+3.2Présentation de MySQL48
+3.2.1Définition48
+3.2.2Caractéristiques principales de MySQL49
+3.3Sécurisation de la base de données53
+3.4Développement de l’application :57
+3.4.1Définition des technologies web :57
+3.4.2Conception des interfaces61
+Conclusion générale72
+Perspectives et axes d’amélioration72
+Table des figures :
+Figure 1 : Photo de l’entreprise de Sonatrach4
+Figure 2 : Logo de Sonatrach6
+Figure 3 : Organigramme général Sonatrach8
+Figure 4 : Organigramme de la Direction Centrale DSI10
+Figure 5: Diagramme de flux d'informations18
+Figure 6: Création et traitement des tickets utilisateur23
+Figure 7: Procédure 2 : Distribution interne des demandes matérielles24
+Figure 8: Procédure 3 : Gestion des inventaires et interventions sous garantie25
+Figure 9: Procédure 4 : Planification et suivi des interventions26
+Figure 10: Diagramme de cas d'utilisation37
+Figure 11: Diagramme de classes40
+Figure 12: Diagramme de séquences de login41
+Figure 13: Diagramme de séquence de Création d'un Ticket43
+Figure 14: DS Affectation d'un Ticket à un Technicien44
+Liste des tableaux
+Tableau 1: Dictionnaire de données34
+Tableau 2: Tableau descriptif des classes40
+Tableau 3: Tableau descriptif des relations.41
+Tableau 4: Caractéristiques principales de MySQL50
+Résumé
+Ce mémoire présente la conception et la réalisation d’un site web de Help Desk informatique au sein de la Direction Générale de SONATRACH. L’étude de l’existant a mis en évidence les limites de la gestion manuelle des incidents, notamment le manque de traçabilité et les retards de traitement. Pour y remédier, une application web centralisée a été conçue à l’aide du langage UML et développée avec les technologies PHP, MySQL, HTML, CSS et JavaScript. La solution permet la gestion des tickets, des utilisateurs et des interventions, tout en assurant un suivi en temps réel. Elle contribue ainsi à améliorer l’efficacité du support informatique et la qualité des services rendus.
+Mots clés :
+PHP  MySQL ;HTML, CSS, Xampp, Visuel code, SGBD, JS, UML
+ملخص:
+يتناول هذا المذكرة تصميم وتطوير موقع ويب لمكتب المساعدة المعلوماتية على مستوى المديرية العامة لسوناطراك. أظهرت دراسة الوضع القائم وجود نقائص في التسيير اليدوي للأعطال، خاصة ضعف التتبع وطول آجال المعالجة. ولتجاوز هذه المشاكل، تم تطوير تطبيق ويب مركزي بالاعتماد على نمذجة UML وتقنيات PHP وMySQL وHTML وCSS وJavaScript. تساهم هذه الحلول في تحسين فعالية الدعم التقني وجودة الخدمات المقدمة.
+الكلمات المفتاحية:PHP, UML، MySQL، HTML، CSS، XAMPP، Visual Studio Code، SGBD، JavaScrip
+Abstract
+This thesis presents the design and development of an IT Help Desk web application within SONATRACH’s General Directorate. It highlights the limitations of manual incident management, such as poor traceability and processing delays. To address these issues, a centralized web-based solution was developed using UML modeling and PHP, MySQL, HTML, CSS, and JavaScript. The system enhances IT support efficiency through real-time ticket management.
+Keywords: IT Help Desk, Incident Management, Web Application, UML, PHP, MySQL, IT Support
+INTRODUCTION GENERALE
+Introduction générale
+De nos jours, l'infrastructure informatique constitue la colonne vertébrale de toute grande entreprise, a fortiori dans le secteur stratégique de l'énergie. La performance, la compétitivité et la continuité des activités dépendent intrinsèquement de la disponibilité et du bon fonctionnement du parc informatique et des services numériques.
+C'est particulièrement vrai pour une structure d'envergure telle que la Direction Générale de Sonatrach, où la gestion efficace des ressources informatiques est un impératif quotidien pour soutenir les processus décisionnels et opérationnels. Cependant, la complexité croissante des systèmes d'information et le nombre important d'utilisateurs engendrent inévitablement un flux constant d'incidents techniques, de pannes matérielles et de demandes de services.
+Face à ces défis, une gestion traditionnelle des interventions — lorsqu’elle repose encore sur des méthodes manuelles ou des outils disparates — montre rapidement ses limites, notamment à travers la perte d'informations, l’allongement des délais de traitement, la difficulté de suivi en temps réel des interventions et l’absence de statistiques fiables pour le pilotage de la performance du service informatique. Ces insuffisances impactent directement la productivité des utilisateurs et la qualité des services fournis.
+Dans ce contexte, la problématique centrale de ce projet se pose comme suit : comment concevoir et mettre en place une solution web centralisée, sécurisée et performante, capable d’automatiser la gestion des incidents et des demandes de services, d’assurer une traçabilité complète des interventions et d’optimiser la coordination entre les différents acteurs du support informatique au sein de la Direction Générale de Sonatrach ?
+C'est dans cette optique que s'inscrit notre projet de fin d'études, intitulé « Conception et Réalisation d'une Plateforme de Gestion de Help Desk Informatique », réalisé au sein de la Direction Générale de Sonatrach. L'objectif principal de ce travail est de concevoir et développer une solution web centralisée et sur mesure, permettant d'automatiser et d'optimiser le processus de gestion des incidents et des demandes de services. Cette application vise à fluidifier la communication entre les différents acteurs de la Direction Générale, à savoir les utilisateurs (demandeurs), les techniciens (intervenants), les superviseurs et les administrateurs.
+Notre solution propose une approche structurée permettant :
+La création et le suivi des tickets d'intervention en temps réel, assurant une traçabilité complète.
+Une gestion intelligente des rôles et des permissions pour sécuriser l'accès aux données sensibles de l'entreprise.
+Une affectation équitable et efficace des tâches aux techniciens pour optimiser la charge de travail.
+La génération de tableaux de bord et de statistiques détaillées pour aider à la prise de décision stratégique.
+Une meilleure expérience utilisateur grâce à une interface moderne, intuitive et adaptée aux besoins spécifiques du personnel de Sonatrach.
+Pour mener à bien ce projet, nous avons structuré notre mémoire en trois chapitres principaux:
+Le premier chapitre est consacré à l'étude de l'existant. Il présente l'organisme d'accueil, la Direction Générale de Sonatrach, analyse les processus actuels de gestion des incidents informatiques et met en lumière les contraintes qui justifient la nécessité d'une nouvelle solution numérique.
+Le deuxième chapitre aborde la phase de conception. Il détaille l'analyse des besoins fonctionnels et non fonctionnels, et présente la modélisation du système à travers les diagrammes UML (Cas d'utilisation, Classes, Séquence), définissant ainsi l'architecture logique de notre application.
+Enfin, le troisième chapitre est dédié à la réalisation technique. Il décrit l'environnement de développement, les technologies utilisées (PHP, MySQL, HTML/CSS, JavaScript), et présente les interfaces graphiques finales de l'application, en démontrant les fonctionnalités clés développées.
+Nous terminerons ce mémoire par une conclusion générale qui synthétise les résultats obtenus et ouvre des perspectives d'évolution pour pérenniser cet outil au sein de l'entreprise.
+Présentation des besoins :
+L’analyse et la définition des besoins fonctionnels et non fonctionnels précèdent la phase de
+Conception du système.
+Besoins Fonctionnels
+BF01 (Gestion des Utilisateurs) : Authentifier et gérer les comptes des utilisateurs selon quatre rôles distincts : Administrateur, Superviseur, Technicien (TS) et Utilisateur final.
+BF02 (Gestion des Tickets) : Permettre aux utilisateurs de déclarer un incident informatique (Titre, Catégorie, Priorité) et de suivre son état en temps réel (En attente, Assigné, Résolu).
+BF03 (Affectation et Dispatching) : Permettre au Superviseur d'attribuer manuellement les tickets en attente aux techniciens disponibles en fonction de leur charge de travail.
+BF04 (Suivi Technique) : Permettre aux techniciens de mettre à jour le statut des interventions qui leur sont affectées jusqu'à la clôture.
+BF05 (Gestion de l'Inventaire) : Enregistrer et gérer le parc matériel informatique (PC, imprimantes, serveurs) pour lier les pannes aux équipements concernés.
+BF06 (Tableaux de Bord) : Afficher des statistiques dynamiques (KPI) pour chaque profil (ex: nombre de tickets urgents, tickets en cours, taux de résolution).
+BF07 (Historisation) : Archiver l'ensemble des interventions terminées pour permettre une consultation ultérieure des solutions apportées.
+Besoins Non Fonctionnels
+BNF01 (Sécurité des données) : Garantir une application sécurisée avec un stockage fiable via MySQL et l'utilisation de requêtes préparées (PDO) contre les injections SQL.
+BNF02 (Ergonomie et Charte Graphique) : Fournir une interface intuitive respectant l'identité visuelle de SONATRACH (utilisation des couleurs orange et noir).
+BNF03 (Architecture Logicielle) : Adopter une architecture modulaire en trois couches (3-tier) pour faciliter la maintenance et l'évolution du code.
+BNF04 (Réactivité opérationnelle) : Améliorer le temps de réponse du support technique grâce à une centralisation des demandes sur une plateforme unique.
+BNF05 (Disponibilité et Accessibilité) : Assurer l'accès au site via le réseau local de l'entreprise avec une compatibilité totale sur les navigateurs modernes (Chrome, Firefox, Edge).
+BNF06 (Responsive Design) : Garantir que l'interface s'adapte aux différents formats d'écrans (PC et tablettes) pour faciliter le travail des techniciens sur le terrain.
+CHAPITRE 1 :Étude de l'existantCHAPITRE 1 :Étude de l'existant
+CHAPITRE 1 :
+Étude de l'existant
+CHAPITRE 1 :
+Étude de l'existant
+Chapitre : Étude de l'existant
+Introduction :
+Dans le cadre de ce projet, l’étude de l’existant s’articule autour de deux volets complémentaires. Le premier consiste à présenter l’organisme d’accueil afin de situer le cadre institutionnel du travail. Il s’agit de décrire SONATRACH, en mettant en avant ses missions, ses rôles, son organisation générale, ainsi que la Direction Centrale Digitalisation et Système d’Information (DSI), responsable de la gestion et de l’optimisation des outils numériques.
+Le second volet porte sur l’analyse du fonctionnement réel de cette structure dans le domaine du Help Desk, en mettant en évidence ses limites et dysfonctionnements. Cette étude critique permet d’identifier les insuffisances du système existant et de définir les besoins à satisfaire, afin de proposer des solutions informatiques adaptées pour améliorer la gestion et le support aux utilisateurs.
+Présentation de l'organisme d'accueil (SONATRACH) :
+SONATRACH est une Société Nationale pour la Recherche, la Production, le Transport, La Transformation et la Commercialisation des Hydrocarbures.
+Figure 1 : Photo de l’entreprise de Sonatrach
+Le siège social : Le siégé social de SONATRACH est situé à DJENANE EL MALIK à HYDRA.
+La dépendance hiérarchique : SONATRACH est sous la tutelle du ministère de l’énergie et des mines
+L’effectif : Elle emploie 120.000 personnes dans l’ensemble du groupe.
+Le capital social : SONATRACH dispose d’un capital social de deux cent quarante-cinq (245) milliards de dinars.
+A : revenu net 175 milliards de dinars.
+B : investissement 308 milliards de dinar
+La production : La production de SONATRACH en hydrocarbure au cours de l’année à atteint 188.4 millions de tonnes équivalent pétrole (TEP) dont 58.1 millions de TEP de brut et de condensât (pétrole brut raffiné naturellement), 121.7 millions.
+TEP d gaz naturel et 8.6 millions de TEP de GPL (gaz propane liquéfié). Sa production globale de tous ces produits est de 202 millions de TEP.
+La forme économique : SONATRACH et une entreprise industrielle, sa classification est justifiée par la nature des biens qu’elle produit en l’occurrence. Les hydrocarbures qui fondent partie de la branche économique du secteur industriel.
+La forme juridique : SONATRACH est une société par action régie par la législation en vigueur est dont le capital est détenu totalement est exclusivement par l’état, il est inaliénable et incessible.
+La taille : SONATRACH est une grande entreprise, les critères qui ont déterminé cette classification sont :
+Le nombre de travailleurs (largement supérieur aux 500 requis par la réglementation).
+La nature de produit (hydrocarbures et dérives).
+La production (se compte en million de tonnes équivalent pétrole).
+Le chiffre d’affaires annuel (Plusieurs milliards de dinars)
+Figure 2 : Logo de Sonatrach
+Historique de Sonatrach :
+L’Algérie a confié la mission et la valorisation des hydrocarbures à la société nationale SONATRACH qui se présente un instrument central de développement et d’intégration nationale.
+Elle se trouve aujourd’hui bien outillée pour un rôle prépondérant afin de consolider sa position mondiale que lui assurent les ressources énergétiques du pays L’entreprise nationale
+SONATRACH a été créé le 31 décembre 1963 (décret 63-491) son rôle principal était le développement du secteur des hydrocarbures. Les missions de l’entreprise nationale SONATRACH ont été élargies le 22 septembre 1966 (décret 66-626), Aussi à tous les domaines de l’industrie pétrolière, à savoir la recherche, la production, le transport, la transformation et la commercialisation des hydrocarbures.
+Depuis le 24 février 1971, date de nationalisation des hydrocarbures, l’entreprise a pris en charge les entreprises du domaine minier et s’est vue confier le développement de toutes les branches de l’industrie pétrolière.
+La SONATRACH est passée de 33 agents en 1964 à 103.000 à la fin des années 1980, pour assurer une meilleure gestion et améliorer les performances dans le cadre de la politique nationale de réorganisation de l’économie du pays, elle entreprend sa restructuration pour donner naissance à 17 entreprises industrielles de réalisation et de service.
+Actuellement SONATRACH compte un effectif de 50.000 agents environ, et conserver pour sa part, la charge des opérations de recherche, de production, de transport, par canalisation de traitement, de conditionnement et de liquéfaction des hydrocarbures liquides et gazeux.
+Dans le cadre de la restructuration des entreprises décidé en 1982, la SONATRACH a fait l’objet d’un découpage qui a donné naissance à d’autres Entreprises : ASMIDAL, NAFTAL, ENEP, etc.…
+Mission et objectifs de de la SONATRACH :
+SONATRACH a pour but tant en Algérie qu’à l’étranger :
+La recherche et l’exploitation des hydrocarbures.
+Le développement, l’exploitation et la gestion des réseaux de transport de stockage et de chargement des hydrocarbures.
+La liquéfaction du gaz naturel, le traitement et la valorisation des hydrocarbures.
+La transformation et le raffinage des hydrocarbures.
+Le développement de toute forme d’activité conjointe en Algérie et hors d’Algérie avec des sociétés algériennes aux étrangères.
+La prise et la détention de tout portefeuille d’action. Les prises de participations et autres valeurs mobiliers dans toute société existante créée en Algérie au à l’étranger.
+L’approvisionnement du pays en hydrocarbures à moyen et long terme.
+L’étude, la promotion et la valorisation de toute autre forme et source d’énergie.
+Le développement par tout moyen de toute activité ayant un lien direct ou indirect avec l’industrie des hydrocarbures. Et de toute activité pouvant engendre un intérêt.
+Pour SONATRACH, et généralement toute opération de quelque nature qu’elle soit pouvant se rattacher directement à son objet social.
+Organigramme général SONATRACH:
+Structure D’accueilStructure D’accueil
+Structure D’accueil
+Structure D’accueil
+Figure 3 : Organigramme général Sonatrach
+Présentation de la structure d’accueil :
+Direction centrale digitalisation & Système d’information (DSI)
+La direction centrale (DSI) est la direction de traitement principale de l’entreprise. SONATRACH en matière informatique, elle constitue :
+L’outil privilégie de la direction générale en matière d'informatique.  Le centre de traitement des directions centrales.
+Le prestataire de service qui indique les structures opérationnelles
+La (DC-DSI) n’exerce pas de tutelle directe sur les structures de l’entreprise en matières informatiques, elle est l’interlocuteur de l’entreprise pour toutes les relations en les matières avec les organismes extérieurs Son organisation repose entre activités suivantes :
+La distribution fondamentale entre activité de réalisation de produits informatiques et celles de leur utilisation.
+Le regroupement en entités homogènes des activités de base pouvant intégrer en ensembles cohérents.
+La dotation d’une autonomie de fonctionnement aux structures internes leur permettant la recherche de rentabilité.
+La minimisation de la dépendance des structures internes par l’utilisation des équipements et logiciels adéquats.
+La promotion continue de l’informatique par la mise à disposition des utilisateurs De compétences et de moyens adaptés.
+La possibilité de prendre en charge la gestion des équipements informatique des structures opérationnelles qui lui seraient confiées.
+Organisation de la Direction Centrale DSI
+Département d’accueilDépartement d’accueil
+Département d’accueil
+Département d’accueil
+Figure 4 : Organigramme de la Direction Centrale DS
+Définition de help desk informatique :
+Le Help Desk Informatique (ou Centre d'Assistance) est le point de contact unique entre une entreprise et ses utilisateurs (employés) pour tout ce qui concerne l'informatique.
+Son rôle est de :
+Recevoir les demandes (pannes, besoins de logiciels, questions).
+Résoudre les problèmes (à distance ou sur place).
+Suivre les incidents jusqu'à leur fermeture (via des "tickets").
+Les moyens matériels de la DSI:
+Désignation
+Type
+Total
+PC
+Alfatron
+HP
+Dell
+Lenovo
+60
+150
+2
+3
+System d’ exploitation
+Windows 10
+Windows 11
+10
+240
+Switch
+Switch 48 ports
+Switch 24 ports
+5
+3
+Imprimante
+HP EPSON
+LEXMARK
+5
+30
+10
+Portables
+HP ALFATRON
+LENOVO
+ASUS
+60
+15
+20
+15
+Tableau 1: Les moyens matériels de la DSI
+Analyse de l’existant
+L’analyse de l’existant vise à étudier le fonctionnement actuel du système de gestion afin d’en identifier les atouts et les limites. Elle repose sur l’examen des postes de travail, des documents exploités, des flux d’informations ainsi que des procédures internes en vigueur. Cette démarche permet de cerner précisément les besoins réels et de mieux orienter les améliorations à apporter au système actuel
+Analyse des postes de travail :
+Introduction
+Un poste de travail représente la plus petite unité organisationnelle chargée d’exécuter les traitements au niveau du système d’information étudié.
+L’étude des postes de travail est une étape nécessaire dans l’étude de l’existant. Elle permet de connaître exactement le fonctionnement des différents postes de travail intervenant dans les procédures concernées par notre étude.
+Nous préciserons pour ce poste une fiche d’étude
+1- Désignation du poste
+2- Ses responsabilités
+3- Les tâches à accomplir
+4- Les documents utilisés
+Notre étude se limité à 4 postes de travail :
+1. Chef département informatique (admin)
+2. Technicien
+3. Superviseur
+4. Utilisateur (employé)
+Fiche d’étude de poste n°01
+Désignation du poste : Chef département informatique (Administrateur)Structure : Direction technologies informatiqueEffectif : 1Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, application WebMoyen de stockage : Base de données / Boite d’archive / Disques durs / flache disqueTâches à accomplir : Géré la maintenance du matériel informatique.Adapter les logiciels et matériels existants aux besoins des utilisateurs. Vérifier les besoins exprimés par l’ensemble de direction Contrôle les signatures des bons de livraisons. Vérification des contrats d’acquisitions. Vérification des cahiers décharges. Signature les commande de fournitures et de matériel. Suivi des contrats de MaintenanceGère l’inventaire Désignation du poste : Chef département informatique (Administrateur)Structure : Direction technologies informatiqueEffectif : 1Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, application WebMoyen de stockage : Base de données / Boite d’archive / Disques durs / flache disqueTâches à accomplir : Géré la maintenance du matériel informatique.Adapter les logiciels et matériels existants aux besoins des utilisateurs. Vérifier les besoins exprimés par l’ensemble de direction Contrôle les signatures des bons de livraisons. Vérification des contrats d’acquisitions. Vérification des cahiers décharges. Signature les commande de fournitures et de matériel. Suivi des contrats de MaintenanceGère l’inventaire
+Désignation du poste : Chef département informatique (Administrateur)
+Structure : Direction technologies informatique
+Effectif : 1
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, application Web
+Moyen de stockage : Base de données / Boite d’archive / Disques durs / flache disque
+Tâches à accomplir :
+Géré la maintenance du matériel informatique.
+Adapter les logiciels et matériels existants aux besoins des utilisateurs.
+Vérifier les besoins exprimés par l’ensemble de direction
+Contrôle les signatures des bons de livraisons.
+Vérification des contrats d’acquisitions.
+Vérification des cahiers décharges.
+Signature les commande de fournitures et de matériel.
+Suivi des contrats de Maintenance
+Gère l’inventaire
+Désignation du poste : Chef département informatique (Administrateur)
+Structure : Direction technologies informatique
+Effectif : 1
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, application Web
+Moyen de stockage : Base de données / Boite d’archive / Disques durs / flache disque
+Tâches à accomplir :
+Géré la maintenance du matériel informatique.
+Adapter les logiciels et matériels existants aux besoins des utilisateurs.
+Vérifier les besoins exprimés par l’ensemble de direction
+Contrôle les signatures des bons de livraisons.
+Vérification des contrats d’acquisitions.
+Vérification des cahiers décharges.
+Signature les commande de fournitures et de matériel.
+Suivi des contrats de Maintenance
+Gère l’inventaire
+Les documents parvenant à ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Demande de matériel
+Bon de commande singé
+Décharge matériel singée
+Rapport d’intervention
+Rapport d’intervention (sous garantie) signé
+Fiche d’inventaire
+Demande d’inventaire singée
+Rapport d’inventaire
+Utilisateur
+Gestionnaire
+Utilisateur
+Technicien
+Technicien
+Technicien
+Technicien
+Technicien
+1
+1
+1
+1
+1
+1
+1
+1
+Chaque besoin
+Aléatoire
+Aléatoire
+Aléatoire
+Aléatoire
+Chaque fin de l’année
+Aléatoire
+Chaque fin de l’année
+Les documents diffusés par ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Fiche besoin
+Demande matériel singée
+Rapport intervention (sous
+garantie)
+Demande inventaire
+Fiche inventaire signée
+Gestionnaire
+Technicien
+Technicien
+Technicien
+Technicien
+1
+1
+1
+1
+1
+Aléatoire
+Aléatoire
+Aléatoire
+Chaque fin de l’année
+Chaque fin de l’année
+Les documents manipulés par ce poste :
+Désignation document
+Fréquence
+Demande matériel
+Demande réparation matériel
+Fiche d’inventaire
+Aléatoire
+Aléatoire
+Aléatoire
+Fiche d’étude de poste n°02
+Les documents parvenant à ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Demande matériel singée
+Fiche intervention
+Fiche intervention signé
+Rapport intervention (sous garantie)
+Demande inventaire
+Fiche inventaire signée
+Chef département Superviseur
+Utilisateur
+Chef département
+Chef département
+Chef département
+1
+1
+1
+1
+1
+1
+Aléatoire
+Aléatoire
+Aléatoire
+Aléatoire
+Fin de l’année
+Fin de l’année
+Les documents diffusés par ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Décharge matériel
+Fiche intervention
+Rapport intervention
+Rapport intervention (sous garantie) signée.
+Fiche inventaire
+Demande inventaire singée
+Rapport inventaire
+Utilisateur Utilisateur
+Chef département Chef département
+Chef département
+Chef département
+Chef département
+1
+1
+1
+1
+1
+1
+1
+Aléatoire
+Aléatoire
+Aléatoire
+Aléatoire
+Fin de l’année
+fin de l’année
+fin de l’année
+Les documents manipulés par ce poste
+Désignation document
+Fréquence
+Rapport intervention
+Décharge matériel
+Rapport inventaire
+Aléatoire
+Aléatoire
+Aléatoire
+Désignation du poste : SuperviseurStructure : direction technologies informatiqueEffectif : 2Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scannerMoyen de stockage : Boite d’archive / Disques dures / flache disqueTâches à accomplir :Suivi les demandes d’intervention (incidents) et suivi de leur résolution. Affectation des techniciens pour la réparationDésignation du poste : SuperviseurStructure : direction technologies informatiqueEffectif : 2Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scannerMoyen de stockage : Boite d’archive / Disques dures / flache disqueTâches à accomplir :Suivi les demandes d’intervention (incidents) et suivi de leur résolution. Affectation des techniciens pour la réparationFiche d’étude de poste n°03
+Désignation du poste : Superviseur
+Structure : direction technologies informatique
+Effectif : 2
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scanner
+Moyen de stockage : Boite d’archive / Disques dures / flache disque
+Tâches à accomplir :
+Suivi les demandes d’intervention (incidents) et suivi de leur résolution.
+Affectation des techniciens pour la réparation
+Désignation du poste : Superviseur
+Structure : direction technologies informatique
+Effectif : 2
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scanner
+Moyen de stockage : Boite d’archive / Disques dures / flache disque
+Tâches à accomplir :
+Suivi les demandes d’intervention (incidents) et suivi de leur résolution.
+Affectation des techniciens pour la réparation
+Les documents parvenant à ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Demande invention
+Utilisateur
+1
+Aléatoire
+Les documents diffusés par ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Fiche invention
+Technicien
+1
+Aléatoire
+Fiche d’étude de poste n°04
+Code poste : UtilisateurDésignation du poste : Travailleur (agent Sonatrach DG).Structure : FIN\ISI\RHU\ACT\HSE\MLG\SPE\BDM\JUR\RDTEffectif : 2300 agents du Sonatrach DG qui utilisé le matériel informatiqueMoyen de traitement : Ordinateur, imprimante, téléphone, réseau, scannerMoyen de stockage : Boite d’archive / Disques dures / flache disqueTâches à accomplir : Différentes tâches tout dépend de la fonction occupéeCode poste : UtilisateurDésignation du poste : Travailleur (agent Sonatrach DG).Structure : FIN\ISI\RHU\ACT\HSE\MLG\SPE\BDM\JUR\RDTEffectif : 2300 agents du Sonatrach DG qui utilisé le matériel informatiqueMoyen de traitement : Ordinateur, imprimante, téléphone, réseau, scannerMoyen de stockage : Boite d’archive / Disques dures / flache disqueTâches à accomplir : Différentes tâches tout dépend de la fonction occupée
+Code poste : Utilisateur
+Désignation du poste : Travailleur (agent Sonatrach DG).
+Structure : FIN\ISI\RHU\ACT\HSE\MLG\SPE\BDM\JUR\RDT
+Effectif : 2300 agents du Sonatrach DG qui utilisé le matériel informatique
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scanner
+Moyen de stockage : Boite d’archive / Disques dures / flache disque
+Tâches à accomplir :
+Différentes tâches tout dépend de la fonction occupée
+Code poste : Utilisateur
+Désignation du poste : Travailleur (agent Sonatrach DG).
+Structure : FIN\ISI\RHU\ACT\HSE\MLG\SPE\BDM\JUR\RDT
+Effectif : 2300 agents du Sonatrach DG qui utilisé le matériel informatique
+Moyen de traitement : Ordinateur, imprimante, téléphone, réseau, scanner
+Moyen de stockage : Boite d’archive / Disques dures / flache disque
+Tâches à accomplir :
+Différentes tâches tout dépend de la fonction occupée
+Les documents parvenant à ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+Fiche intervention
+Décharge matériel
+Technicien
+Technicien
+1
+1
+Aléatoire
+Aléatoire
+Les documents diffusés par ce poste :
+Désignation document
+Poste source
+Nombre
+Fréquence
+demande de matériel
+Décharge matériel singée
+Fiche intervention signé
+Demande intervention
+Chef département
+Chef département
+Technicien
+Superviseur
+1
+1
+1
+1
+Aléatoire
+Aléatoire
+Aléatoire
+Aléatoire
+Cartographie des flux d’information :
+Après avoir effectué des interviews de direction et de poste de travail pour collecter des informations appartenant aux systèmes d’informations. On passe à une étape qui permet de schématiser la circulation et l’échange d’informations entre les différents postes de travail, cette étape est le flux d’information.
+Définition
+Le flux d’information met en évidence les échanges différents acteurs concernés par notre étude
+Acteurs
+Représente une unité active intervenant dans le fonctionnement du système d’information.il existe deux types d’acteurs :
+Acteur interne : poste interne à notre champ d’étude.
+Acteur externe : poste externe à notre champ d’étude représenté par un cercle.
+Pour avoir une bonne conception du système, il faudrait avoir une parfaite connaissance des flux d’information qui circulent dans le domaine existant de l’étude et il faudrait aussi que le flux soit clair et lisible.
+Le formalisme de présentation du flux :
+Le formalisme du flux utilisé de représente comme ci-dessous :
+Tableau descriptif de flux d’information
+Document
+Description
+1
+Demande d’intervention
+2
+Fiche d’intervention
+3
+Fiche d’intervention
+4
+Fiche d’intervention signée
+5
+Rapport d’intervention
+6
+Rapport d’intervention (matériel sous garantie)
+7
+Rapport d’intervention (sous garantie) signé
+Diagramme de flux d’informations:
+Figure 5: Diagramme de flux d'informations
+Etude de document :
+L’étude des documents permet d’identifier et d’analyser l’ensemble des supports utilisés dans la gestion quotidienne du service, en précisant leur nature, leur rôle, leur origine, leur destination et leur contenu. Elle constitue une base essentielle pour comprendre les flux d’information existants et pour établir un dictionnaire de données fiable, préalable indispensable à la conception d’un système répondant aux besoins réels du service.
+Symboles utilisés
+Les symboles suivants sont utilisés pour définir le type des données au sein du dictionnaire de données :
+Symbole
+Signification
+A
+Alphabétique
+N
+Numérique
+AN
+Alphanumérique
+D
+Date
+On va analyser 4 documents principaux, clairement liés au thème help desk informatique :
+Demande d’intervention
+Fiche d’intervention
+Rapport d’intervention
+Demande d’intervention
+Code : DIDésignation du document : Demande d’interventionNature du document : ExterneCouleur : BlancRôle du document : Permet à l’utilisateur de formuler une demande d’intervention auprès du service concernéNombre d’exemplaires : 01Format : A4Support de stockage : Boîte d’archivesExiste-t-il un entête : NonRecto verso : Non
+Les informations contenues dans le document
+Rubrique
+Type
+Taille
+Numéro de la demande
+Numérique
+8 chiffres
+Nom du demandeur
+Texte
+50 caractères
+Prénom du demandeur
+Texte
+50 caractères
+Service
+Texte
+30 caractères
+Marque du matériel
+Texte
+30 caractères
+Désignation du matériel
+Texte
+50 caractères
+Date de réception
+Date
+JJ/MM/AAAA
+Réceptionné par
+Texte
+50 caractères
+Visa
+Texte
+30 caractères
+Niveau d’urgence
+Texte (liste)
+10 caractères
+Fiche d’intervention
+Code : FIDésignation du document : Fiche d’interventionNature du document : InterneCouleur : BlancRôle du document : Permet de décrire l’intervention réalisée, de suivre son déroulement et de documenter la résolution du problème
+Nombre d’exemplaires : 01Format : A4Support de stockage : Boîte d’archivesExiste-t-il un entête : NonRecto verso : No
+Les informations contenues dans le document
+Rubrique
+Type
+Taille
+Numéro de la fiche
+Numérique
+8 chiffres
+Date
+Date
+JJ/MM/AAAA
+Nom du demandeur
+Texte
+50 caractères
+Prénom du demandeur
+Texte
+50 caractères
+Structure
+Texte
+30 caractères
+Code du matériel
+Numérique
+10 chiffres
+Type du matériel
+Texte
+40 caractères
+Modèle
+Texte
+30 caractères
+Numéro de série
+Texte
+30 caractères
+Date de début de l’intervention
+Date
+JJ/MM/AAAA
+Heure de début de l’intervention
+Heure
+HH:MM
+Date de fin de l’intervention
+Date
+JJ/MM/AAAA
+Heure de fin de l’intervention
+Heure
+HH:MM
+Description de l’intervention
+Texte
+300 caractères
+Signature de l’intervenant
+Texte
+50 caractères
+Rapport d’intervention
+Code : RIDésignation du document : Rapport d’interventionNature du document : InterneCouleur : BlancRôle du document : Permet de décrire l’état d’avancement et les résultats de l’intervention réaliséeNombre d’exemplaires : 01Format : A4Support de stockage : Boîte d’archivesExiste-t-il un entête : NonRecto verso : Non
+Les informations contenues dans le document
+Information
+Type
+Taille
+Structure
+Texte
+30 caractères
+Centre d’intervention
+Texte
+20 caractères
+Numéro du rapport
+Numérique
+8 chiffres
+Date
+Date
+JJ/MM/AAAA
+Intervenant
+Texte
+50 caractères
+Durée d’intervention
+Numérique
+5 caractères
+Sous-traitant
+Texte
+30 caractères
+Nature de la prestation
+Texte
+40 caractères
+Observation
+Texte
+300 caractères
+Analyse des procédures en place :
+L’étude des procédures de travail permet d’analyser les différentes étapes de gestion des demandes d’assistance informatique au sein de Sonatrach. Elle vise à comprendre le déroulement du traitement des incidents et des requêtes, l’utilisation des supports et outils associés, ainsi qu’à identifier les dysfonctionnements, les redondances ou les sources potentielles d’erreurs, dans le but d’améliorer l’efficacité et la réactivité du service Help Desk.
+Figure 6: Création et traitement des tickets utilisateur
+Figure 7: Procédure 2 : Distribution interne des demandes matérielles
+Figure 8: Procédure 3 : Gestion des inventaires et interventions sous garantie
+Figure 9: Procédure 4 : Planification et suivi des interventions
+Critique de l’existant et suggestion
+Critiques organisationnelles
+Trop de documents à gérer : Un grand nombre de tickets, demandes et rapports circulent entre les postes, ce qui provoque des doublons, des retards et une gestion peu efficace.
+Manque de centralisation : Les documents sont traités par plusieurs acteurs en même temps, rendant le suivi des tickets et des demandes difficiles et augmentant le risque de perte d’informations.
+Chevauchement des tâches : Plusieurs postes effectuent des opérations similaires, ce qui crée de la confusion sur les responsabilités et sur la validation finale.
+Absence de contrôles clairs : Les étapes de validation ne sont pas clairement définies, ce qui limite le contrôle, la traçabilité et la fiabilité des décisions.
+Suggestion organisationnelles
+ Centralisation des documents : Mettre en place un système de Help Desk afin de regrouper toutes les demandes, tickets et rapports dans un seul outil, avec un accès contrôlé pour chaque utilisateur et un archivage automatique.
+ Clarification des rôles : Définir clairement le rôle de chaque intervenant, notamment l’émetteur, le responsable de validation et le destinataire final de chaque document.
+ Réduction des doublons : Éviter la manipulation du même document par plusieurs postes en parallèle en utilisant des workflows automatisés pour le suivi des demandes et des interventions.
+ Formalisation des validations : Intégrer des étapes de contrôle et de validation dans les procédures afin d’assurer la traçabilité et la fiabilité des décisions.
+ Planification et priorisation : Définir des périodicités précises pour les opérations récurrentes et introduire des statuts ainsi que des niveaux de priorité pour les tickets dans le système Help Desk.
+Critiques informationnelles
+Traçabilité limitée : L’utilisation de documents papier et d’e-mails ne permet pas un suivi en temps réel, ce qui rend difficile la connaissance de l’état exact d’une demande ou d’un ticket.
+Manque de standardisation : Les documents existent sous plusieurs formats différents, ce qui complique leur traitement et empêche une automatisation efficace dans un système de Help Desk.
+Gestion irrégulière des informations : Certaines données sont collectées de manière ponctuelle ou à des périodes mal définies, ce qui complique la planification, le suivi et la production de rapports.
+Suggestions informationnelles
+Standardisation des documents : La mise en place de formulaires numériques uniformisés pour les demandes et les rapports permet d’assurer l’homogénéité des informations et de faciliter leur traitement automatique.
+Tableaux de bord et reporting : L’utilisation de tableaux de bord offre une vision globale de l’état des tickets et des interventions, et permet la production de statistiques utiles à l’aide à la décision.
+Notifications et alertes : L’intégration de notifications automatiques améliore la réactivité du système en informant les acteurs concernés des actions à effectuer ou des retards éventuels.
+Synthèse
+Problèmes clés : flux dispersés, doublons, absence de contrôle, documentation aléatoire.
+Solutions : centralisation via Help Desk, standardisation des documents, automatisation des workflows, ajout de validations et suivi des interventions.
+Bénéfices : meilleure traçabilité, réduction des erreurs, suivi en temps réel, efficacité accrue du service.
+Proposition de différentes solutions informatiques possibles
+Afin de répondre aux besoins identifiés, trois solutions informatiques ont été envisagées pour la mise en place d’un système de Help Desk informatique.
+Solution 1 : Développement d'une Application Web "Sur Mesure"
+Cette approche consiste à concevoir et développer une nouvelle application intranet, en utilisant des technologies maîtrisées (PHP/MySQL ou SQL Server) hébergées sur l'infrastructure interne de l'entreprise.
+Avantages
+Adéquation Parfaite : L'application est développée "sur mesure" pour épouser à 100% les processus métiers et les workflows de validation spécifiques à SONATRACH.
+Sécurité et Contrôle Total : En tant qu'entité stratégique, la maîtrise complète du code source est un atout majeur. Le système n'expose pas de vulnérabilités publiques connues (contrairement aux logiciels open-source) et reste hermétique à l'intérieur de l'intranet.
+Évolutivité Ciblée : La solution ne contient que les fonctionnalités nécessaires (absence de superflu). Elle est légère et peut évoluer au fil du temps en fonction des nouveaux besoins, sans dépendre d'un éditeur externe.
+Accessibilité Maximale : Déployée en intranet, l'application est accessible depuis n'importe quel poste de travail via un simple navigateur, sans aucune installation.
+Inconvénients
+Investissement Initial : Le développement initial (le cadre de ce PFE) demande une phase de conception et de codage plus importante que la simple configuration d'un outil existant.
+Montée en Compétence : La maintenance future devra être assurée par une équipe interne, qui devra s'approprier le code (ce qui est aussi une opportunité de maîtrise).
+Solution 2 : Application Desktop Java (NetBeans) avec SQL Server
+Avantages :
+Performance élevée - application native sans latence réseau
+Interface riche et intuitive avec Java Swing/JavaFX
+SQL Server robuste - déjà utilisé dans de grandes entreprises comme
+SONATRACH
+Gestion avancée des données - transactions, intégrité référentielle forte
+Fonctionne hors ligne pour consultation de l'historique
+Inconvénients :
+Installation requise sur chaque poste utilisateur
+Mises à jour complexes - déploiement sur plusieurs machines
+Licences SQL Server peuvent être coûteuses (sauf édition Express)
+Moins accessible - uniquement depuis les postes où l'application est installée
+Maintenance plus lourde que le web
+Solution 3 : Solution Hybride - Application Web PHP/MySQL + Interface d'administration Desktop
+Avantages :
+Combine les avantages des deux approches
+Interface web pour les utilisateurs (soumettre tickets, suivre statut)
+Application desktop pour les techniciens (gestion avancée, rapports)
+Flexibilité maximale selon les besoins de chaque profil
+Évolutif - possibilité de développer progressivement
+Inconvénients :
+Développement plus long - deux applications à créer
+Maintenance de deux systèmes parallèles
+Complexité accrue - synchronisation à gérer
+Solution retenue
+Suite à l'analyse comparative des trois scénarios et en concertation avec notre encadrant au sein de l'organisme d'accueil, nous avons opté pour la Solution 1 : Développement d'une Application Web "Sur Mesure" (PHP/MySQL).
+Conclusion
+Dans ce chapitre, nous avons présenté une vue d’ensemble de SONATRACH en retraçant son évolution, ses missions et son organisation, avec un focus particulier sur la Direction Centrale Digitalisation et Système d’Information (DSI), qui constitue le cadre d’application de notre projet. Cette présentation a permis de situer le contexte général du travail et de mettre en évidence la nécessité de mettre en place un système de Help Desk moderne, destiné à optimiser le support informatique, améliorer la gestion des demandes et renforcer l’efficacité opérationnelle.
+CHAPITRE 2 :Conception de la solutionCHAPITRE 2 :Conception de la solution
+CHAPITRE 2 :
+Conception de la solution
+CHAPITRE 2 :
+Conception de la solution
+Chapitre : Conception de la solution
+Introduction :
+Après avoir mené une étude approfondie de l'existant et identifié les défaillances du système actuel au sein de la Direction Générale de Sonatrach, nous abordons dans ce deuxième chapitre une étape cruciale du cycle de vie de notre projet : la phase de conception.
+Cette phase constitue le pont entre l'analyse des besoins métiers et la réalisation technique. Elle vise à définir l'architecture logique et structurelle de la future plateforme de Help Desk, en transformant les exigences fonctionnelles en modèles techniques précis et exploitables.
+Dans ce chapitre, nous commencerons par justifier le choix de la solution retenue, en expliquant pourquoi le développement d'une application web sur mesure est l'approche la plus adaptée. Ensuite, nous structurerons les informations manipulées par le système à travers un dictionnaire de données détaillé. Enfin, nous utiliserons le formalisme standard UML (Unified Modeling Language) pour modéliser le comportement et l'architecture de notre application, à travers les diagrammes de cas d'utilisation, de classes et de séquence.
+Dictionnaire des données
+Le dictionnaire de données est un référentiel centralisé définissant précisément chaque champ de donnée (structure, format, signification). Il est fondamental pour garantir une compréhension commune de ces données par tous les membres de l'équipe de conception (analystes, développeurs).
+Le tableau ci-dessous constitue le dictionnaire de données de notre application, en détaillant chaque champ (nom, type logique et format) comme défini ci-dessus :
+Champ (Base de données)
+Type Logique
+Longueur (Hypothèse)
+action_description
+Alphabétique
+255
+categorie_parc
+Alphabétique
+100
+chemin_fichier
+Alphabétique
+255
+date_achat
+Date / Heure
+N/A
+date_action
+Date / Heure
+N/A
+date_archivage
+Date / Heure
+N/A
+date_creation
+Date / Heure
+N/A
+date_derniere_maj
+Date / Heure
+N/A
+date_envoi
+Date / Heure
+N/A
+date_expiration
+Date / Heure
+N/A
+date_notification
+Date / Heure
+N/A
+description
+Alphabétique (long)
+N/A (Taille variable)
+email
+Alphabétique
+255
+est_actif
+Numérique (Booléen)
+1
+est_lu
+Numérique (Booléen)
+1
+message
+Alphabétique (long)
+N/A (Taille variable)
+mot_de_passe
+Alphabétique
+255
+mtps_secours
+Alphabétique
+255
+nom
+Alphabétique
+100
+nom_complet
+Alphabétique
+150
+nom_fichier
+Alphabétique
+255
+nom_materiel
+Alphabétique
+150
+priorite
+Alphabétique (Choix)
+N/A (Liste de choix)
+role
+Alphabétique (Choix)
+N/A (Liste de choix)
+statut
+Alphabétique (Choix)
+N/A (Liste de choix)
+titre
+Alphabétique
+255
+token
+Alphabétique
+255
+type
+Alphabétique (Choix)
+N/A (Liste de choix)
+Tableau 2: Dictionnaire de données
+Présentation du langage UML (Unified Modeling Language)
+Le Langage de Modélisation Unifié (UML) est un langage graphique standardisé qui sert à définir (spécifier), représenter (visualiser), structurer (construire) et documenter les différents composants d'un système logiciel. Il ne s'agit pas d'une méthode, mais d'une "boîte à outils" visuelle universelle, comprise par tous les acteurs d'un projet (analystes, architectes, développeurs).
+Son principal avantage est de permettre la modélisation d'un système sous différents angles de vue, à la fois statiques (la structure) et dynamiques (le comportement), afin d'en comprendre toute la complexité.
+Pourquoi choisir UML ?
+UML est un langage formel et normalisé. Il permet d’accroître la précision dans l’analyse, favorise l’usage d’outils adaptés, et constitue un cadre structurant garantissant la stabilité des modèles. Il offre également un support de communication efficace entre les parties prenantes du projet. Grâce à sa polyvalence et sa flexibilité, UML est devenu un langage universel pour la modélisation des systèmes logiciels complexes.
+Objectif principal de l’UML
+L’Unified Modeling Language (UML) est un langage de modélisation standardisé qui permet de :
+Visualiser les architectures logicielles sous forme de diagrammes
+Spécifier précisément les exigences et conceptions
+Construire des modèles détaillés de systèmes
+Documenter les solutions techniques
+Caractéristiques de l’UML
+Caractéristique
+Description
+Standardisation
+Norme maintenue par l’OMG (Object
+Management Group)
+Orientation objet
+Basé sur les concepts de classes, objets, héritage, etc.
+Polyvalence
+Applicable à divers domaines (systèmes
+d’information, temps réel, etc.)
+Visualisation
+14 types de diagrammes pour différentes vues du système
+Extensibilité
+Mécanismes de stéréotypes et profils pour des
+Domaines spécifiques
+Types de diagrammes UML
+Depuis sa version 2.5, l'UML se compose de 14 diagrammes distincts, classés en deux grandes catégories :
+Diagrammes Structurels (Statiques)
+Ils décrivent l'architecture statique du système, c'est-à-dire les éléments qui le composent et leurs relations.
+Diagramme de Classes (Class Diagram) : Le plus utilisé. Il montre les classes, leurs attributs, leurs méthodes et les relations entre elles (association, héritage, etc.).
+Diagramme d'Objets (Object Diagram) : Montre une "photographie" des instances de classes (objets) à un moment donné, avec leurs valeurs.
+Diagramme de Composants (Component Diagram) : Décrit l'organisation des composants logiciels (ex: bibliothèques, modules) et leurs dépendances.
+Diagramme de Déploiement (Deployment Diagram) : Représente l'architecture physique du système (les serveurs, les routeurs, les bases de données) et la répartition des composants logiciels dessus.
+Diagramme de Paquetages (Package Diagram) : Organise les éléments du modèle (comme les classes ou les cas d'utilisation) en groupes logiques (paquetages), comme des dossiers.
+Diagramme de Structure Composite (Composite Structure Diagram) : Montre la structure interne d'une classe ou d'un composant, ses "parties" et ses "ports" de communication.
+Diagramme de Profil (Profile Diagram) : Permet d'adapter UML à un domaine spécifique (ex: UML pour le temps réel) en créant des stéréotypes personnalisés.
+2. Diagrammes Comportementaux (Dynamiques)
+Ils décrivent le fonctionnement du système, ses interactions et son évolution dans le temps.
+Diagramme de Cas d'Utilisation (Use Case Diagram) : Décrit les fonctionnalités du système du point de vue de l'acteur (utilisateur). Il répond à la question "Qui fait quoi ?".
+Diagramme de Séquences (Sequence Diagram) : Montre l'ordre chronologique des messages échangés entre les objets pour réaliser un scénario précis (un cas d'utilisation).
+Diagramme d'Activités (Activity Diagram) : Représente les flux de travail (workflow) et les étapes logiques d'une opération, à la manière d'un organigramme.
+Diagramme d'États-Transitions (State Machine Diagram) : Modélise le cycle de vie d'un objet, en montrant les différents états par lesquels il peut passer et les événements qui déclenchent les transitions (ex: un ticket passe de "Ouvert" à "En cours" puis "Clos").
+Diagramme de Communication (Communication Diagram) : Similaire au diagramme de séquences, mais il se concentre sur les liens entre les objets plutôt que sur la chronologie.
+Diagramme Global d'Interaction (Interaction Overview Diagram) : Un diagramme d'activité où les "étapes" sont elles-mêmes des diagrammes de séquences. Il donne une vue d'ensemble de flux complexes.
+Diagramme de Temps (Timing Diagram) : Très technique, il se concentre sur les contraintes de temps et les changements d'état d'un objet le long d'un axe temporel.
+Les Diagrammes UML Utilisés
+Pour modéliser notre système Help Desk sous tous ses aspects, nous mobiliserons plusieurs des diagrammes UML, chacun répondant à un besoin spécifique :
+Diagrammes de Cas d'Utilisation :
+Diagrammes de Classes :
+Diagrammes de Séquences :
+Elaboration du Diagramme de cas d’utilisation
+Un diagramme de cas d'utilisation (ou Use Case diagram) est un outil de modélisation UML qui décrit les fonctionnalités d'un système du point de vue d'un utilisateur externe. Il se concentre sur le "quoi" (quels services le système offre ?) plutôt que sur le "comment" (comment le système le fait ?).
+Il permet de visualiser :
+Les Acteurs : Les entités externes qui interagissent avec le système (comme Utilisateur, Administrateur).
+Les Cas d'utilisation : Les actions ou objectifs spécifiques que les acteurs cherchent à accomplir (comme Gérer ses tickets).
+Le Système : Représenté par un cadre, il délimite ce qui est interne et externe.
+C'est un excellent moyen de définir le périmètre fonctionnel d'une application et de s'assurer que toutes les exigences des utilisateurs sont comprises avant de commencer le développement technique.
+Tableau descriptif des scénarios :
+Ce tableau détaille chaque cas d'utilisation de notre diagramme, l'acteur principal qui l'initie, et une description du scénario.
+Nom du Cas d'Utilisation
+Acteur(s) Principal(aux)
+Description du Scénario (Objectif)
+Gérer ses tickets
+Utilisateur
+L'utilisateur crée, consulte, modifie et suit l'évolution de ses propres demandes de support.
+Affecter un ticket
+Superviseur
+Le superviseur analyse un nouveau ticket non assigné et l'attribue au technicien (TS) le plus compétent.
+Répondre à un ticket
+Superviseur, TS
+Le technicien (ou le superviseur) communique avec l'utilisateur via le ticket pour poser des questions ou proposer une solution.
+Consulter tickets traités
+Superviseur
+Le superviseur examine l'historique et les détails des tickets qui ont déjà été résolus (statut "Clos").
+Consulter tickets assignés
+TS (Technicien)
+Le technicien consulte la file d'attente des tickets qui lui ont été personnellement affectés.
+Clore un ticket
+TS (Technicien)
+Une fois le problème résolu, le technicien effectue l'action finale de fermer le ticket. Le statut passe à "Clos".
+Gérer les comptes
+Administrateur
+L'administrateur crée, modifie ou supprime les comptes des Utilisateurs, TS, et Superviseurs.
+Gérer tous les tickets
+Administrateur
+L'administrateur a un accès complet pour modifier, réassigner ou supprimer n'importe quel ticket du système.
+Gérer le parc matériel
+Administrateur
+L'administrateur gère l'inventaire du matériel (ex: catégories, assignations) lié aux demandes.
+S'authentifier
+Personnel (Tous les acteurs)
+(Cas <<include>>) L'acteur doit prouver son identité (login/mot de passe) avant d'accéder à n'importe quelle autre fonction.
+Figure 10: Diagramme de cas d'utilisation
+Elaboration du Diagramme de classes
+Ce diagramme de classes modélise l'architecture d'un système de gestion de Help Desk. Il illustre les principales entités (comme les utilisateurs, les tickets et les réponses), leurs propriétés (attributs) et les relations logiques qui les unissent pour assurer le fonctionnement de la plateforme.
+Ce modèle sert de plan directeur pour le développement de l'application, en montrant comment les données sont structurées et interconnectées.
+Tableau Descriptif des Classes
+Ce tableau résume les classes principales et leurs attributs essentiels.
+Nom de la Classe
+Clé Primaire (PK)
+Attributs Principaux (Non-clés)
+utilisateurs
+id (int)
+nom_complet, email, mot_de_passe, role, est_actif, date_creation
+tickets
+id (int)
+titre, description, statut, priorite, type, date_creation, date_derniere_maj
+categories
+id (int)
+nom (unique)
+reponses
+id (int)
+message (text), date_envoi
+ticket_attachments
+id (int)
+nom_fichier, chemin_fichier, date_upload
+historique_actions
+id (int)
+action_description, date_action
+notifications
+id (int)
+message, est_lu (boolean), date_notification
+parc_materiel
+id (int)
+nom_materiel, categorie_parc, description, date_achat
+password_resets
+id (int)
+email, token (unique), date_expiration
+tickets_archives
+id (int)
+titre, description, statut, date_archivage
+Tableau 3: Tableau descriptif des classes
+Tableau Descriptif des Relations
+Ce tableau détaille les associations entre les classes, basées sur les clés étrangères
+Nom de la Relation
+Classes Associées
+Cardinalités
+Type de Relation
+Interprétation
+crée
+utilisateurs → tickets
+1 → 0..*
+Association
+Un utilisateur crée zéro ou plusieurs tickets.
+assigné à
+utilisateurs → tickets
+1 → 0..*
+Association
+Un utilisateur (Technicien) est assigné à zéro ou plusieurs tickets.
+classifie
+categories → tickets
+1 → 0..*
+Composition
+Une catégorie peut concerner zéro ou plusieurs tickets.
+contient
+Tickets → réponses
+1 → 0..*
+Composition
+Un ticket peut avoir zéro ou plusieurs réponses.
+trace
+Tickets → historique_actions
+1 → 0..*
+Association
+Un ticket peut générer zéro ou plusieurs actions dans l'historique.
+a
+tickets → ticket_attachments
+1 → 0..*
+Composition
+Un ticket peut avoir zéro ou plusieurs pièces jointes.
+Tableau Descriptif des Relations  (suite)
+Nom de la Relation
+Classes Associées
+Cardinalités
+Type de Relation
+Interprétation
+génère
+tickets → notifications
+1 → 0..*
+Association
+Un ticket peut générer zéro ou plusieurs notifications.
+Ecrit
+utilisateurs → reponses
+1 → 0..*
+Association
+Un utilisateur écrit zéro ou plusieurs réponses.
+effectue
+utilisateurs → historique_actions
+1 → 0..*
+Association
+Un utilisateur effectue zéro ou plusieurs actions (loggées).
+Reçoit
+utilisateurs → notifications
+1 → 0..*
+Association
+Un utilisateur reçoit zéro ou plusieurs notifications.
+possède
+utilisateurs → parc_materiel
+1 → 0..*
+Association
+Un utilisateur peut avoir zéro ou plusieurs matériels assignés.
+demande
+utilisateurs → password_resets
+1 → 0..1
+Association
+Un utilisateur peut avoir zéro ou une demande de réinitialisation active.
+gère (TS)
+utilisateurs → categories
+0..* → 0..*
+Association
+Un technicien (TS) peut gérer plusieurs catégories, et une catégorie peut être gérée par plusieurs techniciens.
+archivé vers
+tickets → tickets_archives
+1 → 0..1
+Dépendance
+Un ticket peut être archivé une seule fois ou rester actif. Chaque archive correspond à un et un seul ticket original.
+lié (TS)
+parc_materiel → tickets
+0..1 → 0..*
+Agrégation
+Un matériel peut être lié à zéro ou plusieurs tickets, et un ticket peut concerner zéro ou un matériel.
+Tableau 4: Tableau descriptif des relations.
+Figure 11: Diagramme de classes
+Elaboration du Diagramme de séquence
+Un diagramme de séquences est un diagramme d'interaction UML qui illustre comment les différents participants (objets, composants, ou acteurs) collaborent et communiquent pour réaliser un scénario spécifique.
+Il se concentre sur la chronologie des événements. Chaque participant possède une "ligne de vie" (une ligne verticale), et les flèches horizontales représentent les messages (appels de fonction, requêtes HTTP, etc.) échangés entre eux, dans l'ordre où ils se produisent (de haut en bas).
+C'est un outil très puissant pour visualiser la logique d'un cas d'utilisation, comme "S'authentifier" ou "Créer un ticket".
+Elaboration du diagramme de séquences de login
+Tableau Descriptif du Scénario
+Nom du Scénario
+Acteur
+Description (Déroulement)
+Authentification de l'utilisateur
+Utilisateur (Personnel)
+L'utilisateur se trouve sur la page de connexion. Il saisit son email, son mot de passe et sélectionne son rôle (ex: "Utilisateur", "TS"). Il clique sur le bouton "SE CONNECTER". Le système vérifie ces informations. Si elles sont correctes, une session est créée et l'utilisateur est redirigé vers le menu principal. Sinon, un message d'erreur s'affiche sur la page de connexion.
+Figure 12: Diagramme de séquences de login
+Tableau Descriptif du Scénario : Diagramme de séquence de Création d'un Ticket
+Nom du Scénario
+Acteur Principal
+Description (Déroulement)
+Création d'un Ticket d'Intervention
+Utilisateur
+1. Début de la boucle (Saisie) :
+L'utilisateur remplit les champs du formulaire (Titre, Description, Catégorie) sur la page de création.
+L'utilisateur clique sur le bouton "Envoyer".
+3. Vérification (Système) :
+Le contrôleur vérifie la validité des données saisies.
+4. Alternative (Validation) :
+Si les données sont invalides (ex: champ vide) : Le système affiche un message d'erreur ("Veuillez remplir tous les champs"). Le scénario retourne à l'étape 1 (Boucle) tant que la saisie n'est pas correcte.
+Si les données sont valides : Le système sort de la boucle et continue le traitement.
+5. Enregistrement :
+Le système enregistre le ticket via le ServiceTicket.
+6. Optionnel (Fichier) :
+Si une pièce jointe est présente, le ServiceFichier la sauvegarde et l'associe au ticket.
+7. Notification :
+Le système notifie le superviseur qu'un nouveau ticket a été créé.
+8. Fin du scénario :
+La page affiche un message de succès ("Ticket envoyé !") et redirige l'utilisateur vers la page "Mes interventions".
+Figure 13: Diagramme de séquence de Création d'un Ticket
+Tableau Descriptif du Scénario : DS Affectation d'un Ticket à un Technicien
+Nom du Scénario
+Acteur Principal
+Description (Déroulement)
+Affectation d'un Ticket à un Technicien
+Superviseur
+1. Pré-condition :
+Le superviseur est connecté sur le "Tableau de bord" et consulte la section "Tickets en Attente d'Affectation".
+2. Sélection :
+Dans la liste des tickets, le superviseur identifie le ticket à traiter (ex: #41). Il clique sur la liste déroulante "Choisir un TS" et sélectionne le technicien disponible approprié.
+3. Action :
+Le superviseur clique sur le bouton de validation (flèche jaune) pour confirmer l'affectation.
+4. Traitement Système :
+Le système reçoit la demande, associe l'ID du technicien au ticket et met à jour le statut du ticket de "En Attente" à "En Cours" (ou "Affecté").
+5. Notification :
+Le système envoie automatiquement une notification au Technicien Supérieur (TS) concerné pour l'informer de la nouvelle tâche.
+6. Mise à jour de l'affichage :
+Le système confirme l'opération et rafraîchit le tableau de bord : le ticket disparaît de la liste des "Tickets en Attente" (le compteur décrémente) et s'ajoute aux tickets "En Cours".
+Figure 14: DS Affectation d'un Ticket à un Technicien
+Conclusion
+Ce chapitre de conception a défini l'architecture complète de l'application Help Desk. Grâce à un dictionnaire de données et aux diagrammes UML (cas d'utilisation, classes, séquences), nous avons obtenu un plan directeur (MLD) validé. Cette modélisation formelle garantit une solution robuste et alignée sur les besoins, nous préparant ainsi à la phase de développement.
+CHAPITRE 3 :RéalisationCHAPITRE 3 :Réalisation
+CHAPITRE 3 :
+Réalisation
+CHAPITRE 3 :
+Réalisation
+Chapitre : Réalisation
+Introduction :
+Après avoir analysé les besoins et conçu l'architecture de notre solution dans le chapitre précédent, nous abordons dans ce troisième et dernier chapitre la phase de réalisation technique.
+Cette étape consiste à concrétiser les modèles théoriques en un produit logiciel fonctionnel. Nous commencerons par définir l'environnement de données, en expliquant les concepts de SGBD et en détaillant la création de notre base de données sous MySQL. Ensuite, nous présenterons l'implémentation des contraintes d'intégrité qui garantissent la cohérence des informations. Enfin, nous décrirons les outils de développement utilisés pour construire les interfaces utilisateurs et la logique métier de notre plateforme de Help Desk.
+Généralités sur SGBD et de base de données
+Système de Gestion de Base de Données (SGBD):
+Définition
+Un Système de Gestion de Base de Données (SGBD) est un logiciel qui permet de créer, manipuler, interroger et gérer une base de données de manière efficace et sécurisée. Il sert d’interface entre la base de données et les utilisateurs ou applications.
+Principales fonctions d’un SGBD :
+Définition des structures de données (tables, relations, contraintes, etc.).
+Insertion, modification, suppression et consultation des données.
+Gestion des accès et des droits des utilisateurs.
+Garantie de l’intégrité et de la cohérence des données.
+Gestion des transactions et de la concurrence.
+Exemples de SGBD :
+MySQL, PostgreSQL, Oracle, SQL Server, SQLite, MongoDB (NoSQL).
+Base de données :
+Une base de données est un ensemble organisé et structuré d’informations, généralement stockées et gérées par un système de gestion de bases de données (SGBD). Elle permet de centraliser les données, d’assurer leur cohérence et leur intégrité, et de faciliter leur consultation, leur mise à jour et leur exploitation par les utilisateurs ou les applications.
+Ses concepts de base sont :
+Table
+Une table est un élément fondamental d’une base de données relationnelle. Elle est constituée de lignes et de colonnes :
+Chaque ligne représente un enregistrement.
+Chaque colonne contient un type précis d’information.
+Relation
+Une relation est un lien logique entre les données de deux (ou plusieurs) tables. Elle s’appuie sur :
+La clé primaire : identifie de manière unique chaque enregistrement.
+La clé étrangère : référence la clé primaire d’une autre table.
+Présentation de MySQL
+Définition
+MySQL est l’un des systèmes de gestion de bases de données relationnelles (SGBD-R) les plus utilisés au monde. C’est un logiciel open source basé sur le langage SQL, qui permet de créer, organiser et gérer efficacement des bases de données.
+Figure 15 : logo Mysql
+Caractéristiques principales de MySQL
+Caractéristique
+Description
+Open source
+Logiciel libre, permettant à la communauté de
+contribuer et de modifier le code source.
+Performance élevée
+Rapidité dans le traitement des requêtes et
+l’exécution des transactions, même avec de grands
+volumes de données.
+Compatibilité
+Fonctionne sur plusieurs systèmes d’exploitation
+(Windows, Linux, macOS) et s’intègre à de
+nombreux langages de programmation (PHP, Java,
+Python, etc.).
+Sécurité
+Mécanismes de sécurité avancés, incluant la
+gestion des utilisateurs et des privilèges, ainsi que le
+chiffrement des connexions.
+Réplicabilité
+Support de la réplication des données, assurant
+disponibilité et continuité des services.
+Support transactionnel
+Prise en charge des transactions (ACID)
+garantissant cohérence et intégrité des données.
+Tableau 5: Caractéristiques principales de MySQL
+Utilisation de MySQL dans XAMPP
+MySQL est intégré dans le package XAMPP, ce qui facilite sa gestion et son utilisation pour le développement local.
+Figure 16 : Logo Xampp
+Lancer le XAMPP Control Panel
+Ouvrez le panneau de contrôle XAMPP, qui permet de démarrer et d’arrêter les différents services inclus, notamment Apache et MySQL.
+Démarrer le service MySQL
+Dans le XAMPP Control Panel, cliquez sur le bouton Start à côté de MySQL pour lancer le serveur de base de données.
+Figure 17: Controle Panel - XAMPP
+Accéder à phpMyAdmin
+Une fois MySQL démarré, accédez à l’outil phpMyAdmin via l’adresse http://localhost/phpmyadmi dans votre navigateur.
+phpMyAdmin est une interface web permettant de gérer facilement les bases de données MySQL : création, modification, requêtes, etc.
+Figure 18: localhost phpMyadmin
+Créer et gérer les bases de données
+Depuis phpMyAdmin, vous pouvez créer des bases de données, définir des tables, insérer des données, exécuter des requêtes SQL et gérer les utilisateurs MySQL.
+Connexion via un programme
+Pour utiliser MySQL dans une application (PHP, Java, Python...), configurez votre connexion à la base avec les paramètres par défaut de XAMPP :
+Hôte : localhost
+Port : 3306
+Utilisateur : root
+Mot de passe : (vide par défaut)
+Création de la base de données et des tables sous MySQL
+Figure 19: Création de la base de données et des tables sous MySQL
+Création des vues et des déclencheurs
+Définition des Vues (views)
+Une vue est une table virtuelle qui fournit un accès logique à un sous-ensemble ou à une combinaison de données issues d’une ou plusieurs tables. Elle :
+∙ Ne stocke pas directement les données.
+∙ Simplifie l’accès et masque les colonnes sensibles.
+Créations des vues :
+Figure 20: Créations des vues
+Définition des Déclencheurs(triggers)
+Un déclencheur est un mécanisme automatique qui exécute des actions suite à un événement particulier (insertion, mise à jour ou suppression). Il :
+∙ Garantit l’intégrité des données.
+∙ Permet l’automatisation de processus métier.
+Figure 21: Création des déclencheurs
+Sécurisation de la base de données
+La sécurité du système repose sur plusieurs mécanismes complémentaires visant à garantir la confidentialité, l’intégrité et la disponibilité des données.
+1. Sauvegarde de la base de données
+La sauvegarde régulière des données constitue une mesure essentielle pour prévenir toute perte d’information en cas de panne ou d’incident.
+BACKUP DATABASE parcinfo TO DISK ='aqw_rec.bak'
+Cette commande permet de générer une copie complète de la base de données, stockée dans un emplacement sécurisé.
+2. Contrôle d’accès et authentification
+2.1 Modes d’authentification
+MySQL utilise un mécanisme d’authentification basé sur :
+·         un nom d’utilisateur,
+·         un mot de passe chiffré,
+·         et l’hôte de connexion.
+Il est recommandé d’utiliser des mots de passe forts et de limiter l’utilisation du compte root afin de réduire les risques d’accès non autorisé.
+Création d’un utilisateur sécurisé
+CREATE USER 'rimka'@'localhost' IDENTIFIED BY '123karim';
+La restriction à l’hôte localhost empêche toute connexion depuis des machines externes.
+2.3 Gestion des privilèges
+MySQL repose sur un système de privilèges robuste permettant de contrôler précisément les actions autorisées pour chaque utilisateur sur la base de données. Cette gestion fine des droits est essentielle pour sécuriser l'accès aux données sensibles.
+Dans le cadre de notre projet, l'utilisateur rimka a été créé pour gérer l'accès à la base de données db_helpdesk.
+Attribution des droits : La commande suivante permet d'accorder des droits spécifiques (lecture et insertion) à l'utilisateur rimka sur une table précise, par exemple la table des utilisateurs.
+GRANT SELECT, INSERT ON db_helpdesk.utilisateurs TO 'rimka'@'localhost';
+Retrait des privilèges : En cas de changement de rôle ou pour restreindre l'accès, il est possible de révoquer tous les droits précédemment accordés.
+REVOKE ALL PRIVILEGES ON db_helpdesk.* FROM 'user1'@'localhost';
+Interdiction explicite de la suppression : Pour garantir l'intégrité des données et éviter les suppressions accidentelles ou malveillantes, on peut retirer spécifiquement le droit de suppression (DELETE) à un utilisateur sur une table critique.
+REVOKE DELETE ON db_helpdesk.utilisateurs FROM 'user1'@'localhost';
+3. Sécurisation des mots de passe
+Les mots de passe sont chiffrés avant leur stockage à l’aide de l’algorithme bcrypt, via la fonction PHP password_hash() :
+$mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_BCRYPT);
+Cette approche renforce la protection contre les attaques par force brute et les fuites de données.
+4. Gestion des sessions
+L’authentification repose sur des sessions PHP sécurisées permettant de conserver l’état de connexion de l’utilisateur :
+session_start();
+require_once '../BDD/cnx.php'; // Connexion BDD
+// --- SÉCURITÉ : Vérifier si l'Admin est connecté ---
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'admin') {
+header("Location: ../login.php");
+exit();
+}
+$admin_id = $_SESSION['user_id'];
+$admin_nom = $_SESSION['user_nom'];
+$admin_photo = $_SESSION['user_photo'] ?? '';
+$action_message = '';
+5. Gestion des rôles et des autorisations
+Le système définit trois rôles principaux :
+Administrateur : accès complet à toutes les fonctionnalités.
+Gestionnaire : gestion des opérations courantes et des stocks.
+Utilisateur : consultation et soumission de demandes.
+5.1 Vérification des autorisations
+$primary_role = $user['role'];
+$_SESSION['user_role'] = $primary_role; // Rôle principal
+$_SESSION['active_role'] = $primary_role; // Rôle actuel
+// Définir les rôles disponibles (hiérarchie)
+if ($primary_role == 'admin') {
+$_SESSION['available_roles'] = ['admin', 'superviseur', 'ts', 'utilisateur'];
+} elseif ($primary_role == 'superviseur') {
+$_SESSION['available_roles'] = ['superviseur', 'ts', 'utilisateur'];
+} elseif ($primary_role == 'ts') {
+$_SESSION['available_roles'] = ['ts', 'utilisateur'];
+} else {
+$_SESSION['available_roles'] = ['utilisateur'];
+}
+// ==========================================================
+// Redirection automatique (vers le dashboard principal du rôle)
+switch ($primary_role) {
+case 'admin': header("Location: Admin/dashboard_admin.php"); break;
+case 'superviseur': header("Location: SP/dashboard_superviseur.php"); break;
+case 'ts': header("Location: TS/dashboard_ts.php"); break;
+case 'utilisateur': header("Location: utilisateur/dashboard_user.php"); break;
+}
+6. Protection contre les injections SQL
+Les requêtes SQL sont systématiquement exécutées à l’aide de requêtes préparées, ce qui empêche l’injection de code malveillant :
+$stmt = $conn->prepare("SELECT * FROM utilisateurs WHERE nom_utilisateur = ?");
+$stmt->bind_param("s", $nom_utilisateur);
+$stmt->execute();
+$result = $stmt->get_result();
+7. Protection contre les attaques XSS
+Les données affichées à l’utilisateur sont filtrées afin d’empêcher l’exécution de scripts malveillants :
+echo htmlspecialchars($donnee, ENT_QUOTES, 'UTF-8');
+L’ensemble de ces mécanismes de sécurité permet d’assurer un niveau de protection élevé du système, en combinant les fonctionnalités natives de MySQL et les bonnes pratiques de développement en PHP. Cette approche garantit la fiabilité, la confidentialité et la robustesse de l’application développée.
+Implémentation des Contraintes d’intégrité
+Pour garantir la cohérence et la fiabilité des données, plusieurs contraintes d'intégrité ont été implémentées :
+Contraintes de clé primaire
+Chaque table dispose d'une clé primaire auto-incrémentée pour identifier de manière unique chaque enregistrement
+Contraintes de clé étrangère
+Relations entre tables définies avec des clés étrangères
+Actions de suppression et de modification définies (RESTRICT, CASCADE, SET NULL)
+Contraintes d'unicité
+Unicité des adresses e-mail dans la table users
+Unicité des codes d'inventaire et numéros de série dans la table devices
+Contraintes de non-nullité
+Champs obligatoires définis comme NOT NULL
+Valeurs par défaut pour certains champs
+Contraintes de domaine
+Utilisation de types ENUM pour limiter les valeurs possibles
+Validation des formats (dates, adresses e-mail)
+Contraintes CHECK
+Validation des dates (date de fin de garantie > date d'acquisition)
+Validation des plages de valeurs numériques
+Développement des Procédures stockées
+Les procédures stockées sont des blocs de code SQL enregistrés dans le SGBD. Elles sont utiles pour :
+∙ Automatiser les traitements répétitifs ou complexes.
+∙ Centraliser la logique métier pour éviter la duplication de code.
+∙ Améliorer les performances en limitant les échanges avec l’application.
+∙ Renforcer la sécurité en limitant l’accès direct aux données.
+Développement de l’application :
+Définition des technologies web :
+PHP
+PHP (Hypertext Preprocessor) : Langage de script côté serveur open source, spécialement conçu pour le développement web. Il s’intègre directement dans le code HTML et permet de générer des pages web dynamiques en interaction avec des bases de données.
+HTML/ CSS/JS
+HTML (HyperText Markup Language) : Langage de balisage standard pour créer la structure et le contenu des pages web. La version HTML5 inclut des éléments sémantiques et des API pour des applications web riches.
+CSS
+CSS (Cascading Style Sheets) : Langage de feuilles de style qui décrit la  présentation des documents HTML. CSS3 introduit des animations, des transitions et des mises en page responsives.
+JAVASCRIPT
+Langage de programmation côté client permettant d’ajouter des fonctionnalités   interactives aux pages web. Les frameworks modernes comme React, Angular ou Vue.js étendent ses capacités pour le développement d’applications web complexes.
+Interaction entre technologies :
+Pour utiliser ce langage, il faut d’abord ouvrir Visual Studio
+Définition de Visual Studio
+Visual Studio est un environnement de développement intégré (IDE) créé par Microsoft. Il fournit un ensemble complet d’outils permettant de concevoir, développer, tester et déployer des applications pour diverses plateformes (web,
+mobile, desktop, cloud, etc.).
+Comment crée un projet PHP ?
+Crée un dossier dans sous chemin :
+Chemin : C:\xampp\htdocs
+Renommé le dossier par exemple : GLP
+Ouvrir le folder GLP dans le visual Studio :
+Figure 22: Visual studio
+Architecture générale de l'application
+L’architecture de l’application web Help Desk repose sur une organisation modulaire en trois couches (3-tier architecture). Cette structure a été choisie pour garantir la séparation des responsabilités, facilitant ainsi la maintenance évolutive et la sécurité des données d'assistance technique.
+A. Architecture en trois couches (3-tier architecture) :
+Couche Présentation (Frontend)
+Technologies : HTML, CSS, JavaScript, Bootstrap.
+Rôle : Elle représente l'interface visible par les utilisateurs. Elle permet aux clients de déclarer des incidents, aux techniciens de visualiser leurs tickets et aux administrateurs de superviser le parc via des tableaux de bord interactifs.
+Couche Logique (Backend)
+Technologie : PHP.
+Rôle : C’est le moteur de l’application. Elle traite les requêtes (ex: création d'un ticket), applique les règles métier (ex: calcul de la priorité, affectation automatique à un technicien) et gère la sécurité des sessions selon les rôles (Admin, Superviseur, Technicien, Utilisateur).
+Couche Données (Base de données)
+Technologie : MySQL.
+Rôle : Elle assure le stockage permanent des informations.
+B. Communication et Sécurité :
+La communication entre la couche logique et la couche de données s'effectue via des requêtes SQL préparées utilisant l'extension PDO (PHP Data Objects). Cette méthode est cruciale pour la plateforme de Help Desk afin de :
+Prévenir les injections SQL lors de la saisie de descriptions de pannes.
+Assurer une connexion robuste et performante à la base de données.
+<?php
+/**
+* Fichier de connexion à la base de données (PDO)
+* Nom de la base : db_helpdesk
+*/
+// --- Paramètres de connexion ---
+$host = 'localhost';      // Ou l'IP de ton serveur MySQL
+$dbname = 'db_helpdesk';  // Le nom de ta base de données
+$username = 'rimka';       // Ton nom d'utilisateur MySQL (par défaut 'root')
+$password = '123karim';           // Ton mot de passe MySQL (par défaut vide)
+// --- Options PDO ---
+$options = [
+PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Voir les erreurs SQL
+PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Récupérer les résultats en tableau associatif
+PDO::ATTR_EMULATE_PREPARES   => false,                  // Utiliser les vraies requêtes préparées
+PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'     // Forcer l'encodage UTF-8 (important pour l'arabe)
+];
+// --- Tentative de connexion ---
+try {
+// Création de l'objet PDO
+$pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password, $options);
+} catch (PDOException $e) {
+// En cas d'erreur de connexion, on arrête tout et on affiche l'erreur
+// (En production, tu devrais enregistrer cette erreur dans un log au lieu de l'afficher)
+die("ERREUR : Impossible de se connecter à la base de données. " . $e->getMessage());
+}
+// Si tout va bien, la variable $pdo est maintenant prête à être utilisée
+// dans tes autres fichiers PHP (via un 'include' ou 'require').
+?>
+La structure de mon projet :
+Figure 23: Dossier de Projet
+Conception des interfaces
+L’interface utilisateur a été conçue pour être intuitive, claire et responsive. Elle se divise en plusieurs modules accessibles selon les rôles (admin, superviseur, technicien, utilisateur(employés).
+Principaux écrans :
+Interface
+Description
+login.php
+Page de connexion sécurisée avec redirection selon le rôle (Admin, Superviseur, Technicien, Utilisateur).
+dashboard_admin.php
+Vue globale du parc informatique, gestion des accès assistants et statistiques critiques
+dashboard_superviseur.php
+Interface de pilotage pour l'affectation des tickets et le suivi des files d'attente
+dashboard_technicien.php
+Liste des tickets assignés au technicien et outils de mise à jour du statut des pannes
+dashboard_utilisateur.php
+Espace employé pour créer un nouveau ticket et suivre l'avancement de ses demandes
+admin_tickets_list.php
+Liste et gestion des ticket (intervention)
+sp_view_ticket.php
+Interface permettant d'attribuer un incident à un technicien spécifique
+Login.php :
+Définition :
+C'est la porte d'entrée sécurisée de l'application Help Desk. Cette interface permet l'authentification des utilisateurs (administrateurs, superviseurs, techniciens ou employés) via leurs identifiants (Email et mot de passe).
+Fonctionnalités clés :
+Vérification des rôles : Redirige automatiquement l'utilisateur vers son tableau de bord spécifique après connexion.
+Sécurité : Intègre des mécanismes de protection comme les requêtes préparées pour bloquer les injections SQL et la gestion des sessions pour protéger les données.
+Récupération : Propose une option "Mot de passe oublié" pour faciliter l'accès en cas de perte d'identifiants.
+Figure 24: Login.php
+dashboard_admin.php
+Définition :
+Cette interface constitue le centre de pilotage stratégique pour l'administrateur du système Help Desk. Elle offre une vision globale et en temps réel de l'état du support technique et des ressources de l'entreprise.
+Éléments et fonctionnalités clés :
+Indicateurs de performance (KPI) : L'administrateur dispose de compteurs dynamiques affichant le nombre total d'utilisateurs, de techniciens, de superviseurs, ainsi que le volume de tickets actifs et l'état du parc matériel.
+Gestion des Utilisateurs : Un tableau détaillé permet de lister, rechercher et modifier les comptes (ID, Nom, Email, Statut), garantissant un contrôle total sur les accès à la plateforme.
+Menu d'administration complet : Le volet latéral donne accès aux modules critiques tels que la gestion du parc matériel, l'administration des assistants, les statistiques avancées et l'exportation des données pour les rapports.
+Barre d'outils opérationnelle : Des raccourcis permettent d'ajouter rapidement de nouveaux profils, d'imprimer des listes ou de gérer les éléments supprimés via la corbeille.
+Figure 25: dashboard_admin.php
+dashboard_superviseur.php
+Définition :
+Cette interface est l'outil principal de pilotage pour le superviseur. Elle permet de surveiller l'état d'avancement des interventions et d'assurer une répartition efficace de la charge de travail entre les techniciens.
+Éléments et fonctionnalités clés :
+Indicateurs de flux (KPI) : Le superviseur visualise immédiatement l'état du parc de tickets grâce à des compteurs colorés :
+Total Tickets (Actifs) : Volume global de demandes en cours de traitement.
+En Attente : Tickets prioritaires nécessitant une action d'affectation rapide.
+En Cours / Résolus / Fermés : Suivi précis du cycle de vie de chaque incident.
+Total TS : Nombre de techniciens disponibles pour l'intervention.
+Gestion de l'Affectation : Une section centrale est dédiée aux "Tickets en Attente d'Affectation". Le superviseur peut y consulter le titre de l'incident (ex: Outlook), son niveau de priorité, et l'utilisateur créateur.
+Dispatching Dynamique : L'interface intègre un menu déroulant permettant de choisir un technicien spécifique (TS) pour chaque ticket, assurant ainsi que la panne est prise en charge par la personne compétente.
+Outils de gestion latérale : Le menu permet d'accéder rapidement à la création de tickets, à l'historique complet, aux statistiques de performance de l'équipe et à l'exportation des données pour le reporting.
+Figure 26: dashboard_superviseur.php
+dashboard_technicien.php
+Définition :
+Cette interface est l'espace de travail dédié au technicien de support (TS). Elle est épurée pour permettre une concentration maximale sur la résolution des incidents qui lui sont personnellement assignés.
+Éléments et fonctionnalités clés :
+Indicateurs d'activité personnelle : Le technicien suit ses objectifs via trois compteurs principaux :
+En Attente (Assignés) : Nombre de nouveaux tickets reçus nécessitant une prise en charge immédiate.
+En Cours : Interventions actuellement en cours de traitement.
+Résolus : Total des tickets clôturés avec succès par le technicien.
+Gestion des Nouveaux Tickets : Une section "Tickets Assignés (Nouveaux)" affiche dynamiquement les demandes entrantes avec des détails cruciaux comme l'ID, le titre de la panne, le niveau de priorité et l'utilisateur demandeur.
+Menu Opérationnel Spécifique : Le volet latéral propose des outils adaptés au métier de technicien :
+Mes Tickets : Vue principale de travail.
+Créer un Ticket : Possibilité pour le technicien de déclarer lui-même une anomalie constatée lors d'une ronde technique.
+Mon Historique : Consultation des anciennes interventions pour assurer un suivi de maintenance.
+Mes Statistiques : Visualisation de sa propre efficacité et du volume de travail abattu.
+Interface Intuitive : Un design clair qui permet de filtrer rapidement les urgences et de mettre à jour le statut d'un incident en quelques clics.
+Figure 27: dashboard_technicien.php
+dashboard_utilisateur.php
+Définition :
+L'interface dashboard_utilisateur.php constitue l'espace de travail personnel dédié aux employés de l'entreprise souhaitant bénéficier d'une assistance technique. Elle est conçue pour offrir une visibilité claire sur l'état d'avancement de leurs demandes d'intervention.
+Éléments et fonctionnalités clés :
+Suivi des interventions (Indicateurs) : L'utilisateur dispose de compteurs colorés pour suivre en temps réel le cycle de vie de ses demandes:
+Total (Actifs) : Nombre global d'interventions en cours.
+En Attente / Assignés : Demandes soumises ou déjà attribuées à un technicien.
+En Cours / Résolus / Fermés : État d'avancement final des tickets.
+Gestion des Tickets Actifs : Un tableau récapitulatif liste l'ensemble des demandes de l'utilisateur avec des détails précis tels que l'ID, le Titre (ex: Outlook, Cable), la Catégorie (Logiciel, Réseau, Matériel), la Priorité, le Statut actuel et la Date de création.
+Menu de Navigation Spécifique : Le volet latéral permet d'accéder aux fonctionnalités essentielles:
+Mes Interventions : Vue principale de suivi.
+Créer une Intervention : Formulaire permettant de déclarer un nouvel incident informatique.
+Mes Statistiques : Récapitulatif personnel des demandes effectuées.
+Mon Profil : Gestion des informations personnelles de l'utilisateur.
+Outils de Recherche et Filtrage : L'interface intègre une barre de recherche par titre et un sélecteur par niveau de priorité pour retrouver rapidement un ticket spécifique
+Figure 28: dashboard_utilisateur.php
+admin_tickets_list.php
+Définition:
+L'interface admin_tickets_list.php (ou module "Tous les Tickets" dans la vue Administrateur) est le centre de gestion global des incidents de l'application. Elle permet à l'administrateur d'avoir une vision exhaustive et centralisée de l'activité du support technique.
+Éléments et fonctionnalités clés :
+Indicateurs de synthèse globaux : Des compteurs dynamiques affichent l'état de l'ensemble du système : Total (Actifs), En Attente, Assignés, En Cours, Résolus et Fermés.
+Contrôle du cycle de vie des tickets : L'administrateur a la main sur l'intégralité des demandes, avec la possibilité de voir les incidents urgents (ex: Problème de Excel) ou de moyenne priorité (ex: Outlouk).
+Affectation et Répartition Équitable : L'interface affiche qui a créé le ticket (ex: KARIM HALKOUM) et à qui il est assigné (ex: AMEL MAZOUZ), permettant de vérifier que la charge de travail est répartie de manière équitable entre les techniciens.
+Actions d'administration :
+Gestion directe : Un menu déroulant permet d'assigner un technicien (TS) directement depuis la liste pour les tickets en attente.
+Outils rapides : Des boutons permettent de Créer un nouveau ticket manuellement, de rechercher par titre/créateur ou de filtrer par priorité.
+Suivi détaillé : Des icônes d'action permettent de visualiser les détails d'un ticket spécifique ou de le supprimer si nécessaire.
+Menu de Navigation Avancé : Le volet latéral spécifique à l'administrateur donne accès aux paramètres de fond comme les Catégories, l'Historique complet et la Corbeille.
+Figure 29: admin_tickets_list.php
+sp_view_ticket.php
+Definition:
+Cette interface est l'outil de décision opérationnel du superviseur. Elle permet de transformer une demande d'assistance brute en une intervention technique planifiée en gérant l'affectation précise des ressources humaines disponibles.
+Éléments et fonctionnalités clés :
+Consultation des tickets en attente : Le superviseur visualise une liste filtrée des incidents n'ayant pas encore reçu d'assistance, avec des informations cruciales telles que le titre (ex: Outlouk), le créateur (ex: KARIM HALKOUM) et le niveau de priorité (moyenne, urgente, etc.).
+Mécanisme d'affectation dynamique : L'interface propose un menu déroulant permettant de choisir un technicien (TS) parmi une liste préétablie.
+Aide à la décision (Charge de travail) : Pour garantir une répartition équitable, le système affiche en temps réel le nombre d'interventions déjà en cours pour chaque technicien (ex: "AMEL MAZOUZ (0 en cours)", "Mohamed (2 en cours)").
+Validation de l'assignation : Un bouton d'action (flèche orange) permet de valider l'affectation, déclenchant instantanément le passage du ticket au statut "Assigné" et notifiant le technicien concerné sur son propre tableau de bord.
+Figure 30: sp_view_ticket.php
+Conclusion :
+Ce troisième chapitre a été consacré à la mise en œuvre technique de notre solution de Help Desk. Nous avons débuté par la définition de l'environnement de données, en justifiant le choix du SGBD MySQL pour sa robustesse, sa gratuité et sa parfaite intégration avec l'environnement de développement XAMPP.
+Nous avons détaillé les étapes cruciales de la création de la base de données, en mettant un accent particulier sur la sécurité et l'intégrité des données. L'implémentation de mécanismes d'authentification sécurisés, le chiffrement des mots de passe, la gestion rigoureuse des privilèges et la protection contre les injections SQL garantissent la confidentialité et la fiabilité des informations sensibles de l'entreprise. De plus, la définition stricte des contraintes d'intégrité (clés primaires, étrangères, unicité) assure la cohérence structurelle du système.
+Enfin, nous avons présenté les outils et technologies de développement web (PHP, HTML5, CSS3, JavaScript) ainsi que l'environnement de travail Visual Studio, qui ont permis de construire les interfaces utilisateurs et la logique métier de l'application.
+La combinaison de cette architecture de données solide et de ces technologies web modernes a permis de concrétiser notre conception en une application fonctionnelle, performante et sécurisée, prête à être déployée pour répondre aux besoins de gestion du Help Desk de la Direction Générale de Sonatrach.
+Conclusion générale
+Au terme de ce travail, nous pouvons affirmer que les objectifs fixés au début de ce mémoire ont été atteints. Ce projet de fin de formation, réalisé au sein de la Direction Générale de SONATRACH, avait pour ambition principale de concevoir et de développer une plateforme web de gestion de Help Desk informatique, capable de répondre aux insuffisances constatées dans le système existant.
+L’étude de l’existant a permis de mettre en évidence plusieurs limites majeures, notamment la dispersion des informations, l’utilisation excessive des documents papier, l’absence de traçabilité en temps réel, ainsi que le chevauchement des rôles et responsabilités entre les différents acteurs. Ces contraintes impactaient directement la qualité du service informatique, les délais de traitement des incidents et la productivité globale des utilisateurs.
+Face à ces constats, une solution web centralisée et sur mesure a été proposée. La phase de conception, appuyée par les outils de modélisation UML (diagrammes de cas d’utilisation, de classes et de séquences), a permis de formaliser les besoins fonctionnels et de définir une architecture claire, cohérente et évolutive du système. Le dictionnaire de données a, quant à lui, assuré une structuration rigoureuse des informations manipulées.
+La phase de réalisation a concrétisé cette conception à travers le développement d’une application web basée sur les technologies PHP, MySQL, HTML, CSS et JavaScript. La solution développée permet la création, le suivi et la clôture des tickets d’intervention, la gestion des utilisateurs et des rôles, l’affectation des tâches aux techniciens, ainsi que la génération de notifications et d’historiques d’actions. Elle garantit également une meilleure sécurisation des données et une centralisation efficace de l’information.
+En conclusion, ce projet a permis de démontrer l’importance d’un système de Help Desk informatisé et structuré dans une organisation de grande envergure comme SONATRACH. La solution proposée contribue à améliorer la qualité du support informatique, à renforcer la traçabilité des interventions et à optimiser la prise de décision grâce à une meilleure visibilité sur les activités du service informatique.
+Perspectives et axes d’amélioration
+Bien que la plateforme développée réponde aux besoins actuels du service Help Desk, plusieurs perspectives d’évolution peuvent être envisagées afin d’enrichir et de pérenniser la solution :
+Intégration d’indicateurs de performance (KPI) : mise en place de tableaux de bord avancés (temps moyen de résolution, taux de tickets clôturés, charge par technicien) pour améliorer le pilotage du service informatique.
+Ajout d’un module de gestion des SLA (Service Level Agreement) : définition de délais de traitement selon la priorité des tickets, avec alertes automatiques en cas de dépassement.
+Extension mobile de l’application : développement d’une application mobile ou d’une interface responsive avancée pour permettre aux techniciens et superviseurs d’intervenir à distance.
+Renforcement de la sécurité : ajout de mécanismes avancés tels que l’authentification à deux facteurs, la journalisation détaillée et l’audit des accès.
+Ces perspectives permettraient de faire évoluer la plateforme vers un véritable outil stratégique de gestion du support informatique, en adéquation avec les exigences futures de SONATRACH.
+Webographie
+MULLER, P. A. & GAERTNER, N. (2012).Modélisation objet avec UML. Éditions Eyrolles.https://www.eyrolles.com/Informatique/Livre/modelisation-objet-avec-uml-782212134344/
+NIXON, R. (2015).Développement Web dynamique avec PHP, MySQL, JavaScript, CSS et HTML5. https://www.oreilly.com/library/view/learning-php-mysql/9781491918657/
+HEURTEL, J.-P. (2019).PHP et MySQL : Maîtrisez le développement d’un site Web dynamique et interactif. https://www.editions-eni.fr/livre/php-et-mysql-maitrisez-le-developpement-d-un-site-web-dynamique-et-interactif-9782409022760
+PHP Documentation Officielle. (PHP Manual.)https://www.php.net/docs.php
+MySQL Documentation Officielle. (MySQL Reference Manual.)https://dev.mysql.com/doc/
+W3Schools.(Online Web Tutorials.)https://www.w3schools.com/
+Microsoft.(Documentation Visual Studio Code.)https://code.visualstudio.com/docs
+Apache Friends.(XAMPP Documentation.)https://www.apachefriends.org/fr/index.html
+SONATRACH.Rapports internes : Manuel de procédures du service informatique et organisation structurelle du Help Desk.Document interne non publié.

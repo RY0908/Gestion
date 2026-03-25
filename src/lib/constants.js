@@ -35,11 +35,16 @@ export const ASSET_STATUSES = [
 ]
 
 export const USER_ROLES = [
-    { value: 'ADMIN', label: 'Administrateur' },
-    { value: 'IT_MANAGER', label: 'Responsable IT' },
-    { value: 'IT_TECHNICIAN', label: 'Technicien IT' },
-    { value: 'EMPLOYEE', label: 'Employé' },
-    { value: 'AUDITOR', label: 'Auditeur' },
+    { value: 'ADMIN', label: 'Chef Département Informatique', level: 0 },
+    { value: 'SUPERVISOR', label: 'Superviseur (Call Center)', level: 1 },
+    { value: 'TECHNICIAN', label: 'Technicien', level: 2 },
+    { value: 'USER', label: 'Utilisateur', level: 3 },
+]
+
+export const REQUEST_STATES = [
+    { value: 'PENDING', label: 'En attente', color: 'bg-orange-50 text-orange-600' },
+    { value: 'ASSIGNED', label: 'Assigné', color: 'bg-blue-50 text-blue-600' },
+    { value: 'RESOLVED', label: 'Résolu', color: 'bg-green-50 text-sonatrach-green' },
 ]
 
 // Real Sonatrach Activité AVAL structures
@@ -93,13 +98,17 @@ export const LOCATIONS = [
 ]
 
 export const DOCUMENT_TYPES = [
-    { value: 'BON_COMMANDE', label: 'Bon de Commande' },
-    { value: 'BON_RECEPTION', label: 'Bon de Réception (M-103)' },
-    { value: 'FACTURE', label: 'Facture' },
-    { value: 'DECHARGE', label: 'Décharge' },
-    { value: 'FICHE_INVENTAIRE', label: "Fiche d'Inventaire" },
-    { value: 'PV_RECEPTION', label: 'Procès Verbal de Réception (M-203)' },
-    { value: 'ACCUSE_RECEPTION', label: 'Accusé de Réception' },
+    { value: 'DEMANDE_MATERIEL', label: 'Demande Matériel' },
+    { value: 'FICHE_BESOIN', label: 'Fiche Besoin' },
+    { value: 'BON_COMMANDE', label: 'Bon de commande matériel' },
+    { value: 'DECHARGE', label: 'Décharge matériel' },
+    { value: 'DEMANDE_INTERVENTION', label: "Demande d'intervention" },
+    { value: 'FICHE_INTERVENTION', label: "Fiche d'intervention" },
+    { value: 'RAPPORT_INTERVENTION', label: "Rapport d'intervention" },
+    { value: 'DEMANDE_REPARATION_GARANTIE', label: "Demande réparation sous garantie" },
+    { value: 'DEMANDE_INVENTAIRE', label: "Demande d'inventaire" },
+    { value: 'FICHE_INVENTAIRE', label: "Fiche d'inventaire" },
+    { value: 'RAPPORT_INVENTAIRE', label: "Rapport d'inventaire" },
 ]
 
 export const SUPPLIERS = [

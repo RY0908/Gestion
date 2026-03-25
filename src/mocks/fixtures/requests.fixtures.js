@@ -9,16 +9,32 @@ const JUSTIFICATIONS = [
     "Besoin de puissance pour exécution de modèles IA"
 ]
 const PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT']
-const STATUSES = ['PENDING', 'APPROVED', 'REJECTED', 'FULFILLED', 'CANCELLED']
+const STATUSES = ['PENDING', 'ASSIGNED', 'RESOLVED']
 
 export const requests = Array.from({ length: 20 }).map((_, index) => {
-    const requestedBy = users[index % users.length]
+    // Users create requests (roles: USER)
+    const requestedBy = users.find(u => u.role === 'USER' && u.id === `usr-${1010 + (index % 10)}`) || users[15]
     const status = STATUSES[index % STATUSES.length]
     const priority = PRIORITIES[index % PRIORITIES.length]
-    const requestedFor = (index % 5 === 0) ? users[(index + 1) % users.length] : requestedBy
+    const requestedFor = requestedBy
 
     const createdAt = new Date()
     createdAt.setDate(createdAt.getDate() - (index * 2))
+
+    let assignedTo = null;
+    let assignedBy = null;
+    let resolvedAt = null;
+
+    if (['ASSIGNED', 'RESOLVED'].includes(status)) {
+        // Find a technician
+        assignedTo = users.find(u => u.role === 'TECHNICIAN');
+        // Find a supervisor
+        assignedBy = users.find(u => u.role === 'SUPERVISOR');
+    }
+
+    if (status === 'RESOLVED') {
+        resolvedAt = new Date(createdAt.getTime() + 86400000).toISOString();
+    }
 
     return {
         id: `req-${1000 + index}`,
@@ -30,9 +46,10 @@ export const requests = Array.from({ length: 20 }).map((_, index) => {
         priority,
         status,
         createdAt: createdAt.toISOString(),
-        reviewedBy: status !== 'PENDING' && status !== 'CANCELLED' ? (users.find(u => u.role === 'IT_MANAGER') || users[0]) : null,
-        reviewedAt: status !== 'PENDING' && status !== 'CANCELLED' ? new Date(createdAt.getTime() + 86400000).toISOString() : null,
-        reviewNotes: status === 'REJECTED' ? 'Budget indisponible' : (status === 'APPROVED' ? 'OK pour commande' : null),
-        fulfilledWithAsset: null // In real app, links to asset when FULFILLED
+        assignedTo,
+        assignedBy,
+        resolvedAt,
+        notes: status === 'RESOLVED' ? 'Intervention terminée avec succès' : null,
+        fulfilledWithAsset: null
     }
 })
