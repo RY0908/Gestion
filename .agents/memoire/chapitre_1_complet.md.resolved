@@ -1,0 +1,202 @@
+# Chapitre N°1 : Présentation de l'Organisme d'Accueil
+
+## Introduction
+
+Ce premier chapitre a pour objectif de présenter le cadre professionnel au sein duquel nous avons effectué notre stage pratique de fin de formation. Il s'agit d'exposer de manière méthodique l'organisation de l'entreprise nationale Sonatrach dans sa globalité, avant de circonscrire notre périmètre d'étude à la **Direction Centrale Informatique & Système d'Information (DC ISI)**, à la **Direction Technologie Information** et, plus spécifiquement, au **département Support Informatique (Helpdesk)**, structure hôte de notre projet de fin d'études.
+
+---
+
+## 1.1 Présentation Générale de Sonatrach
+
+### 1.1.1 Définition et Statut Juridique
+La **Société Nationale pour la Recherche, la Production, le Transport, la Transformation et la Commercialisation des Hydrocarbures S.p.A** (Sonatrach) est une entreprise publique économique algérienne. Constituée sous la forme d'une société par actions dont le capital est intégralement détenu par l'État algérien, elle est régie par le droit commercial et placée sous la tutelle du Ministère de l'Énergie et des Mines.
+
+Son siège social, qui abrite la Direction Générale, est localisé à **Djenane El Malik, Hydra, Alger**.
+
+### 1.1.2 Reperes Historiques
+L'évolution de Sonatrach est indissociable du recouvrement de la souveraineté nationale sur les ressources naturelles :
+
+| Année | Événement marquant |
+| :--- | :--- |
+| **1963** | Création de Sonatrach le 31 décembre 1963, avec pour mission initiale le transport et la commercialisation des hydrocarbures au nom de l'État. |
+| **1964** | Lancement des travaux du premier oléoduc algérien (OZ1) et mise en exploitation du complexe de liquéfaction de gaz naturel (CAMEL) à Arzew. |
+| **1966** | Extension des prérogatives de l'entreprise à la recherche, la production et la transformation, faisant d'elle une société nationale intégrée. |
+| **1971** | **24 février 1971** — Décision historique de nationalisation des hydrocarbures. L'État algérien acquiert 51 % des sociétés pétrolières françaises, conférant à Sonatrach le contrôle absolu de l'industrie pétrolière et gazière du pays. |
+| **1980–2000** | Phase de modernisation des infrastructures industrielles, d'ouverture aux partenariats internationaux et de diversification des investissements. |
+| **2000–présent** | Consolidation du statut de Sonatrach en tant que **première firme du continent africain** et acteur stratégique sur le marché mondial du GNL. |
+
+### 1.1.3 Pôle d'Activités Intégré
+Sonatrach opère de manière **intégrée** sur l'ensemble de la chaîne de valeur de l'industrie des hydrocarbures :
+
+1. **Exploration et Recherche :** Prospection sismique et forage visant la découverte de nouveaux gisements exploitables.
+2. **Production :** Exploitation technique des gisements gazo-pétroliers et extraction de la matière première.
+3. **Transport par Canalisations :** Acheminement des flux à travers un vaste réseau de pipelines (oléoducs et gazoducs) dépassant les 21 000 kilomètres.
+4. **Transformation :** Traitement, raffinage, liquéfaction du GNL, séparation du GPL et activités pétrochimiques.
+5. **Commercialisation :** Négociation et distribution des produits finis et semi-finis sur les marchés domestique et international.
+
+### 1.1.4 Indicateurs Clés
+
+| Indicateur | Valeur de référence |
+| :--- | :--- |
+| Création | 31 décembre 1963 |
+| Siège social | Djenane El Malik, Hydra, Alger |
+| Effectif consolidé | Plus de 200 000 collaborateurs |
+| Réseau de filiales | Plus de 150 filiales et participations |
+| Positionnement | 1ʳᵉ entreprise d'Afrique |
+| Infrastructures de transport | Réseau de plus de 21 000 km de canalisations |
+
+---
+
+## 1.2 Organisation Générale de Sonatrach
+
+L'architecture organisationnelle de Sonatrach s'appuie sur une structure matricielle dirigée par le **Président Directeur Général (PDG)**, épaulé par divers organes de gouvernance, directions fonctionnelles et pôles opérationnels.
+
+### 1.2.1 Organes de Gouvernance
+
+| Instances rattachées au PDG | Instances d'assistance |
+| :--- | :--- |
+| Comité d'Éthique | Comité Exécutif |
+| Comité d'Examen | Secrétariat Général |
+| Direction de l'Audit et Conformité | Cabinet de la présidence |
+| Service Sûreté Interne | Conseil des experts et conseillers |
+
+### 1.2.2 Directions Corporates (Activités de Soutien Stratégique)
+
+| Sigle | Désignation |
+| :--- | :--- |
+| **SPE** | Stratégie, Planification & Économie |
+| **Fin** | Finances |
+| **RHU** | Ressources Humaines |
+| **BDM** | Business Développement Marketing |
+
+### 1.2.3 Directions Centrales (Activités Fonctionnelles)
+
+| Sigle | Désignation |
+| :--- | :--- |
+| **ACT** | Activités Centrales |
+| **JUR** | Affaires Juridiques |
+| **ISI** | **Informatique & Système d'Information** *(Direction hôte du stage)* |
+| **MLG** | Marchés et Logistique |
+| **HSE** | Santé, Sécurité & Environnement |
+| **RDT** | Recherche & Développement |
+
+### 1.2.4 Activités de Base (Cœur de métier)
+
+| Secteur d'activité | Domaine d'intervention |
+| :--- | :--- |
+| **Exploration et Production (Amont)** | Recherche et extraction de pétrole brut et de gaz naturel. |
+| **Transport par Canalisations** | Exploitation sécurisée et maintenance du réseau d'acheminement. |
+| **Liquéfaction et Raffinage (Aval)** | Traitement et valorisation (Liquéfaction du GNL, séparation du GPL, raffinage). |
+| **Commercialisation** | Stratégies de vente et approvisionnement des marchés internationaux. |
+
+*(Voir Figure 1 : Organigramme général de Sonatrach)*
+
+---
+
+## 1.3 Présentation de la Direction Centrale ISI
+
+### 1.3.1 Structure de la DC ISI
+La **Direction Centrale Informatique & Système d'Information (DC ISI)** a pour vocation de concevoir, déployer et maintenir le système d'information de l'ensemble du groupe Sonatrach. Afin de mener à bien cette mission transversale, elle s'articule autour de **trois directions spécialisées** :
+
+```
+                     ┌──────────────────┐
+                     │     DC - ISI     │
+                     │ (Informatique &  │
+                     │ Système d'Info.) │
+                     └────────┬─────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          │                   │                   │
+  ┌───────┴────────┐  ┌──────┴───────┐   ┌───────┴─────────┐
+  │   Direction    │  │  Direction   │   │   Direction     │
+  │   Système      │  │  Technologie │   │   Qualité &     │
+  │  d'Information │  │ d'Information│   │   Méthodes &    │
+  │                │  │  ◄ ACCUEIL   │   │   Architecture  │
+  └────────────────┘  └──────┬───────┘   └─────────────────┘
+                             │
+      ┌──────────┬───────────┼───────────┬───────────┐
+      │          │           │           │           │
+  ┌───┴───┐ ┌───┴────┐ ┌────┴────┐ ┌────┴────┐ ┌───┴──────┐
+  │Réseaux│ │Héberge-│ │Systèmes │ │ Support │ │Exploita- │
+  │  &    │ │ment &  │ │   &     │ │Informa- │ │  tion    │
+  │Télé-  │ │Data-   │ │Services │ │ tique   │ │          │
+  │coms   │ │center  │ │ Info.   │ │(Helpdesk│ │          │
+  └───────┘ └────────┘ └─────────┘ │◄ STAGE) │ └──────────┘
+                                   └─────────┘
+```
+
+*(Voir Figure 3 : Organigramme de la Direction Centrale ISI)*
+
+### 1.3.2 Rôle de la Direction Technologie Information
+C'est au sein de la **Direction Technologie Information** que notre insertion professionnelle s'est déroulée. Cette direction pilote l'infrastructure technologique à travers cinq départements vitaux :
+
+| Département | Missions dévolues |
+| :--- | :--- |
+| **Réseaux & Télécoms** | Ingénierie et administration des infrastructures de télécommunication (LAN/WAN) et de la téléphonie IP de l'entreprise. |
+| **Hébergement & Datacenter** | Supervision des centres de données, maintien en conditions opérationnelles des serveurs physiques et gestion des environnements virtuels. |
+| **Systèmes & Services Information** | Administration des systèmes d'exploitation, intégration des solutions logicielles métiers et gestion de l'annuaire d'entreprise. |
+| **Support Informatique (Helpdesk)** | **Assistance aux terminaux utilisateurs, gestion et inventaire du parc matériel, traitement des incidents.** *(Lieu d'accueil du stage)* |
+| **Exploitation** | Pilotage et monitoring 24/7 des applications de production, supervision des traitements par lots (batch) et gestion des alertes. |
+
+---
+
+## 1.4 Le Département Support Informatique (Helpdesk)
+
+### 1.4.1 Rattachement et Couverture
+Entité opérationnelle placée sous la tutelle de la Direction Technologie Information, le **département Support Informatique (Helpdesk)** constitue l'interface privilégiée entre les ressources technologiques et les agents de l'entreprise. Ce service centralise l'assistance pour un effectif dépassant les **2 300 utilisateurs** répartis au niveau de la Direction Générale et de ses annexes.
+
+### 1.4.2 Portefeuille de Missions
+Les prérogatives du département s'articulent autour des axes fonctionnels suivants :
+
+1. **Assistance technique (Niveau 1 & 2) :** Centralisation, qualification et résolution des requêtes d'assistance (pannes matérielles, dysfonctionnements logiciels, demandes de déploiement).
+2. **Gestion du cycle de vie du matériel :** Réception, préparation technique (masterisation), configuration et installation des équipements bureautiques et réseau.
+3. **Traçabilité et dotation :** Formalisation des affectations d'équipements moyennant la délivrance de documents contractuels (décharges matérielles) liant la responsabilité des agents.
+4. **Maintenance proactive et réactive :** Planification des opérations de maintenance préventive, réparation corrective des équipements défectueux, et gestion des relations avec les constructeurs dans le cadre des garanties.
+5. **Gestion budgétaire et contractuelle :** Évaluation des besoins en renouvellement, formulation des requêtes d'approvisionnement et suivi de l'exécution des contrats de prestation externe.
+6. **Contrôle d'inventaire :** Recensement périodique exhaustif des immobilisations matérielles, étiquetage des équipements et alignement avec le fichier des immobilisations de la direction financière.
+
+### 1.4.3 Intervenants et Profils Métiers
+Le fonctionnement du département a été structuré autour d'une hiérarchie à **quatre rôles distincts**, chacun disposant d'un périmètre d'action bien défini :
+
+| Code Rôle | Intitulé du Poste | Cible (Effectif) | Responsabilités et Activités |
+| :--- | :--- | :--- | :--- |
+| `ADMIN` | **Chef de département (Administrateur)** | 1 cadre | Pilotage stratégique du département, validation des budgets et des expressions de besoins (cahiers des charges), signature des bons de commande, supervision globale des opérations de maintenance et d'inventaire. |
+| `SUPERVISOR` | **Superviseur Helpdesk (Centre d'appels)** | 2 agents | Dispatching des requêtes : réception, qualification et prise en charge des demandes d'intervention (tickets), assignation des interventions aux techniciens compétents, et reporting de l'activité. |
+| `TECHNICIAN` | **Technicien de Maintenance** | 5 techniciens | Exécution opérationnelle sur le terrain : installation et affectation du matériel, résolution technique des tickets qui leur sont assignés, conduite des opérations d'inventaire physique. |
+| `USER` | **Utilisateur (Agent Sonatrach)** | ~2 300 agents | Bénéficiaire final : signataire des décharges lui confiant un équipement sous responsabilité, émetteur des requêtes de support et des demandes d'attribution de nouveau matériel. |
+
+### 1.4.4 Typologie du Parc Matériel
+Le volume et l'hétérogénéité des équipements nécessitent une catégorisation rigoureuse. Le parc géré est subdivisé en familles d'actifs :
+
+| Catégorie Logique | Nature de l'équipement | Exemples représentatifs |
+| :--- | :--- | :--- |
+| **Équipements informatiques fixes** | Postes de travail de bureau | Ordinateurs de type DeskPro, Micro Sys |
+| **Équipements nomades** | Périphériques de mobilité | Laptops (cadres & terrain), smartphones d'entreprise |
+| **Périphériques d'impression** | Dispositifs d'édition et numérisation | Imprimantes réseau (PrintJet 13), scanners (ScanJet 9) |
+| **Dispositifs multifonctions** | Photocopieurs de haut rendement | Modèles X-5900, 2020-Z, DP-80 |
+| **Infrastructures de télécommunication** | Télécopieurs et téléphonie | Fax analogiques (KX-600), postes téléphoniques IP |
+| **Protection électrique** | Sécurisation de l'alimentation | Onduleurs (UPS) de puissance variable |
+| **Environnement des salles** | Conditionnement d'air technique | Armoires de climatisation pour les baies de brassage |
+| **Ameublement professionnel** | Mobilier et accessoires de bureau | Postes de travail ergonomiques, armoires sécurisées |
+
+---
+
+## 1.5 Diagnostic du Cadre de Travail
+
+Lors de notre intégration au sein du département Support Informatique, un diagnostic préliminaire a mis en exergue une problématique opérationnelle critique : **l'absence de système d'information intégré** dédié à la gestion d'un parc matériel aussi volumineux et stratégique. 
+
+Au lieu d'une solution logicielle centralisée, les processus de gestion reposaient sur des outils épars :
+- **Des tableurs numériques (Microsoft Excel) redondants** pour suivre l'inventaire physique et l'état des dispositifs d'impression.
+- **Une gestion archivistique manuelle** basée sur l'impression de formulaires (bordereaux de décharge, fiches de suivi d'intervention) classés physiquement dans des classeurs.
+
+Ces équipements, dispersés géographiquement à l'échelle de l'agglomération algéroise (Direction Générale à Hydra, Base de Sidi Arcine, Base d'Iratène et Base de Bouzourane), engendrent des défis considérables en termes de traçabilité et de suivi en temps réel. 
+
+Cette gestion archaïque limite considérablement l'agilité et l'efficacité des équipes du Helpdesk. Elle justifie la pertinence de l'élaboration d'un Système d'Information de Gestion du Matériel (SIGMA) centralisé et robuste, qui fait l'objet de notre projet de conception.
+
+---
+
+## Conclusion du Chapitre
+
+Dans de ce premier chapitre, nous avons tracé le portait de la compagnie pétrolière nationale Sonatrach, fleuron de l'économie algérienne, à travers son évolution historique, son envergure structurelle et la cartographie de ses directions. En focalisant notre approche sur la **Direction Centrale ISI**, nous avons mis en lumière le cadre direct de notre stage : le **département Support Informatique (Helpdesk)**. Composé d'une équipe structurée autour de quatre rôles fonctionnels clairs (Administrateur, Superviseur, Technicien, Utilisateur), ce département gère un parc d'actifs vaste et diversifié au profit de 2 300 utilisateurs. 
+
+Néanmoins, l'observation du fonctionnement quotidien révèle un déficit technologique flagrant en matière de gouvernance et d'outil de gestion. C'est sur la base de ce constat préliminaire que s'ouvre le chapitre suivant, dédié à **l'étude analytique approfondie de l'existant**, afin d'auditer les pratiques, les flux d'informations et les documents administratifs circulant au sein du service.

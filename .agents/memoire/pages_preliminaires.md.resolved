@@ -1,0 +1,330 @@
+# ═══════════════════════════════════════════════════════════════
+# PAGES PRÉLIMINAIRES DU MÉMOIRE
+# (Conformes au cours de méthodologie — cours1methodologie fin.docx)
+# ═══════════════════════════════════════════════════════════════
+
+---
+
+# ─── PAGE 1 : PAGE DE GARDE CARTONNÉE ───
+# ─── PAGE 2 : PAGE DE GARDE (feuille normale, même contenu) ───
+
+*(Bordure de page à appliquer dans Word : Onglet Mise en Page → Bordure de page)*
+
+<div align="center">
+
+**الجمهورية الجزائرية الديمقراطية الشعبية**
+
+**République Algérienne Démocratique et Populaire**
+
+**وزارة التكوين والتعليم المهنيين**
+
+**Ministère de la Formation et de l'Enseignement Professionnels**
+
+---
+
+**[Dénomination de l'organisme où se déroule la soutenance]**
+
+*(Exemple : Institut National Spécialisé de Formation Professionnelle — INSFP [Ville])*
+
+---
+
+**Mémoire de fin de formation pour l'obtention du diplôme de**
+
+### Technicien Supérieur en Informatique
+
+**Option :** Base de Données
+
+---
+
+### Thème :
+
+# Développement d'un Site Web de Gestion de Matériel Informatique
+
+---
+
+**Organisme d'accueil :**
+
+Sonatrach — DC ISI
+
+---
+
+| | |
+|:---|---:|
+| **Réalisé par :** | **Encadreur :** M./Mme [NOM Prénom] |
+| — [NOM Prénom Stagiaire 1] | |
+| — [NOM Prénom Stagiaire 2] | **Promoteur :** M./Mme [NOM Prénom] |
+
+---
+
+**Promotion : [20XX – 20XX]**
+
+</div>
+
+---
+
+> **Consignes de mise en forme Word :**
+> - Taille de police du texte : **12 ou 13**, Style : **Normal**
+> - Taille des titres : **14 ou 15**, Style : **Gras / Souligné**
+> - Interligne : **1,5**
+> - Marges : **2,5 cm** partout
+> - Alignement : **Justifié**
+> - Espacement entre paragraphes : **1 à 2 lignes vides**
+> - Retrait première ligne : **touche Tabulation**
+> - Numérotation : commence au Chapitre 1 en comptant les pages précédentes (ex. page 9)
+
+---
+---
+
+# ─── PAGE 3 : REMERCIEMENTS ───
+
+<div align="center">
+
+## Remerciements
+
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nous tenons tout d'abord à remercier **Dieu le Tout-Puissant** de nous avoir donné la force, le courage et la patience nécessaires pour mener à bien ce travail.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nous adressons nos sincères remerciements à notre **promoteur**, M./Mme **[NOM Prénom Promoteur]**, pour son encadrement rigoureux, ses orientations précieuses et sa disponibilité tout au long de la réalisation de ce mémoire.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nous exprimons notre profonde gratitude envers notre **encadreur de stage**, M./Mme **[NOM Prénom Encadreur]**, au sein de la Direction Centrale Informatique & Système d'Information (DC ISI) de Sonatrach, pour nous avoir accueillis au sein du département Support Informatique (Helpdesk), et pour le temps et les conseils qu'il/elle nous a généreusement accordés durant toute la période de stage.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nous remercions l'ensemble du **personnel du département Helpdesk** de la Direction Technologie Information pour leur accueil chaleureux, leur coopération et le partage de leur expérience professionnelle.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Nous remercions également tous les **enseignants** de **[NOM ÉTABLISSEMENT]** qui ont contribué à notre formation et nous ont transmis les compétences théoriques et pratiques nécessaires à la réussite de ce projet.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Enfin, nos remerciements vont à toutes les personnes qui, de près ou de loin, ont contribué à l'accomplissement de ce travail.
+
+---
+---
+
+# ─── PAGE 4 : DÉDICACES — Stagiaire 1 ───
+
+<div align="center">
+
+## Dédicaces
+
+</div>
+
+<div align="center">
+
+*Je dédie ce modeste travail :*
+
+*À mes très chers **parents**, pour leur amour inconditionnel, leurs sacrifices et leur soutien sans faille tout au long de mon parcours.*
+
+*À mes **frères et sœurs**, pour leurs encouragements permanents.*
+
+*À toute ma **famille**, pour leur soutien moral.*
+
+*À tous mes **amis et camarades de promotion**.*
+
+*À mon **binôme**, pour sa collaboration et sa bonne humeur.*
+
+*À tous ceux qui m'ont aidé, de près ou de loin.*
+
+**[Prénom Stagiaire 1]**
+
+</div>
+
+---
+
+# ─── PAGE 5 : DÉDICACES — Stagiaire 2 ───
+
+<div align="center">
+
+## Dédicaces
+
+</div>
+
+<div align="center">
+
+*Je dédie ce modeste travail :*
+
+*À mes chers **parents**, source d'amour et de tendresse.*
+
+*À mes **frères et sœurs**, pour leur soutien constant.*
+
+*À toute ma **famille**, pour leurs prières et encouragements.*
+
+*À tous mes **amis**.*
+
+*À mon **binôme**, pour son sérieux et sa collaboration.*
+
+*À tous ceux qui m'ont aidé à réaliser ce mémoire.*
+
+**[Prénom Stagiaire 2]**
+
+</div>
+
+---
+---
+
+# ─── PAGES 6–7 : SOMMAIRE ───
+
+<div align="center">
+
+## SOMMAIRE
+
+</div>
+
+```
+Introduction Générale .........................................................................
+
+  1. Présentation du sujet
+
+  2. Problématique et Objectifs
+
+
+Chapitre N°1 : Présentation de l'organisme d'accueil ............................
+
+  1.1 Présentation générale de Sonatrach
+
+  1.2 Organigramme général de Sonatrach
+
+  1.3 Structure d'accueil : La DC ISI
+
+  1.4 Le département Support Informatique (Helpdesk)
+
+  1.5 Situation informatique actuelle
+
+
+Chapitre N°2 : Étude de l'existant ......................................................
+
+  2.1 Étude des postes de travail
+
+  2.2 Étude des documents
+
+  2.3 Codification existante
+
+  2.4 Cartographie des flux d'information
+
+  2.5 Diagramme des flux
+
+  2.6 Tableau descriptif des flux
+
+  2.7 Diagnostic de l'existant (Critiques et suggestions)
+
+
+Chapitre N°3 : Conception du nouveau système .......................................
+
+  3.1 Solution informatique projetée
+
+  3.2 Nouvelle codification proposée
+
+  3.3 Dictionnaire des données
+
+  3.4 Règles de gestion
+
+  3.5 Modèle Conceptuel des Données (MCD)
+
+  3.6 Modèle Logique des Données (MLD)
+
+
+Chapitre N°4 : Réalisation du système .................................................
+
+  4.1 Outils utilisés et langage de développement
+
+  4.2 Script de création de la base de données
+
+  4.3 Schéma physique de la base de données
+
+  4.4 Présentation de l'application (Captures d'écran)
+
+
+Conclusion générale ..........................................................................
+
+Bibliographie ..................................................................................
+```
+
+*(Note : Les numéros de pages sont à insérer dans Word une fois le mémoire finalisé. La numérotation commence au Chapitre 1 en comptant les pages précédentes.)*
+
+---
+
+## Liste des Figures
+
+| N° | Titre de la figure |
+| :--- | :--- |
+| Figure 1 | Organigramme général de Sonatrach |
+| Figure 2 | Tableau des directions centrales et corporates |
+| Figure 3 | Organigramme de la Direction Centrale ISI |
+| Figure 4 | Organigramme du département Helpdesk (4 postes) |
+| Figure 5 | Légende du diagramme de flux |
+| Figure 6 | Diagramme de flux d'information |
+| Figure 7 | Tableau descriptif des flux d'information |
+| Figure 8 | Fiche d'étude du document : Demande d'intervention |
+| Figure 9 | Fiche d'étude du document : Fiche d'intervention |
+| Figure 10 | Fiche d'étude du document : Rapport d'intervention |
+| Figure 11 | Fiche d'étude du document : Décharge matériel |
+| Figure 12 | Dictionnaire des données |
+| Figure 13 | Modèle Conceptuel des Données (MCD) |
+| Figure 14 | Modèle Logique des Données (MLD) |
+| Figure 15 | Schéma physique de la base de données |
+| Figure 16 | Interface d'authentification |
+| Figure 17 | Tableau de bord (Dashboard) |
+| Figure 18 | Interface de gestion du matériel (Inventaire) |
+| Figure 19 | Interface de gestion des affectations |
+| Figure 20 | Interface de gestion de la maintenance |
+| Figure 21 | Hub de génération de documents (PDF) |
+| Figure 22 | Exemple de document PDF généré |
+
+---
+---
+
+# ─── PAGE 8 : INTRODUCTION GÉNÉRALE ───
+
+<div align="center">
+
+## Introduction Générale
+
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;L'outil informatique occupe aujourd'hui une place prépondérante dans la gestion des entreprises et des organisations. Grâce aux avancées considérables du génie logiciel et des technologies de l'information, les systèmes d'information sont devenus indispensables pour automatiser les processus, centraliser les données et faciliter la prise de décision. Les applications web, en particulier, offrent des avantages majeurs en termes d'accessibilité, de partage de l'information en temps réel et de réduction du volume de documents papier. Toute entreprise soucieuse de sa compétitivité et de sa performance se doit de moderniser ses outils de gestion en s'appuyant sur des solutions informatiques fiables et adaptées à ses besoins.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Dans le domaine de la gestion du patrimoine informatique, cette nécessité se fait particulièrement sentir. Un suivi rigoureux du matériel — depuis son acquisition jusqu'à sa mise au rebut, en passant par son affectation, sa maintenance et son inventaire — est indispensable au bon fonctionnement de toute direction informatique. Or, de nombreuses structures continuent à gérer ces opérations de manière manuelle, à l'aide de fichiers bureautiques et de documents papier, ce qui engendre des pertes de temps, des erreurs, des redondances et un manque total de traçabilité.
+
+&nbsp;&nbsp;&nbsp;&nbsp;C'est dans ce cadre que s'inscrit notre projet de fin de formation. Nous avons eu l'opportunité d'effectuer notre stage pratique au sein du **département Support Informatique (Helpdesk)** de la **Direction Technologie Information**, rattachée à la **Direction Centrale Informatique & Système d'Information (DC ISI)** de **Sonatrach**. Notre travail consiste à concevoir et développer une application web permettant de centraliser et d'automatiser la gestion du matériel informatique de ce département, apportant ainsi un gain considérable en termes de rapidité, de fiabilité, de traçabilité et d'aide à la prise de décision.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Le présent mémoire décrit les différentes étapes de notre travail et est structuré en **quatre chapitres** :
+
+- **Le premier chapitre** est consacré à la présentation de l'organisme d'accueil : Sonatrach, la DC ISI, et le département Support Informatique (Helpdesk), son organigramme, ses missions et sa situation informatique actuelle.
+- **Le deuxième chapitre** porte sur l'étude de l'existant : l'étude des postes de travail, l'étude des documents, les flux d'information, la codification existante et le diagnostic des insuffisances du système actuel (critiques et suggestions).
+- **Le troisième chapitre** est dédié à la conception du nouveau système d'information : la solution projetée, la codification proposée, le dictionnaire des données, les règles de gestion, le Modèle Conceptuel des Données (MCD) et le Modèle Logique des Données (MLD).
+- **Le quatrième chapitre** présente la réalisation : les outils et langages utilisés, le script de la base de données, le schéma physique et les captures d'écran de l'application.
+
+---
+
+## 1. Présentation du sujet
+
+&nbsp;&nbsp;&nbsp;&nbsp;Notre projet consiste en la **conception et le développement d'un site web de gestion de matériel informatique** au profit du département Support Informatique (Helpdesk) de Sonatrach (DC ISI). Cette application a pour vocation de remplacer le mode de gestion actuel — entièrement manuel et basé sur des fichiers Excel et des documents papier — par une plateforme numérique centralisée, moderne et accessible depuis n'importe quel navigateur web au sein du réseau de l'entreprise.
+
+&nbsp;&nbsp;&nbsp;&nbsp;L'application couvre l'ensemble du cycle de vie du matériel informatique : l'inventaire et le suivi des équipements (ordinateurs, imprimantes, photocopieurs, fax, téléphones IP, onduleurs), la gestion des affectations et des décharges, le suivi de la maintenance préventive et corrective, la gestion des licences logicielles, le traitement des demandes de matériel, et la génération automatique de tous les documents officiels du service au format PDF.
+
+---
+
+## 2. Problématique et Objectifs
+
+### Problématique
+
+&nbsp;&nbsp;&nbsp;&nbsp;Suite aux entretiens réalisés avec les responsables et les techniciens du département Support Informatique (Helpdesk) de Sonatrach, nous avons pu identifier les problèmes suivants :
+
+- **Absence** d'un système d'information centralisé pour la gestion du parc matériel informatique.
+- **Difficulté** à localiser et à suivre l'état d'un équipement donné (affectation, localisation, historique).
+- **Perte de temps considérable** lors de la recherche d'informations dans les multiples fichiers Excel et documents papier dispersés.
+- **Incapacité** de produire des statistiques rapides et des rapports décisionnels en temps réel sur l'état du parc.
+- **Manque de traçabilité** fiable sur l'historique de maintenance, les interventions et les mouvements du matériel.
+- **Processus très long** pour l'établissement des décharges, des bons de commande et des rapports d'intervention, car chaque document est rempli manuellement.
+- **Redondance des saisies** : les mêmes informations (nom de l'employé, numéro de série, désignation du matériel) sont répétées dans plusieurs documents différents.
+- **Risque d'erreur humaine et de perte de données**, lié à la manipulation fréquente de fichiers non sécurisés et non sauvegardés de manière centralisée.
+
+### Objectifs
+
+&nbsp;&nbsp;&nbsp;&nbsp;Pour répondre à cette problématique, notre objectif est de concevoir et développer une application web offrant les solutions suivantes :
+
+1. **Centraliser l'inventaire** de l'ensemble des équipements informatiques dans une base de données unique (caractéristiques techniques, état, localisation, valeur).
+2. **Informatiser la gestion des affectations** avec génération automatique de décharges au format PDF.
+3. **Assurer le suivi de la maintenance** préventive et corrective (historique des interventions, coûts, planification).
+4. **Gérer les licences logicielles** (suivi des postes, dates d'expiration, conformité).
+5. **Traiter les demandes de matériel** des employés avec un circuit de validation informatisé.
+6. **Générer automatiquement les documents officiels** du service en PDF (bon de sortie, bon de réception, bon de commande, fiche d'inventaire, rapport d'intervention, décharge, etc.).
+7. **Offrir un tableau de bord analytique** en temps réel pour faciliter la prise de décision.
+8. **Garantir la traçabilité** complète de toutes les opérations via un journal d'audit.

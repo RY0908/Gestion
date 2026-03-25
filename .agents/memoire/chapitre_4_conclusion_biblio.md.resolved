@@ -1,0 +1,459 @@
+# Chapitre N°4 : Réalisation du Système
+
+## Introduction
+
+Après la phase conceptuelle détaillée dans le chapitre précédent, nous abordons dans ce quatrième et dernier chapitre la phase de réalisation. Cette étape consiste à concrétiser les modèles théoriques (MCD, MLD) en un produit logiciel fonctionnel. Nous commencerons par présenter les outils et langages utilisés pour le développement, puis nous décrirons l'architecture technique de l'application, le script de la base de données, et enfin les principales interfaces de l'application développée.
+
+---
+
+## 4.1 Outils Utilisés et Langages de Développement
+
+### Environnement de développement
+
+| Outil | Rôle | Version |
+| :--- | :--- | :--- |
+| **Visual Studio Code** | Éditeur de code principal (IDE) | Dernière version |
+| **Node.js** | Environnement d'exécution JavaScript côté serveur | v18+ |
+| **npm** | Gestionnaire de paquets | v9+ |
+| **Vite** | Outil de build et serveur de développement | v7.3.1 |
+| **Git** | Système de contrôle de version | v2.x |
+| **Navigateur Web** | Tests et visualisation (Chrome, Firefox, Edge) | — |
+
+### Technologies de développement
+
+#### React.js (v19.2)
+
+React est une bibliothèque JavaScript open source, développée par Meta (Facebook), pour la création d'interfaces utilisateurs. Elle se distingue par :
+- **Architecture par composants** : L'interface est découpée en composants réutilisables, chacun gérant sa propre logique et son rendu visuel.
+- **DOM virtuel** : React utilise une représentation virtuelle du DOM pour optimiser les performances de mise à jour de l'interface.
+- **Hooks** : Les hooks (useState, useEffect, etc.) permettent de gérer l'état et les effets dans les composants fonctionnels.
+
+#### Tailwind CSS (v3.4)
+
+Tailwind CSS est un framework CSS utilitaire qui permet de styliser les éléments directement dans le code HTML/JSX à l'aide de classes prédéfinies. Il offre :
+- Un design system cohérent et personnalisable.
+- Une productivité accrue pour la création d'interfaces responsives.
+- Une taille de bundle optimisée grâce au purge automatique des classes inutilisées.
+
+#### Zustand (v5.0)
+
+Zustand est une bibliothèque légère de gestion d'état pour React, utilisée dans notre application pour centraliser :
+- L'état de l'utilisateur connecté (rôle, informations, session).
+- Les préférences d'interface (thème, état du menu latéral).
+
+#### TanStack Query (React Query v5.90)
+
+TanStack Query gère le cache, la synchronisation et la mise à jour des données serveur. Elle assure :
+- Le chargement et la mise en cache automatique des données.
+- La revalidation en arrière-plan pour un affichage en temps réel.
+- La gestion des états de chargement et d'erreur.
+
+#### Autres bibliothèques utilisées
+
+| Bibliothèque | Version | Rôle |
+| :--- | :--- | :--- |
+| **Radix UI** | v1–2 | Composants d'interface accessibles (menus, dialogues, onglets, accordéons, tooltips, etc.) |
+| **Lucide React** | v0.575 | Bibliothèque d'icônes SVG modernes |
+| **React Router** | v7.13 | Gestion de la navigation et du routage entre les pages |
+| **Recharts** | v3.7 | Création de graphiques pour le tableau de bord |
+| **@react-pdf/renderer** | v4.3 | Génération de documents PDF côté client |
+| **QRCode.react** | v4.2 | Génération de QR Codes pour l'identification du matériel |
+| **React Hook Form** | v7.71 | Gestion des formulaires avec validation |
+| **Zod** | v4.3 | Schémas de validation des données |
+| **Motion (Framer Motion)** | v12.34 | Animations et transitions d'interface |
+| **MSW (Mock Service Worker)** | v2.12 | Simulation d'API REST pour le développement et les tests |
+| **date-fns** | v4.1 | Manipulation et formatage des dates |
+| **TanStack Table** | v8.21 | Création de tableaux de données triables, filtrables et paginés |
+| **Vitest** | v4.0 | Framework de tests unitaires |
+
+---
+
+## 4.2 Architecture de l'Application
+
+L'architecture de l'application repose sur une organisation modulaire, suivant les bonnes pratiques du développement web moderne (Atomic Design + structure par fonctionnalité).
+
+### Structure du projet
+
+```
+Gestion/
+├── public/                          ← Fichiers statiques
+│   └── mockServiceWorker.js         ← Service Worker pour MSW
+├── src/
+│   ├── components/                  ← Composants réutilisables (UI)
+│   │   ├── atoms/                   ← Composants élémentaires (Badge, Button, EmptyState)
+│   │   ├── molecules/               ← Composants composites (DataTable, StatusBadge)
+│   │   ├── organisms/               ← Composants complexes (Sidebar, Header)
+│   │   ├── layout/                  ← Mise en page (PageHeader, AppLayout)
+│   │   ├── forms/                   ← Champs de formulaire réutilisables
+│   │   └── print/                   ← Génération PDF (documents, hooks, utils)
+│   │       ├── common/              ← Composants PDF partagés (en-tête, pied de page)
+│   │       ├── documents/           ← Templates PDF des 11 documents
+│   │       ├── hooks/               ← Hooks de génération PDF
+│   │       └── utils/               ← Utilitaires PDF
+│   ├── pages/                       ← Pages de l'application (par fonctionnalité)
+│   │   ├── assets/                  ← Inventaire (liste, détail, formulaire)
+│   │   ├── assignments/             ← Affectations
+│   │   ├── audit/                   ← Journal d'audit
+│   │   ├── auth/                    ← Authentification (LoginPage)
+│   │   ├── bon-receptions/          ← Bons de réception
+│   │   ├── dashboard/               ← Tableau de bord
+│   │   ├── decharges/               ← Décharges de matériel
+│   │   ├── documents/               ← Hub de documents
+│   │   │   └── forms/               ← 11 formulaires de génération PDF
+│   │   ├── licenses/                ← Licences logicielles
+│   │   ├── maintenance/             ← Maintenance / Tickets
+│   │   ├── notifications/           ← Notifications
+│   │   ├── purchase-orders/         ← Bons de commande
+│   │   ├── reports/                 ← Rapports
+│   │   ├── requests/                ← Demandes (Intervention & Matériel)
+│   │   ├── rooms/                   ← Salles & Locaux
+│   │   └── settings/                ← Paramètres & Utilisateurs
+│   ├── hooks/                       ← Custom hooks React (useAssets, useRequests…)
+│   ├── lib/                         ← Logique métier
+│   │   ├── api/                     ← Fonctions d'appel API
+│   │   ├── constants.js             ← Rôles, états, catégories, structures
+│   │   ├── permissions.js           ← Matrice de permissions & autorisations documents
+│   │   └── utils.js                 ← Fonctions utilitaires
+│   ├── mocks/                       ← Données de démonstration (MSW)
+│   │   ├── fixtures/                ← Données fictives (users, assets, requests…)
+│   │   └── handlers/                ← Gestionnaires de requêtes HTTP simulées
+│   ├── store/                       ← Gestion d'état (Zustand)
+│   │   ├── authStore.js             ← État d'authentification (utilisateur, rôle)
+│   │   └── uiStore.js               ← État de l'interface (sidebar, thème)
+│   ├── types/                       ← Définition des modèles de données (JSDoc)
+│   └── App.jsx                      ← Point d'entrée et routage principal
+├── package.json                     ← Dépendances et scripts
+└── vite.config.js                   ← Configuration de Vite
+```
+
+### Contrôle d'accès dans l'application
+
+L'accès aux pages et aux fonctionnalités est conditionné par le rôle de l'utilisateur connecté. Le composant Sidebar filtre dynamiquement les éléments de navigation selon les permissions du rôle :
+
+| Rôle | Pages accessibles |
+| :--- | :--- |
+| **Admin** | Toutes les 19 pages + paramètres |
+| **Superviseur** | Tableau de bord, Inventaire (lecture/modif), Maintenance, Demandes (assign), Rapports, Documents |
+| **Technicien** | Tableau de bord, Inventaire (lecture/modif/affectation), Maintenance (résolution), Documents |
+| **Utilisateur** | Tableau de bord, Inventaire (ses équipements uniquement), Demandes (création) |
+
+---
+
+## 4.3 Script de Création de la Base de Données
+
+La base de données est structurée en **10 tables** correspondant au MLD défini au chapitre précédent :
+
+```sql
+-- ============================================================
+-- Script de création de la base de données SIGMA
+-- Système d'Information de Gestion du Matériel — Sonatrach DC-ISI
+-- ============================================================
+
+-- Table EQUIPEMENT (Asset)
+CREATE TABLE equipements (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code_inventaire VARCHAR(20) UNIQUE NOT NULL,
+    num_serie VARCHAR(50) UNIQUE,
+    categorie ENUM('LAPTOP','DESKTOP','SERVER','PRINTER','PHOTOCOPIEUR','FAX',
+                   'SCANNER','DESTRUCTEUR','RELIEUSE','TABLET','SMARTPHONE',
+                   'MONITOR','NETWORK_DEVICE','STORAGE','PROJECTOR','PERIPHERAL',
+                   'TELEPHONE','CLIMATISEUR','ONDULEUR','MOBILIER','OTHER') NOT NULL,
+    marque VARCHAR(50),
+    modele VARCHAR(50),
+    specifications JSON,
+    etat ENUM('EN_SERVICE','IN_STOCK','ASSIGNED','IN_MAINTENANCE',
+              'EN_PANNE','REMPLACEMENT','RETIRED','LOST','RESERVED') DEFAULT 'IN_STOCK',
+    condition_physique ENUM('NEW','GOOD','FAIR','POOR') DEFAULT 'NEW',
+    date_acquisition DATE,
+    prix_achat DECIMAL(15,2),
+    valeur_actuelle DECIMAL(15,2),
+    date_garantie DATE,
+    fournisseur VARCHAR(100),
+    num_facture VARCHAR(50),
+    localisation VARCHAR(100),
+    notes TEXT,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_modification DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table EMPLOYE (Employee)
+CREATE TABLE employes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    nom_complet VARCHAR(100) AS (CONCAT(prenom, ' ', nom)) STORED,
+    email VARCHAR(100) UNIQUE,
+    telephone VARCHAR(20),
+    matricule VARCHAR(20) UNIQUE,
+    structure VARCHAR(50),
+    poste_occupe VARCHAR(50),
+    role ENUM('ADMIN','SUPERVISOR','TECHNICIAN','USER') DEFAULT 'USER',
+    est_actif BOOLEAN DEFAULT TRUE,
+    date_embauche DATE,
+    id_departement INT,
+    id_responsable INT,
+    FOREIGN KEY (id_responsable) REFERENCES employes(id)
+);
+
+-- Table UTILISATEUR (compte système)
+CREATE TABLE utilisateurs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom_complet VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    role ENUM('ADMIN','SUPERVISOR','TECHNICIAN','USER') NOT NULL,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    est_actif BOOLEAN DEFAULT TRUE
+);
+
+-- Table AFFECTATION (Assignment)
+CREATE TABLE affectations (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_equipement INT NOT NULL,
+    id_employe INT NOT NULL,
+    id_attribue_par INT NOT NULL,
+    date_affectation DATE NOT NULL,
+    date_retour DATE,
+    motif VARCHAR(200),
+    statut ENUM('ACTIVE','RETURNED','OVERDUE') DEFAULT 'ACTIVE',
+    condition_retour ENUM('GOOD','DAMAGED','LOST'),
+    notes_retour TEXT,
+    FOREIGN KEY (id_equipement) REFERENCES equipements(id),
+    FOREIGN KEY (id_employe) REFERENCES employes(id),
+    FOREIGN KEY (id_attribue_par) REFERENCES employes(id)
+);
+
+-- Table MAINTENANCE (MaintenanceRecord)
+CREATE TABLE maintenance (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_equipement INT NOT NULL,
+    type_maintenance ENUM('PREVENTIVE','CORRECTIVE','UPGRADE','INSPECTION') NOT NULL,
+    description_panne TEXT,
+    date_debut DATE NOT NULL,
+    date_fin DATE,
+    cout_reparation DECIMAL(15,2),
+    technicien VARCHAR(100),
+    pieces_utilisees TEXT,
+    statut ENUM('SCHEDULED','IN_PROGRESS','COMPLETED','CANCELLED') DEFAULT 'SCHEDULED',
+    date_prochaine_maintenance DATE,
+    FOREIGN KEY (id_equipement) REFERENCES equipements(id)
+);
+
+-- Table LICENCE (SoftwareLicense)
+CREATE TABLE licences (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom_logiciel VARCHAR(100) NOT NULL,
+    editeur VARCHAR(100),
+    version VARCHAR(50),
+    cle_licence VARCHAR(100),
+    type_licence ENUM('PERPETUAL','SUBSCRIPTION','VOLUME','OEM','OPEN_SOURCE'),
+    nb_postes_autorises INT,
+    nb_postes_utilises INT DEFAULT 0,
+    date_acquisition DATE,
+    date_expiration DATE,
+    cout_annuel DECIMAL(15,2),
+    statut_conformite ENUM('COMPLIANT','OVER_LICENSED','UNDER_LICENSED','EXPIRED')
+);
+
+-- Table pivot LICENCE ↔ EQUIPEMENT (N:N)
+CREATE TABLE licence_equipement (
+    id_licence INT NOT NULL,
+    id_equipement INT NOT NULL,
+    PRIMARY KEY (id_licence, id_equipement),
+    FOREIGN KEY (id_licence) REFERENCES licences(id),
+    FOREIGN KEY (id_equipement) REFERENCES equipements(id)
+);
+
+-- Table DEMANDE (EquipmentRequest / Ticket)
+CREATE TABLE demandes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    num_demande VARCHAR(20) UNIQUE,
+    id_demandeur INT NOT NULL,
+    objet VARCHAR(200) NOT NULL,
+    description TEXT,
+    priorite ENUM('LOW','MEDIUM','HIGH','URGENT') DEFAULT 'MEDIUM',
+    statut ENUM('PENDING','ASSIGNED','RESOLVED') DEFAULT 'PENDING',
+    date_demande DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_superviseur_assignant INT,
+    id_technicien_assigne INT,
+    date_resolution DATETIME,
+    FOREIGN KEY (id_demandeur) REFERENCES employes(id),
+    FOREIGN KEY (id_superviseur_assignant) REFERENCES employes(id),
+    FOREIGN KEY (id_technicien_assigne) REFERENCES employes(id)
+);
+
+-- Table DOCUMENT (GeneratedDocument)
+CREATE TABLE documents (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type_document VARCHAR(30) NOT NULL,
+    numero_document VARCHAR(30),
+    date_generation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    donnees_json JSON,
+    id_affectation INT,
+    FOREIGN KEY (id_affectation) REFERENCES affectations(id)
+);
+
+-- Table JOURNAL_AUDIT (AuditLog)
+CREATE TABLE journal_audit (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type_action VARCHAR(50) NOT NULL,
+    entite_type VARCHAR(30),
+    entite_id VARCHAR(20),
+    description TEXT,
+    modifications_json JSON,
+    date_action DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_utilisateur INT NOT NULL,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
+);
+```
+
+*(Voir Figure 15 : Schéma physique de la base de données)*
+
+---
+
+## 4.4 Présentation de l'Application (Captures d'Écran)
+
+### Interface d'authentification
+
+La page de connexion sécurisée permet aux utilisateurs de s'authentifier avec leur email et mot de passe. Le système propose 4 comptes de démonstration correspondant aux 4 rôles : **Admin** (Chef département), **Superviseur** (Call Center), **Technicien** et **Utilisateur** (Agent Sonatrach). La redirection après connexion s'effectue automatiquement vers le tableau de bord.
+
+*(Voir Figure 16 : Interface d'authentification)*
+
+### Tableau de bord (Dashboard)
+
+Le tableau de bord constitue la page d'accueil de l'application. Il offre une vision en temps réel de l'état du parc matériel à travers :
+- **Indicateurs clés (KPI)** : Total équipements, équipements actifs, en panne, en maintenance, taux d'utilisation.
+- **Graphiques** (Recharts) : Répartition par catégorie, évolution du parc, statistiques de maintenance.
+- **Alertes** : Licences expirant bientôt, maintenances en retard, équipements sans affectation.
+
+*(Voir Figure 17 : Tableau de bord)*
+
+### Interface de gestion du matériel (Inventaire)
+
+Cette interface permet la gestion complète du parc matériel (21 catégories) :
+- **Tableau de données** (TanStack Table) avec recherche, tri et filtrage par catégorie, état (9 possibles), localisation.
+- **Fiche détaillée** de chaque équipement : caractéristiques techniques, historique des affectations, QR Code d'identification.
+- **Actions** : Ajouter, modifier, retirer du parc un équipement.
+
+*(Voir Figure 18 : Interface de gestion du matériel)*
+
+### Interface de gestion des affectations
+
+Cette interface permet de suivre toutes les attributions de matériel aux employés :
+- Historique complet des affectations (dates, employé, équipement, attribué par).
+- Création de nouvelles affectations avec génération automatique de la décharge PDF.
+- Suivi des retours de matériel avec condition de retour.
+
+*(Voir Figure 19 : Interface de gestion des affectations)*
+
+### Interface de gestion des demandes (Tickets)
+
+Le module de demandes implémente le workflow tripartite :
+1. L'**Utilisateur** crée une demande (statut **En attente** / PENDING).
+2. Le **Superviseur** assigne la demande à un technicien (statut **Assigné** / ASSIGNED).
+3. Le **Technicien** clôture la demande après intervention (statut **Résolu** / RESOLVED).
+
+Les boutons d'action (Assigner, Résoudre) sont conditionnés par le rôle de l'utilisateur connecté.
+
+*(Voir Figure 20 : Interface de gestion des demandes/tickets)*
+
+### Interface de gestion de la maintenance
+
+Cette interface permet le suivi de toutes les interventions techniques :
+- Liste des interventions classées par statut (Planifiée, En cours, Terminée, Annulée).
+- Fiche d'intervention détaillée (type, panne, diagnostic, solution, coût, pièces utilisées).
+- Statistiques de maintenance (temps moyen de résolution, coûts cumulés).
+
+*(Voir Figure 21 : Interface de gestion de la maintenance)*
+
+### Hub de génération de documents (PDF)
+
+Le hub de documents constitue l'une des fonctionnalités les plus importantes de l'application. Il permet de générer automatiquement **11 types de documents officiels** au format PDF, chacun étant soumis à la matrice d'autorisation documentaire :
+
+| N° | Document | Description | Émetteur | Signataire |
+| :---: | :--- | :--- | :--- | :--- |
+| 1 | **Demande de matériel** | Formuler une demande d'équipement | Utilisateur, Admin | Admin |
+| 2 | **Fiche de besoin** | Formaliser un besoin en matériel pour le service achat | Admin | Admin |
+| 3 | **Bon de commande** | Commander du matériel auprès d'un fournisseur | Admin | Admin |
+| 4 | **Décharge de matériel** | Attester la remise d'un équipement à un employé | Technicien, Admin | Utilisateur |
+| 5 | **Demande d'intervention** | Signaler un incident ou une panne | Utilisateur | Superviseur |
+| 6 | **Fiche d'intervention** | Décrire l'intervention à réaliser et le technicien désigné | Superviseur | Utilisateur, Tech. |
+| 7 | **Rapport d'intervention** | Documenter les résultats de l'intervention | Technicien | Admin, Superviseur |
+| 8 | **Demande réparation garantie** | Formaliser une demande de prise en charge sous garantie | Technicien, Admin | Admin |
+| 9 | **Demande d'inventaire** | Déclencher un inventaire de contrôle | Admin, Technicien | Technicien |
+| 10 | **Fiche d'inventaire** | Récapitulatif du matériel inventorié | Technicien | Admin |
+| 11 | **Rapport d'inventaire** | Rapport de synthèse de l'inventaire | Technicien | Admin |
+
+Chaque document est pré-rempli automatiquement avec les données de la base et peut être personnalisé avant impression.
+
+*(Voir Figure 22 : Hub de génération de documents)*
+
+*(Voir Figure 23 : Exemple de document PDF généré — Décharge de matériel)*
+
+---
+
+## Conclusion du Chapitre
+
+Ce quatrième chapitre a été consacré à la réalisation technique de l'application SIGMA. Nous avons présenté les technologies modernes utilisées (React 19, Tailwind CSS, Zustand, TanStack Query, entre autres), l'architecture modulaire du projet organisée en composants atomiques et en pages par fonctionnalité, le script de création de la base de données composée de 10 tables, et les principales interfaces de l'application. La solution développée offre une couverture fonctionnelle complète : inventaire de 21 catégories d'équipements, affectations avec décharges automatiques, maintenance préventive et corrective, licences logicielles, demandes avec workflow tripartite (En attente → Assigné → Résolu), génération automatique de 11 documents officiels en PDF avec matrice d'autorisation, journal d'audit et contrôle d'accès basé sur 4 rôles — répondant ainsi à l'ensemble des besoins identifiés lors de l'étude de l'existant.
+
+---
+---
+
+# Conclusion Générale
+
+Au terme de ce travail, nous pouvons affirmer que les objectifs fixés au début de ce mémoire ont été atteints. Ce projet de fin de formation, réalisé au sein du département Support Informatique (Helpdesk) de la Direction Technologie Information, rattachée à la Direction Centrale Informatique & Système d'Information (DC ISI) de Sonatrach, avait pour ambition principale de **concevoir et développer une application web de gestion de matériel informatique**, capable de répondre aux insuffisances constatées dans le mode de gestion actuel.
+
+L'**étude de l'existant** a permis de mettre en évidence plusieurs limites majeures, notamment l'absence totale d'un système d'information centralisé, la dispersion des données dans des fichiers Excel et des documents papier, le manque de traçabilité sur l'historique du matériel, la redondance des saisies et l'impossibilité de produire des statistiques en temps réel. Ces insuffisances impactaient directement l'efficacité du service et la qualité du support rendu aux quelque 2 300 agents de la Direction Générale.
+
+Face à ces constats, la phase de **conception**, basée sur la méthode Merise, a permis de formaliser les besoins à travers un dictionnaire de 57 attributs, 16 règles de gestion couvrant le matériel, les affectations, la maintenance, le workflow des demandes, les documents et le contrôle d'accès, un Modèle Conceptuel des Données (MCD) à 9 entités et un Modèle Logique des Données (MLD) à 10 tables.
+
+La phase de **réalisation** a concrétisé cette conception à travers le développement d'une application web moderne. La solution développée, baptisée SIGMA, permet :
+- La gestion centralisée de l'inventaire du parc matériel informatique (21 catégories, 9 états).
+- Le suivi automatisé des affectations avec génération de décharges en PDF.
+- Le suivi complet de la maintenance préventive et corrective.
+- La gestion des licences logicielles avec suivi de conformité.
+- Le traitement des demandes de matériel et d'intervention avec un workflow tripartite (En attente → Assigné → Résolu).
+- La génération automatique de **11 documents officiels** au format PDF, chacun soumis à une matrice d'autorisation documentaire.
+- Un **contrôle d'accès basé sur 4 rôles** (Admin, Superviseur, Technicien, Utilisateur) avec une matrice de 14 permissions.
+- Un tableau de bord analytique offrant une aide à la prise de décision en temps réel.
+- Un journal d'audit garantissant la traçabilité complète de toutes les opérations.
+
+En conclusion, ce projet a permis de démontrer l'importance d'un système d'information centralisé et informatisé dans une organisation de l'envergure de Sonatrach. La solution proposée contribue à améliorer considérablement l'efficacité du département Helpdesk, à renforcer la traçabilité du matériel et à optimiser la prise de décision des responsables.
+
+### Perspectives et Axes d'Amélioration
+
+Bien que la solution développée réponde aux besoins actuels du service, plusieurs perspectives d'évolution sont envisageables :
+
+1. **Intégration d'une base de données serveur** : Migration vers une architecture client-serveur avec une base de données MySQL ou PostgreSQL pour un déploiement en production sur le réseau intranet de Sonatrach.
+2. **Module de gestion des SLA** (Service Level Agreement) : Définition de délais de traitement selon la priorité, avec alertes automatiques en cas de dépassement.
+3. **Application mobile** : Développement d'une version mobile pour permettre aux techniciens d'accéder à l'application lors de leurs interventions sur le terrain.
+4. **Système de notification en temps réel** : Intégration de WebSockets pour alerter instantanément les utilisateurs des changements d'état de leurs demandes.
+5. **Reporting avancé** : Ajout de rapports exportables (Excel, PDF) pour les bilans mensuels et annuels.
+
+---
+---
+
+# Bibliographie
+
+## Ouvrages et Documents
+
+- SONATRACH, *Manuel de procédures du service informatique et organisation structurelle du Helpdesk*, Document interne non publié.
+- SONATRACH, *Organigramme de la Direction Centrale ISI*, Document interne.
+- Cours de méthodologie de rédaction de mémoire de fin de stage, Formation Technicien Supérieur en Informatique, [NOM ÉTABLISSEMENT].
+
+## Sites Web et Ressources Électroniques
+
+- React.js — Documentation officielle : https://react.dev/
+- Tailwind CSS — Documentation officielle : https://tailwindcss.com/
+- Zustand — Documentation officielle : https://zustand-demo.pmnd.rs/
+- TanStack Query — Documentation officielle : https://tanstack.com/query/
+- Vite — Documentation officielle : https://vite.dev/
+- MDN Web Docs — Références JavaScript, HTML, CSS : https://developer.mozilla.org/
+- Sonatrach — Site officiel : https://sonatrach.com/
+
+## Mémoires et Travaux de Référence
+
+- « Conception et développement d'une application web de Help Desk pour la gestion d'incidents informatique », Université Saad Dahleb, Blida.
+- « Conception et réalisation d'une application web pour le support et la gestion des connaissances », Scribd.
+- « Développement d'une application web de gestion de parc informatique et de helpdesk », PDF.
+- « Mise en place d'un site web pour la gestion Helpdesk », par MESSAFEUR Mohamed Billel.

@@ -1,0 +1,697 @@
+# Chapitre N°2 : Étude de l'Existant
+
+## Introduction
+
+L'étude de l'existant est une étape fondamentale dans tout projet informatique. Elle consiste à analyser le fonctionnement réel du système en place afin d'en cerner les forces et les faiblesses. Cette analyse repose sur l'examen des postes de travail, des documents exploités, des flux d'information ainsi que des procédures internes en vigueur. Cette démarche permet de comprendre précisément comment l'information circule au sein du département Support Informatique (Helpdesk) et d'identifier les besoins réels auxquels la future solution devra répondre.
+
+---
+
+## 2.1 Étude des Postes de Travail
+
+### Introduction
+
+Un poste de travail représente la plus petite unité organisationnelle chargée d'exécuter les traitements au niveau du système d'information étudié. L'étude des postes de travail est une étape nécessaire dans l'étude de l'existant. Elle permet de connaître exactement le fonctionnement des différents postes de travail intervenant dans les procédures concernées par notre étude.
+
+Pour chaque poste, nous préciserons une fiche d'étude comportant :
+1. La désignation du poste
+2. Ses responsabilités
+3. Les tâches à accomplir
+4. Les documents utilisés (parvenant, diffusés, manipulés)
+
+Notre étude se limite à **quatre postes de travail** :
+1. Chef de département informatique (Administrateur)
+2. Technicien
+3. Superviseur
+4. Utilisateur (Agent Sonatrach DG)
+
+---
+
+### Fiche d'étude de poste N°01
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Désignation du poste** | Chef de département informatique (Administrateur) |
+| **Structure** | Direction Technologie Information |
+| **Effectif** | 1 |
+| **Moyen de traitement** | Ordinateur, imprimante, téléphone, réseau, application Web |
+| **Moyen de stockage** | Base de données, boîte d'archive, disques durs, flash disque |
+
+**Tâches à accomplir :**
+- Gérer la maintenance du matériel informatique.
+- Adapter les logiciels et matériels existants aux besoins des utilisateurs.
+- Vérifier les besoins exprimés par l'ensemble des directions.
+- Contrôler les signatures des bons de livraisons.
+- Vérifier les contrats d'acquisitions.
+- Vérifier les cahiers de décharges.
+- Signer les commandes de fournitures et de matériel.
+- Assurer le suivi des contrats de maintenance.
+- Gérer l'inventaire annuel.
+
+**Les documents parvenant à ce poste :**
+
+| Désignation du document | Poste source | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Demande de matériel | Utilisateur | 1 | Chaque besoin |
+| Bon de commande signé | Gestionnaire | 1 | Aléatoire |
+| Décharge matériel signée | Utilisateur | 1 | Aléatoire |
+| Rapport d'intervention | Technicien | 1 | Aléatoire |
+| Rapport d'intervention (sous garantie) signé | Technicien | 1 | Aléatoire |
+| Fiche d'inventaire | Technicien | 1 | Chaque fin d'année |
+| Demande d'inventaire signée | Technicien | 1 | Aléatoire |
+| Rapport d'inventaire | Technicien | 1 | Chaque fin d'année |
+
+**Les documents diffusés par ce poste :**
+
+| Désignation du document | Poste destinataire | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Fiche de besoin | Gestionnaire | 1 | Aléatoire |
+| Demande de matériel signée | Technicien | 1 | Aléatoire |
+| Rapport d'intervention (sous garantie) | Technicien | 1 | Aléatoire |
+| Demande d'inventaire | Technicien | 1 | Chaque fin d'année |
+| Fiche d'inventaire signée | Technicien | 1 | Chaque fin d'année |
+
+**Les documents manipulés par ce poste :**
+
+| Désignation du document | Fréquence |
+| :--- | :--- |
+| Demande de matériel | Aléatoire |
+| Demande de réparation matériel | Aléatoire |
+| Fiche d'inventaire | Aléatoire |
+
+---
+
+### Fiche d'étude de poste N°02
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Désignation du poste** | Technicien |
+| **Structure** | Direction Technologie Information |
+| **Effectif** | 5 |
+| **Moyen de traitement** | Ordinateur, imprimante, téléphone, réseau |
+| **Moyen de stockage** | Boîte d'archive, disques durs, flash disque |
+
+**Tâches à accomplir :**
+- Gestion des affectations de matériel informatique.
+- Suivi du matériel et mise à jour de l'inventaire.
+- Maintenance et réparation du matériel en panne.
+- Réalisation des inventaires de contrôle.
+- Répartition des étiquettes d'inventaire.
+- Rédaction des rapports d'intervention.
+- Établissement des décharges de matériel.
+
+**Les documents parvenant à ce poste :**
+
+| Désignation du document | Poste source | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Demande de matériel signée | Chef de département | 1 | Aléatoire |
+| Fiche d'intervention | Superviseur | 1 | Aléatoire |
+| Fiche d'intervention signée | Utilisateur | 1 | Aléatoire |
+| Rapport d'intervention (sous garantie) | Chef de département | 1 | Aléatoire |
+| Demande d'inventaire | Chef de département | 1 | Fin d'année |
+| Fiche d'inventaire signée | Chef de département | 1 | Fin d'année |
+
+**Les documents diffusés par ce poste :**
+
+| Désignation du document | Poste destinataire | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Décharge matériel | Utilisateur | 1 | Aléatoire |
+| Fiche d'intervention | Utilisateur | 1 | Aléatoire |
+| Rapport d'intervention | Chef de département | 1 | Aléatoire |
+| Rapport d'intervention (sous garantie) signé | Chef de département | 1 | Aléatoire |
+| Fiche d'inventaire | Chef de département | 1 | Fin d'année |
+| Demande d'inventaire signée | Chef de département | 1 | Fin d'année |
+| Rapport d'inventaire | Chef de département | 1 | Fin d'année |
+
+**Les documents manipulés par ce poste :**
+
+| Désignation du document | Fréquence |
+| :--- | :--- |
+| Rapport d'intervention | Aléatoire |
+| Décharge matériel | Aléatoire |
+| Rapport d'inventaire | Aléatoire |
+
+---
+
+### Fiche d'étude de poste N°03
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Désignation du poste** | Superviseur |
+| **Structure** | Direction Technologie Information |
+| **Effectif** | 2 |
+| **Moyen de traitement** | Ordinateur, imprimante, téléphone, réseau, scanner |
+| **Moyen de stockage** | Boîte d'archive, disques durs, flash disque |
+
+**Tâches à accomplir :**
+- Suivi des demandes d'intervention (incidents) et suivi de leur résolution.
+- Affectation des techniciens pour la réparation.
+
+**Les documents parvenant à ce poste :**
+
+| Désignation du document | Poste source | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Demande d'intervention | Utilisateur | 1 | Aléatoire |
+
+**Les documents diffusés par ce poste :**
+
+| Désignation du document | Poste destinataire | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Fiche d'intervention | Technicien | 1 | Aléatoire |
+
+---
+
+### Fiche d'étude de poste N°04
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code poste** | Utilisateur |
+| **Désignation du poste** | Travailleur (Agent Sonatrach DG) |
+| **Structure** | FIN / ISI / RHU / ACT / HSE / MLG / SPE / BDM / JUR / RDT |
+| **Effectif** | ~2 300 agents Sonatrach DG |
+| **Moyen de traitement** | Ordinateur, imprimante, téléphone, réseau, scanner |
+| **Moyen de stockage** | Boîte d'archive, disques durs, flash disque |
+
+**Tâches à accomplir :**
+- Différentes tâches selon la fonction occupée au sein de la direction.
+
+**Les documents parvenant à ce poste :**
+
+| Désignation du document | Poste source | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Fiche d'intervention | Technicien | 1 | Aléatoire |
+| Décharge matériel | Technicien | 1 | Aléatoire |
+
+**Les documents diffusés par ce poste :**
+
+| Désignation du document | Poste destinataire | Nombre | Fréquence |
+| :--- | :--- | :---: | :--- |
+| Demande de matériel | Chef de département | 1 | Aléatoire |
+| Décharge matériel signée | Chef de département | 1 | Aléatoire |
+| Fiche d'intervention signée | Technicien | 1 | Aléatoire |
+| Demande d'intervention | Superviseur | 1 | Aléatoire |
+
+---
+
+## 2.2 Étude des Documents
+
+L'étude des documents permet d'identifier et d'analyser l'ensemble des supports d'information utilisés dans la gestion quotidienne du service, en précisant leur nature, leur rôle, leur origine, leur destination et leur contenu. Elle constitue une base essentielle pour comprendre les flux d'information existants et pour établir un dictionnaire de données fiable.
+
+### Symboles utilisés
+
+| Symbole | Signification |
+| :---: | :--- |
+| **A** | Alphabétique |
+| **N** | Numérique |
+| **AN** | Alphanumérique |
+| **D** | Date |
+
+---
+
+### Fiche d'étude du document N°01 — Demande d'intervention
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | DI |
+| **Désignation** | Demande d'intervention |
+| **Nature** | Externe |
+| **Couleur** | Blanc |
+| **Rôle** | Permet à l'utilisateur de formuler une demande d'intervention auprès du service Helpdesk |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Non |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la demande | N | 8 chiffres |
+| Nom du demandeur | A | 50 caractères |
+| Prénom du demandeur | A | 50 caractères |
+| Service | A | 30 caractères |
+| Marque du matériel | A | 30 caractères |
+| Désignation du matériel | A | 50 caractères |
+| Date de réception | D | JJ/MM/AAAA |
+| Réceptionné par | A | 50 caractères |
+| Visa | A | 30 caractères |
+| Niveau d'urgence | A | 10 caractères |
+
+---
+
+### Fiche d'étude du document N°02 — Fiche d'intervention
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | FI |
+| **Désignation** | Fiche d'intervention |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Permet de décrire l'intervention réalisée, de suivre son déroulement et de documenter la résolution du problème |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Non |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la fiche | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Nom du demandeur | A | 50 caractères |
+| Prénom du demandeur | A | 50 caractères |
+| Structure | A | 30 caractères |
+| Code du matériel | N | 10 chiffres |
+| Type du matériel | A | 40 caractères |
+| Modèle | A | 30 caractères |
+| Numéro de série | AN | 30 caractères |
+| Date de début d'intervention | D | JJ/MM/AAAA |
+| Heure de début d'intervention | N | HH:MM |
+| Date de fin d'intervention | D | JJ/MM/AAAA |
+| Heure de fin d'intervention | N | HH:MM |
+| Description de l'intervention | A | 300 caractères |
+| Signature de l'intervenant | A | 50 caractères |
+
+---
+
+### Fiche d'étude du document N°03 — Rapport d'intervention
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | RI |
+| **Désignation** | Rapport d'intervention |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Permet de décrire l'état d'avancement et les résultats de l'intervention réalisée |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Non |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Structure | A | 30 caractères |
+| Centre d'intervention | A | 20 caractères |
+| Numéro du rapport | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Intervenant | A | 50 caractères |
+| Durée d'intervention | N | 5 caractères |
+| Sous-traitant | A | 30 caractères |
+| Nature de la prestation | A | 40 caractères |
+| Observation | A | 300 caractères |
+
+---
+
+### Fiche d'étude du document N°04 — Décharge de matériel
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | DM |
+| **Désignation** | Décharge de matériel |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Atteste la remise du matériel à un utilisateur et engage sa responsabilité sur le matériel reçu |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach, Activité AVAL) |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Nom du cédant | A | 50 caractères |
+| Prénom du cédant | A | 50 caractères |
+| Date de remise | D | JJ/MM/AAAA |
+| Désignation du matériel | A | 50 caractères |
+| Marque | A | 30 caractères |
+| Modèle | A | 30 caractères |
+| Numéro de série | AN | 30 caractères |
+| Observation | A | 100 caractères |
+| Nom du recevant | A | 50 caractères |
+| Prénom du recevant | A | 50 caractères |
+| Structure | A | 30 caractères |
+| Signature cédant | A | 30 caractères |
+| Signature recevant | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°05 — Demande de matériel
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | DM |
+| **Désignation** | Demande de matériel |
+| **Nature** | Externe |
+| **Couleur** | Blanc |
+| **Rôle** | Permet à un agent de formuler une demande d'équipement informatique auprès du chef de département |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Non |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la demande | N | 8 chiffres |
+| Nom du demandeur | A | 50 caractères |
+| Prénom du demandeur | A | 50 caractères |
+| Structure | A | 30 caractères |
+| Désignation du matériel demandé | A | 100 caractères |
+| Justification du besoin | A | 300 caractères |
+| Date de la demande | D | JJ/MM/AAAA |
+| Visa du chef de département | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°06 — Fiche de besoin
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | FB |
+| **Désignation** | Fiche de besoin |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Formalise un besoin en matériel par le chef de département pour transmission au service des achats |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach) |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la fiche | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Désignation du matériel | A | 100 caractères |
+| Quantité | N | 5 chiffres |
+| Caractéristiques techniques | A | 200 caractères |
+| Priorité | A | 10 caractères |
+| Service demandeur | A | 30 caractères |
+| Signature du chef de département | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°07 — Bon de commande matériel
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | BC |
+| **Désignation** | Bon de commande matériel |
+| **Nature** | Externe |
+| **Couleur** | Blanc |
+| **Rôle** | Formalise une commande d'achat de matériel auprès d'un fournisseur |
+| **Nombre d'exemplaires** | 02 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach, Activité AVAL) |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro du bon de commande | AN | 15 caractères |
+| Date de la commande | D | JJ/MM/AAAA |
+| Nom du fournisseur | A | 50 caractères |
+| Adresse du fournisseur | A | 100 caractères |
+| Code article | AN | 15 caractères |
+| Désignation du matériel | A | 100 caractères |
+| Quantité | N | 5 chiffres |
+| Prix unitaire (DA) | N | 15 chiffres |
+| Montant total TTC (DA) | N | 15 chiffres |
+| Taux TVA | N | 5 chiffres |
+| Adresse de livraison | A | 100 caractères |
+| Demandé par | A | 50 caractères |
+| Approuvé par | A | 50 caractères |
+
+---
+
+### Fiche d'étude du document N°08 — Demande de réparation sous garantie
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | DRG |
+| **Désignation** | Demande de réparation sous garantie |
+| **Nature** | Externe |
+| **Couleur** | Blanc |
+| **Rôle** | Formalise une demande de prise en charge d'un équipement en panne sous garantie par le fournisseur |
+| **Nombre d'exemplaires** | 02 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach) |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la demande | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Désignation du matériel | A | 50 caractères |
+| Marque | A | 30 caractères |
+| Modèle | A | 30 caractères |
+| Numéro de série | AN | 30 caractères |
+| Date d'acquisition | D | JJ/MM/AAAA |
+| Date de fin de garantie | D | JJ/MM/AAAA |
+| Description de la panne | A | 300 caractères |
+| Fournisseur / Constructeur | A | 50 caractères |
+| Signature du technicien | A | 30 caractères |
+| Visa du chef de département | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°09 — Demande d'inventaire
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | DINV |
+| **Désignation** | Demande d'inventaire |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Déclenche un inventaire de contrôle du matériel informatique dans un service ou sur un site |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Non |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la demande | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Structure concernée | A | 30 caractères |
+| Périmètre (site / bâtiment / étage) | A | 100 caractères |
+| Motif de l'inventaire | A | 200 caractères |
+| Technicien(s) désigné(s) | A | 100 caractères |
+| Signature du chef de département | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°10 — Fiche d'inventaire
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | FINV |
+| **Désignation** | Fiche d'inventaire |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Récapitule le matériel informatique inventorié dans un bureau ou un service donné |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach, Activité AVAL) |
+| **Recto/verso** | Oui |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro de la fiche | N | 8 chiffres |
+| Date de l'inventaire | D | JJ/MM/AAAA |
+| Numéro d'inventaire comptable | N | 5 chiffres |
+| Code d'inventaire interne | AN | 20 caractères |
+| Désignation du matériel | A | 50 caractères |
+| Marque | A | 30 caractères |
+| Modèle | A | 30 caractères |
+| Numéro de série | AN | 30 caractères |
+| État du matériel | A | 20 caractères |
+| Localisation (bureau) | A | 20 caractères |
+| Observation | A | 100 caractères |
+| Signature du technicien | A | 30 caractères |
+| Visa du chef de département | A | 30 caractères |
+
+---
+
+### Fiche d'étude du document N°11 — Rapport d'inventaire
+
+| Rubrique | Détail |
+| :--- | :--- |
+| **Code** | RINV |
+| **Désignation** | Rapport d'inventaire |
+| **Nature** | Interne |
+| **Couleur** | Blanc |
+| **Rôle** | Synthétise les résultats de l'inventaire de contrôle réalisé et présente les écarts éventuels |
+| **Nombre d'exemplaires** | 01 |
+| **Format** | A4 |
+| **Support de stockage** | Boîte d'archives |
+| **Entête** | Oui (Logo Sonatrach) |
+| **Recto/verso** | Non |
+
+**Informations contenues dans le document :**
+
+| Rubrique | Type | Taille |
+| :--- | :--- | :--- |
+| Numéro du rapport | N | 8 chiffres |
+| Date | D | JJ/MM/AAAA |
+| Périmètre de l'inventaire | A | 100 caractères |
+| Total équipements recensés | N | 5 chiffres |
+| Total équipements conformes | N | 5 chiffres |
+| Total équipements avec écart | N | 5 chiffres |
+| Nature des écarts constatés | A | 300 caractères |
+| Recommandations | A | 300 caractères |
+| Signature du technicien | A | 30 caractères |
+| Visa du chef de département | A | 30 caractères |
+
+---
+
+## 2.3 Codification Existante
+
+Au sein du département Helpdesk, la codification existante est rudimentaire et incomplète. Les identifiants utilisés reposent principalement sur :
+- Les **numéros de série** des fabricants (ex. : CDL748473, FAL258242, 1100126451) pour identifier les équipements.
+- Les **numéros d'inventaire comptable** à 5 chiffres (ex. : 15631, 14578, 13459) pour le mobilier et certains équipements.
+- Les **numéros de bureau** (ex. : Bureau N°05, Bureau 449, Bureau 441) pour la localisation.
+- Les **codes de structure** abrégés (ex. : SEC/VP, SEC/CMT, DRH, DFJ, SIE) pour le rattachement des équipements aux services.
+
+Cette codification présente des lacunes : absence de code unique unifié pour chaque équipement, pas de système de codification pour les interventions ni pour les documents de gestion.
+
+---
+
+## 2.4 Cartographie des Flux d'Information
+
+### Définition
+
+Le flux d'information met en évidence les échanges entre les différents acteurs concernés par notre étude. Après avoir effectué des interviews auprès de la direction et des postes de travail pour collecter les informations appartenant au système d'information, on passe à une étape qui permet de schématiser la circulation et l'échange d'informations entre les différents postes de travail.
+
+### Acteurs
+
+Un acteur représente une unité active intervenant dans le fonctionnement du système d'information. Il existe deux types d'acteurs :
+- **Acteur interne** : poste interne à notre champ d'étude (représenté par un rectangle).
+- **Acteur externe** : poste externe à notre champ d'étude (représenté par un cercle).
+
+### Légende du diagramme de flux
+
+| Symbole | Signification |
+| :--- | :--- |
+| Rectangle | Acteur interne |
+| Cercle | Acteur externe |
+| Flèche numérotée | Flux d'information (document échangé) |
+
+*(Voir Figure 5 : Légende du diagramme de flux)*
+
+---
+
+## 2.5 Diagramme des Flux
+
+Le diagramme ci-dessous représente la circulation des documents entre les quatre postes de travail identifiés :
+
+```
+    ┌──────────────┐           ┌──────────────┐
+    │  UTILISATEUR │           │ SUPERVISEUR  │
+    │  (Agent DG)  │           │              │
+    └──────┬───┬───┘           └──────┬───┬───┘
+           │   │                      │   │
+     ①↗    │   │ ④↙              ②↗   │   │ ③↙
+           │   │                      │   │
+    ┌──────┴───┴───┐           ┌──────┴───┴───┐
+    │  TECHNICIEN  │           │    CHEF DE   │
+    │              │           │  DÉPARTEMENT │
+    └──────┬───┬───┘           └──────┬───┬───┘
+           │   │                      │   │
+     ⑤↗    │   │ ⑦↙              ⑥↗   │   │
+           │   │                      │   │
+           └───┘                      └───┘
+```
+
+*(Voir Figure 6 : Diagramme de flux d'information)*
+
+---
+
+## 2.6 Tableau Descriptif des Flux
+
+| N° Flux | Document | Émetteur | Destinataire |
+| :---: | :--- | :--- | :--- |
+| **1** | Demande d'intervention | Utilisateur | Superviseur |
+| **2** | Fiche d'intervention | Superviseur | Technicien |
+| **3** | Fiche d'intervention | Technicien | Utilisateur |
+| **4** | Fiche d'intervention signée | Utilisateur | Technicien |
+| **5** | Rapport d'intervention | Technicien | Chef de département |
+| **6** | Rapport d'intervention (sous garantie) | Chef de département | Technicien |
+| **7** | Rapport d'intervention (sous garantie) signé | Technicien | Chef de département |
+| **8** | Demande de matériel | Utilisateur | Chef de département |
+| **9** | Demande de matériel signée | Chef de département | Technicien |
+| **10** | Décharge matériel | Technicien | Utilisateur |
+| **11** | Décharge matériel signée | Utilisateur | Chef de département |
+| **12** | Demande d'inventaire | Chef de département | Technicien |
+| **13** | Fiche d'inventaire | Technicien | Chef de département |
+| **14** | Fiche d'inventaire signée | Chef de département | Technicien |
+| **15** | Rapport d'inventaire | Technicien | Chef de département |
+
+---
+
+## 2.7 Diagnostic de l'Existant (Critiques et Suggestions)
+
+### Critiques organisationnelles
+
+- **Trop de documents à gérer** : Un grand nombre de fiches, demandes et rapports circulent entre les postes, ce qui provoque des doublons, des retards et une gestion peu efficace.
+- **Manque de centralisation** : Les documents sont traités par plusieurs acteurs en même temps, rendant le suivi des demandes difficile et augmentant le risque de perte d'informations.
+- **Chevauchement des tâches** : Plusieurs postes effectuent des opérations similaires (signatures, validations), ce qui crée de la confusion sur les responsabilités.
+- **Absence de contrôles clairs** : Les étapes de validation ne sont pas clairement définies, ce qui limite le contrôle, la traçabilité et la fiabilité des décisions.
+
+### Suggestions organisationnelles
+
+- **Centralisation des documents** : Mettre en place un système informatisé afin de regrouper toutes les demandes, fiches et rapports dans un seul outil, avec un accès contrôlé pour chaque utilisateur et un archivage automatique.
+- **Clarification des rôles** : Définir clairement le rôle de chaque intervenant, notamment l'émetteur, le responsable de validation et le destinataire final de chaque document.
+- **Réduction des doublons** : Éviter la manipulation du même document par plusieurs postes en parallèle en utilisant des workflows automatisés.
+- **Formalisation des validations** : Intégrer des étapes de contrôle et de validation dans les procédures afin d'assurer la traçabilité.
+
+### Critiques informationnelles
+
+- **Traçabilité limitée** : L'utilisation de documents papier et de fichiers Excel ne permet pas un suivi en temps réel, ce qui rend difficile la connaissance de l'état exact d'une demande ou d'un équipement.
+- **Manque de standardisation** : Les documents existent sous plusieurs formats différents (Excel, Word, papier), ce qui complique leur traitement et empêche une automatisation efficace.
+- **Gestion irrégulière des informations** : Certaines données sont collectées de manière ponctuelle ou à des périodes mal définies, ce qui complique la planification et la production de rapports.
+- **Absence de statistiques** : Il est impossible de produire des indicateurs de performance ou des rapports décisionnels en temps réel.
+
+### Suggestions informationnelles
+
+- **Standardisation des documents** : Mise en place de formulaires numériques uniformisés pour assurer l'homogénéité des informations et faciliter leur traitement automatique.
+- **Tableaux de bord et reporting** : Utilisation de tableaux de bord offrant une vision globale de l'état du parc et des interventions, avec production de statistiques utiles à la prise de décision.
+- **Notifications et alertes** : Intégration de notifications automatiques pour améliorer la réactivité du système.
+- **Journal d'audit** : Historisation de toutes les actions effectuées pour garantir la traçabilité complète.
+
+### Synthèse
+
+| Problèmes clés | Solutions proposées |
+| :--- | :--- |
+| Flux dispersés et doublons | Centralisation via une application web |
+| Absence de contrôle et de traçabilité | Workflows automatisés et journal d'audit |
+| Documentation hétérogène et aléatoire | Standardisation et génération automatique des documents |
+| Impossibilité de produire des statistiques | Tableaux de bord et indicateurs en temps réel |
+
+---
+
+## Conclusion du Chapitre
+
+L'étude détaillée de l'existant nous a permis de comprendre en profondeur le fonctionnement du département Support Informatique (Helpdesk). L'analyse des quatre postes de travail, des documents circulant entre eux et des flux d'information a mis en évidence les insuffisances majeures du système actuel : dispersion des informations, absence de traçabilité, redondance des saisies et impossibilité de produire des rapports décisionnels. Ces constats justifient pleinement la nécessité de concevoir un nouveau système d'information centralisé, ce qui fera l'objet du chapitre suivant.

@@ -1,0 +1,397 @@
+# Chapitre N°3 : Conception du Nouveau Système
+
+## Introduction
+
+Après avoir mené une étude approfondie de l'existant et identifié les insuffisances du système actuel au sein du département Support Informatique (Helpdesk), nous abordons dans ce troisième chapitre la phase de conception du nouveau système d'information. Cette phase constitue le pont entre l'analyse des besoins métiers et la réalisation technique.
+
+Nous commencerons par présenter la solution informatique projetée, puis nous proposerons une nouvelle codification adaptée au parc matériel de Sonatrach. Ensuite, nous élaborerons le dictionnaire des données, définirons les règles de gestion — y compris la matrice de contrôle d'accès et la matrice d'autorisation documentaire —, et enfin, nous modéliserons le système à travers le Modèle Conceptuel des Données (MCD) et le Modèle Logique des Données (MLD).
+
+---
+
+## 3.1 Solution Informatique Projetée
+
+Suite à l'analyse des besoins et au diagnostic de l'existant, nous proposons le développement d'une **application web de gestion du matériel informatique** (baptisée **SIGMA — Système d'Information de Gestion du Matériel**), accessible via navigateur depuis n'importe quel poste du réseau interne de Sonatrach.
+
+### Justification du choix
+
+| Critère | Avantage |
+| :--- | :--- |
+| **Adéquation** | Solution sur mesure, adaptée à 100 % aux processus du Helpdesk |
+| **Accessibilité** | Accessible depuis tout poste via navigateur, sans installation |
+| **Centralisation** | Base de données unique regroupant matériel, affectations, maintenance, documents et demandes |
+| **Sécurité** | Hébergement intranet, contrôle d'accès par rôles (4 niveaux), matrice d'autorisation documentaire |
+| **Évolutivité** | Architecture modulaire permettant l'ajout de fonctionnalités sans dépendre d'un éditeur externe |
+| **Coût** | Technologies open source (React, Node.js), pas de frais de licence logicielle |
+
+### Modules fonctionnels de l'application
+
+L'application est structurée en **9 modules fonctionnels** couvrant l'ensemble des besoins identifiés :
+
+```
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                    APPLICATION WEB SIGMA                         │
+  │              (Navigateur — Réseau Intranet)                      │
+  │                                                                  │
+  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────────┐│
+  │  │ Tableau   │  │ Inventaire│  │Affectation│  │ Maintenance / ││
+  │  │ de bord   │  │ (21 types)│  │ Matériel  │  │   Tickets     ││
+  │  └───────────┘  └───────────┘  └───────────┘  └───────────────┘│
+  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────────┐│
+  │  │ Demandes  │  │ Licences  │  │    Hub    │  │  Rapports &   ││
+  │  │(Intervent.│  │Logicielles│  │ Documents │  │   Journal     ││
+  │  │& Matériel)│  │           │  │ (11 PDF)  │  │   d'audit     ││
+  │  └───────────┘  └───────────┘  └───────────┘  └───────────────┘│
+  │  ┌──────────────────────────────────────────────────────────────┐│
+  │  │ Authentification & Contrôle d'accès (4 rôles × 14 actions)  ││
+  │  └──────────────────────────────────────────────────────────────┘│
+  └───────────────────────┬──────────────────────────────────────────┘
+                          │
+                  ┌───────┴───────┐
+                  │ Base de       │
+                  │ Données       │
+                  │ Centralisée   │
+                  └───────────────┘
+```
+
+*(Voir Figure 7 : Architecture modulaire de la solution SIGMA)*
+
+### Pages de l'application
+
+L'application comprend **19 pages principales** et **11 sous-pages de formulaires de documents** :
+
+| N° | Page | Fonction |
+| :---: | :--- | :--- |
+| 1 | Authentification | Connexion sécurisée avec redirection par rôle |
+| 2 | Tableau de bord | KPI, graphiques, alertes en temps réel |
+| 3 | Inventaire du matériel | Liste, recherche, filtres par catégorie/état/localisation |
+| 4 | Fiche détaillée équipement | Caractéristiques, historique, QR Code |
+| 5 | Formulaire d'ajout/modification | Saisie et mise à jour d'un équipement |
+| 6 | Gestion des affectations | Historique, création, retours de matériel |
+| 7 | Gestion des licences | Suivi des licences logicielles et conformité |
+| 8 | Maintenance / Tickets | Interventions préventives et correctives |
+| 9 | Demandes (Intervention & Matériel) | Workflow : En attente → Assigné → Résolu |
+| 10 | Hub de documents | Création de 11 types de documents PDF |
+| 11 | Bons de commande | Suivi des commandes fournisseurs |
+| 12 | Bons de réception | Suivi des livraisons et réceptions |
+| 13 | Décharges | Suivi des transferts de matériel |
+| 14 | Rapports | Exports et statistiques |
+| 15 | Journal d'audit | Traçabilité complète des actions |
+| 16 | Annuaire utilisateurs | Gestion des comptes et rôles |
+| 17 | Notifications | Alertes et rappels |
+| 18 | Salles & Locaux | Gestion des emplacements |
+| 19 | Paramètres | Configuration système |
+
+---
+
+## 3.2 Nouvelle Codification Proposée
+
+Pour pallier les lacunes de l'ancienne codification, nous proposons un système de codes uniformisé couvrant les équipements et les documents.
+
+### Codification des équipements (21 catégories)
+
+| Préfixe | Catégorie | Exemple |
+| :--- | :--- | :--- |
+| **PC** | Ordinateur de bureau | PC-2024-001 |
+| **LP** | Ordinateur portable | LP-2024-015 |
+| **SRV** | Serveur | SRV-2024-002 |
+| **IMP** | Imprimante | IMP-2024-003 |
+| **PHC** | Photocopieur | PHC-2024-007 |
+| **FAX** | Télécopieur / Fax | FAX-2024-004 |
+| **SCN** | Scanner | SCN-2024-002 |
+| **DST** | Destructeur | DST-2024-001 |
+| **REL** | Relieuse à boudin | REL-2024-001 |
+| **TAB** | Tablette | TAB-2024-003 |
+| **SPH** | Smartphone | SPH-2024-005 |
+| **ECR** | Écran / Moniteur | ECR-2024-008 |
+| **RES** | Équipement réseau | RES-2024-006 |
+| **STK** | Stockage (NAS, disques) | STK-2024-002 |
+| **PRJ** | Projecteur | PRJ-2024-001 |
+| **PER** | Périphérique (clavier, souris) | PER-2024-020 |
+| **TEL** | Poste téléphonique IP | TEL-2024-012 |
+| **CLM** | Climatiseur | CLM-2024-003 |
+| **OND** | Onduleur / UPS | OND-2024-006 |
+| **MOB** | Mobilier de bureau | MOB-2024-020 |
+| **AUT** | Autre matériel | AUT-2024-001 |
+
+**Format :** `[CATÉGORIE]-[ANNÉE]-[N° SÉQUENTIEL sur 3 chiffres]`
+
+### Codification des documents (11 types)
+
+| Code | Document |
+| :--- | :--- |
+| **DM** | Demande de matériel |
+| **FB** | Fiche de besoin |
+| **BC** | Bon de commande matériel |
+| **DCH** | Décharge de matériel |
+| **DI** | Demande d'intervention |
+| **FI** | Fiche d'intervention |
+| **RI** | Rapport d'intervention |
+| **DRG** | Demande de réparation sous garantie |
+| **DINV** | Demande d'inventaire |
+| **FINV** | Fiche d'inventaire |
+| **RINV** | Rapport d'inventaire |
+
+### Codification des états d'équipement (9 états)
+
+| Code | État | Description |
+| :--- | :--- | :--- |
+| **ES** | En service | Équipement opérationnel à son poste |
+| **ST** | En stock | Disponible, non affecté |
+| **AF** | Affecté | Attribué à un employé |
+| **MN** | En maintenance | En cours de réparation |
+| **PN** | En panne | Signalé en panne, en attente d'intervention |
+| **RP** | Remplacement | En cours de remplacement |
+| **RF** | Réformé | Retiré définitivement du parc |
+| **PR** | Perdu | Matériel égaré ou volé |
+| **RE** | Réservé | Pré-affecté, non encore livré |
+
+---
+
+## 3.3 Dictionnaire des Données
+
+Le dictionnaire des données recense l'ensemble des champs (attributs) manipulés par le nouveau système d'information. Il constitue la base de la conception du MCD et du MLD.
+
+| N° | Code | Désignation | Type | Taille | Observation |
+| :---: | :--- | :--- | :---: | :--- | :--- |
+| 01 | id_equipement | Identifiant de l'équipement | N | Auto-incrémenté | Clé primaire |
+| 02 | code_inventaire | Code d'inventaire (assetTag) | AN | 20 | Unique, format STR-XXX-AAAA-NNNN |
+| 03 | num_serie | Numéro de série | AN | 50 | Unique |
+| 04 | categorie | Catégorie de l'équipement | A | 30 | Parmi 21 valeurs (LAPTOP, DESKTOP…) |
+| 05 | marque | Marque du fabricant | A | 50 | — |
+| 06 | modele | Modèle de l'équipement | A | 50 | — |
+| 07 | specifications | Caractéristiques techniques | AN | 500 | JSON (RAM, disque, processeur…) |
+| 08 | etat | État de l'équipement | A | 20 | Parmi 9 valeurs (EN_SERVICE…RESERVED) |
+| 09 | condition | État physique | A | 10 | NEW, GOOD, FAIR, POOR |
+| 10 | date_acquisition | Date d'achat | D | JJ/MM/AAAA | — |
+| 11 | prix_achat | Valeur d'achat (DA) | N | 15 | — |
+| 12 | valeur_actuelle | Valeur après dépréciation (DA) | N | 15 | Calculé automatiquement |
+| 13 | date_garantie | Fin de garantie | D | JJ/MM/AAAA | Peut être null |
+| 14 | fournisseur | Nom du fournisseur | A | 100 | — |
+| 15 | num_facture | Numéro de facture | AN | 50 | — |
+| 16 | localisation | Site / Bâtiment / Étage | A | 100 | — |
+| 17 | notes | Observations | A | 500 | — |
+| 18 | id_employe | Identifiant de l'employé | N | Auto-incrémenté | Clé primaire |
+| 19 | nom | Nom de l'employé | A | 50 | — |
+| 20 | prenom | Prénom de l'employé | A | 50 | — |
+| 21 | nom_complet | Nom complet (concaténé) | A | 100 | — |
+| 22 | email | Adresse email | AN | 100 | Unique |
+| 23 | telephone | Numéro de téléphone | AN | 20 | — |
+| 24 | matricule | Matricule employé | AN | 20 | Format STR-EMP-NNNNN |
+| 25 | structure | Direction / Service | A | 50 | Code structure Sonatrach |
+| 26 | poste_occupe | Fonction occupée | A | 50 | — |
+| 27 | role | Rôle système | A | 15 | ADMIN, SUPERVISOR, TECHNICIAN, USER |
+| 28 | est_actif | Compte actif | N | 1 | Booléen (0/1) |
+| 29 | date_embauche | Date d'embauche | D | JJ/MM/AAAA | — |
+| 30 | id_affectation | Identifiant de l'affectation | N | Auto-incrémenté | Clé primaire |
+| 31 | date_affectation | Date d'affectation | D | JJ/MM/AAAA | — |
+| 32 | date_retour | Date de retour du matériel | D | JJ/MM/AAAA | Peut être null |
+| 33 | motif | Motif de l'affectation | A | 200 | — |
+| 34 | statut_affectation | Statut | A | 10 | ACTIVE, RETURNED, OVERDUE |
+| 35 | id_maintenance | Identifiant de la maintenance | N | Auto-incrémenté | Clé primaire |
+| 36 | type_maintenance | Type d'intervention | A | 15 | PREVENTIVE, CORRECTIVE, UPGRADE, INSPECTION |
+| 37 | description_panne | Description du problème | A | 500 | — |
+| 38 | date_debut | Date de début | D | JJ/MM/AAAA | — |
+| 39 | date_fin | Date de fin | D | JJ/MM/AAAA | Peut être null |
+| 40 | cout_reparation | Coût de la réparation (DA) | N | 15 | — |
+| 41 | technicien | Nom du technicien | A | 100 | — |
+| 42 | statut_maint | Statut de la maintenance | A | 15 | SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED |
+| 43 | id_demande | Identifiant de la demande/ticket | N | Auto-incrémenté | Clé primaire |
+| 44 | num_demande | Numéro de demande | AN | 20 | Format REQ-AAAA-NNNN |
+| 45 | objet_demande | Objet/justification | A | 200 | — |
+| 46 | priorite | Priorité | A | 10 | LOW, MEDIUM, HIGH, URGENT |
+| 47 | statut_demande | Statut du ticket | A | 10 | **PENDING, ASSIGNED, RESOLVED** |
+| 48 | date_demande | Date de création | D | JJ/MM/AAAA | — |
+| 49 | id_licence | Identifiant de la licence | N | Auto-incrémenté | Clé primaire |
+| 50 | nom_logiciel | Nom du logiciel | A | 100 | — |
+| 51 | editeur | Éditeur du logiciel | A | 100 | — |
+| 52 | cle_licence | Clé de licence | AN | 100 | Masquée à l'affichage |
+| 53 | type_licence | Type de licence | A | 20 | PERPETUAL, SUBSCRIPTION, VOLUME, OEM, OPEN_SOURCE |
+| 54 | nb_postes_autorises | Nombre de postes autorisés | N | 5 | — |
+| 55 | nb_postes_utilises | Nombre de postes utilisés | N | 5 | — |
+| 56 | date_expiration | Date d'expiration | D | JJ/MM/AAAA | Peut être null |
+| 57 | statut_conformite | Conformité | A | 20 | COMPLIANT, OVER/UNDER_LICENSED, EXPIRED |
+
+---
+
+## 3.4 Règles de Gestion
+
+Les règles de gestion définissent les contraintes métier que le système doit impérativement respecter.
+
+### Règles relatives au matériel
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG01** | Un équipement est identifié de manière unique par son code d'inventaire (assetTag) et son numéro de série. |
+| **RG02** | Un équipement possède un état parmi 9 valeurs : En service, En stock, Affecté, En maintenance, En panne, Remplacement, Réformé, Perdu, Réservé. |
+| **RG03** | Un équipement est classé dans l'une des 21 catégories définies (Ordinateur portable, Ordinateur de bureau, Serveur, Imprimante, Photocopieur, Scanner, etc.). |
+
+### Règles relatives aux affectations
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG04** | Un équipement peut être affecté à un seul employé à la fois. Un employé peut détenir plusieurs équipements. |
+| **RG05** | Chaque affectation génère automatiquement une décharge de matériel au format PDF. |
+| **RG06** | Une affectation possède un statut parmi : Active, Retournée, En retard. |
+
+### Règles relatives à la maintenance
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG07** | Un équipement peut faire l'objet de zéro ou plusieurs interventions de maintenance. |
+| **RG08** | Une intervention de maintenance est de type Préventive, Corrective, Mise à niveau ou Inspection. |
+| **RG09** | Une intervention est effectuée par un seul technicien. Un technicien peut effectuer plusieurs interventions. |
+
+### Règles relatives au workflow des demandes/tickets
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG10** | Une demande (ticket) est créée par un Utilisateur avec le statut **EN ATTENTE** (PENDING). Le Superviseur affecte ce ticket à un Technicien, ce qui fait passer le statut à **ASSIGNÉ** (ASSIGNED). Le Technicien clôture l'intervention, ce qui fait passer le statut à **RÉSOLU** (RESOLVED). |
+| **RG11** | Un employé peut émettre plusieurs demandes de matériel et d'intervention. |
+
+### Règles relatives aux documents
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG12** | Le système génère automatiquement **11 types de documents officiels** au format PDF : Demande de matériel, Fiche de besoin, Bon de commande, Décharge de matériel, Demande d'intervention, Fiche d'intervention, Rapport d'intervention, Demande de réparation sous garantie, Demande d'inventaire, Fiche d'inventaire, Rapport d'inventaire. |
+| **RG13** | Chaque type de document possède une **matrice d'autorisation** spécifiant les rôles habilités à le créer (Émetteur) et à le signer/valider (Signataire). |
+
+### Matrice d'autorisation documentaire
+
+| Document | Émetteur (Créateur) | Signataire (Valideur) |
+| :--- | :--- | :--- |
+| Demande de matériel | Utilisateur, Admin | Admin |
+| Fiche de besoin | Admin | Admin |
+| Bon de commande | Admin | Admin |
+| Décharge de matériel | Technicien, Admin | Utilisateur |
+| Demande d'intervention | Utilisateur | Superviseur |
+| Fiche d'intervention | Superviseur | Utilisateur, Technicien |
+| Rapport d'intervention | Technicien | Admin, Superviseur |
+| Demande réparation garantie | Technicien, Admin | Admin |
+| Demande d'inventaire | Admin, Technicien | Technicien |
+| Fiche d'inventaire | Technicien | Admin |
+| Rapport d'inventaire | Technicien | Admin |
+
+### Règles relatives au contrôle d'accès
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG14** | Le système implémente un contrôle d'accès basé sur **4 rôles** ayant chacun un périmètre de permissions distinct. |
+
+### Matrice de permissions par rôle
+
+| Rôle | Périmètre de permissions |
+| :--- | :--- |
+| **Admin** (Chef de département) | Accès total : gestion des équipements, affectations, maintenance, licences, demandes, documents, rapports, journal d'audit, gestion des utilisateurs (14 actions) |
+| **Superviseur** (Call Center) | Consultation et modification des équipements, affectation de tickets aux techniciens, création de tickets, export de rapports, gestion de la maintenance |
+| **Technicien** | Consultation et modification des équipements, affectation de matériel, clôture des tickets (résolution), gestion de la maintenance |
+| **Utilisateur** (Agent Sonatrach) | Consultation de ses propres équipements affectés, création de tickets (demande d'intervention et de matériel) |
+
+| N° | Règle de gestion |
+| :---: | :--- |
+| **RG15** | Toute action effectuée dans le système est enregistrée dans le journal d'audit (utilisateur, date, action, entité concernée, détails des modifications). |
+| **RG16** | Une licence logicielle peut être affectée à un ou plusieurs postes. Le nombre de postes ne peut excéder le nombre autorisé par la licence. |
+
+---
+
+## 3.5 Modèle Conceptuel des Données (MCD)
+
+Le MCD décrit les entités du système et les associations entre elles, indépendamment de toute considération technique.
+
+### Entités
+
+| Entité | Identifiant | Attributs principaux |
+| :--- | :--- | :--- |
+| **EQUIPEMENT** | id_equipement | code_inventaire, num_serie, categorie, marque, modele, specifications, etat, condition, date_acquisition, prix_achat, valeur_actuelle, date_garantie, fournisseur, num_facture, localisation, notes |
+| **EMPLOYE** | id_employe | nom, prenom, nom_complet, email, telephone, matricule, structure, poste_occupe, role, est_actif, date_embauche |
+| **AFFECTATION** | id_affectation | date_affectation, date_retour, motif, statut_affectation |
+| **MAINTENANCE** | id_maintenance | type_maintenance, description_panne, date_debut, date_fin, cout_reparation, technicien, statut_maint |
+| **LICENCE** | id_licence | nom_logiciel, editeur, cle_licence, type_licence, nb_postes_autorises, nb_postes_utilises, date_expiration, statut_conformite |
+| **DEMANDE** | id_demande | num_demande, objet_demande, priorite, statut_demande (PENDING/ASSIGNED/RESOLVED), date_demande |
+| **DOCUMENT** | id_document | type_document, numero_document, date_generation, donnees |
+| **UTILISATEUR** | id_utilisateur | nom_complet, email, mot_de_passe, role (ADMIN/SUPERVISOR/TECHNICIAN/USER), date_creation, est_actif |
+| **JOURNAL_AUDIT** | id_action | type_action, entite_type, entite_id, description, date_action |
+
+### Associations et Cardinalités
+
+| Association | Entité 1 | Cardinalité | Entité 2 | Cardinalité | Propriétés |
+| :--- | :--- | :---: | :--- | :---: | :--- |
+| **Affecter** | EMPLOYE | (0,n) | EQUIPEMENT | (0,n) | Via AFFECTATION |
+| **Subir** | EQUIPEMENT | (0,n) | MAINTENANCE | (1,1) | — |
+| **Émettre** | EMPLOYE | (0,n) | DEMANDE | (1,1) | — |
+| **Assigner** | EMPLOYE (Superviseur) | (0,n) | DEMANDE | (0,1) | id_superviseur |
+| **Résoudre** | EMPLOYE (Technicien) | (0,n) | DEMANDE | (0,1) | id_technicien |
+| **Concerner** | LICENCE | (0,n) | EQUIPEMENT | (0,n) | Via table pivot |
+| **Générer** | AFFECTATION | (1,1) | DOCUMENT | (0,n) | — |
+| **Effectuer** | UTILISATEUR | (0,n) | JOURNAL_AUDIT | (1,1) | — |
+
+> **Note :** L'association « Affecter » est une association (0,n)—(0,n) entre EMPLOYE et EQUIPEMENT. Elle se transforme en table AFFECTATION dans le modèle logique, portant les clés étrangères id_employe et id_equipement ainsi que les propriétés de l'affectation.
+
+*(Voir Figure 13 : Modèle Conceptuel des Données — MCD)*
+
+---
+
+## 3.6 Modèle Logique des Données (MLD)
+
+Le MLD est obtenu par transformation du MCD en appliquant les règles de passage Merise :
+1. Chaque **entité** devient une **table**.
+2. L'**identifiant** de chaque entité devient la **clé primaire** de la table.
+3. Dans une association **1,N** : la clé primaire du côté « 1 » est ajoutée comme **clé étrangère** dans la table du côté « N ».
+4. Dans une association **N,N** : une **table intermédiaire** est créée, contenant les clés primaires des deux tables comme clés étrangères.
+
+### Schéma relationnel
+
+```
+EQUIPEMENT ( _id_equipement_, code_inventaire, num_serie, categorie, marque,
+             modele, specifications, etat, condition_physique, date_acquisition,
+             prix_achat, valeur_actuelle, date_garantie, fournisseur,
+             num_facture, localisation, notes, date_creation, date_modification )
+
+EMPLOYE ( _id_employe_, nom, prenom, nom_complet, email, telephone, matricule,
+          structure, poste_occupe, role, est_actif, date_embauche,
+          #id_departement, #id_responsable )
+
+AFFECTATION ( _id_affectation_, date_affectation, date_retour, motif,
+              statut, condition_retour, notes_retour,
+              #id_equipement, #id_employe, #id_attribue_par )
+
+MAINTENANCE ( _id_maintenance_, type_maintenance, description_panne,
+              date_debut, date_fin, cout_reparation, technicien,
+              pieces_utilisees, statut,
+              #id_equipement )
+
+LICENCE ( _id_licence_, nom_logiciel, editeur, version, cle_licence,
+          type_licence, nb_postes_autorises, nb_postes_utilises,
+          date_acquisition, date_expiration, cout_annuel, statut_conformite )
+
+LICENCE_EQUIPEMENT ( #id_licence, #id_equipement )
+
+DEMANDE ( _id_demande_, num_demande, objet, description, priorite,
+          statut_demande,
+          date_demande, date_traitement,
+          #id_demandeur, #id_superviseur_assignant, #id_technicien_assigne )
+
+DOCUMENT ( _id_document_, type_document, numero_document,
+           date_generation, donnees_json,
+           #id_affectation )
+
+UTILISATEUR ( _id_utilisateur_, nom_complet, email, mot_de_passe,
+              role, date_creation, est_actif )
+
+JOURNAL_AUDIT ( _id_action_, type_action, entite_type, entite_id,
+                description, date_action, modifications_json,
+                #id_utilisateur )
+```
+
+**Légende :**
+- `_attribut_` = Clé primaire (soulignée)
+- `#attribut` = Clé étrangère
+
+> **Note importante :** La table DEMANDE comporte trois clés étrangères vers EMPLOYE : `#id_demandeur` (l'utilisateur qui crée le ticket), `#id_superviseur_assignant` (le superviseur qui affecte le ticket) et `#id_technicien_assigne` (le technicien qui résout le ticket). Ce choix reflète le workflow tripartite EN ATTENTE → ASSIGNÉ → RÉSOLU.
+
+*(Voir Figure 14 : Modèle Logique des Données — MLD)*
+
+---
+
+## Conclusion du Chapitre
+
+Ce chapitre a permis de poser les bases conceptuelles du nouveau système d'information SIGMA. La solution projetée, une application web centralisée accessible depuis le réseau intranet, répond aux besoins identifiés lors de l'étude de l'existant. Le système repose sur une codification normalisée (21 catégories d'équipements, 11 types de documents, 9 états), un dictionnaire de 57 attributs, et 16 règles de gestion couvrant le matériel, les affectations, la maintenance, le workflow des demandes, les documents et le contrôle d'accès à 4 niveaux. Le MCD et le MLD formalisent la structure de la base de données — composée de 10 tables — qui sera implémentée dans le chapitre suivant consacré à la réalisation technique.
