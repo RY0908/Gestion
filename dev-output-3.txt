@@ -1,0 +1,29 @@
+
+> gestion@0.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 3868 modules transformed.
+[31m✗[39m Build failed in 7.18s
+[31merror during build:
+[31msrc/components/organisms/generators/DechargeGenerator.jsx (4:9): "apiClient" is not exported by "src/lib/api/client.js", imported by "src/components/organisms/generators/DechargeGenerator.jsx".[31m
+file: [36mC:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/src/components/organisms/generators/DechargeGenerator.jsx:4:9[31m
+[33m
+2: import { Printer, Calendar, User, Package, Plus, Trash2 } from 'lucide-react'
+3: import { useQuery } from '@tanstack/react-query'
+4: import { apiClient } from '@/lib/api/client'
+            ^
+5: import { format } from 'date-fns'
+6: import { cn } from '@/lib/utils'
+[31m
+    at getRollupError (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at FunctionScope.findVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at ReturnValueScope.findVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at MemberExpression.bind (file:///C:/Users/rayan/Desktop/ShitCode/Bdd-Sonatrach-files/PFE2/Gestion/node_modules/rollup/dist/es/shared/node-entry.js:7392:49)[39m
