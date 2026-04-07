@@ -13,6 +13,9 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { MoneyInput } from '@/components/forms/MoneyInput.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
+import { saveDocument } from '@/lib/api/saveDocument.js'
+
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
 
 const schema = yup.object({
     numCommande: yup.string().required('Le N° de commande est obligatoire'),
@@ -32,6 +35,8 @@ export default function FormBonReception() {
     const [showPreview, setShowPreview] = useState(false)
     const [articles, setArticles] = useState([{ code: '', designation: '', udm: 'U', qtyCommandee: 0, solde: 0, qtyReceptionnee: 0, prixUnitaire: 0, valeur: 0, numSerie: '', stockable: true }])
 
+    const { defaults } = useDocumentPrefill('BON_RECEPTION')
+
     const { register, handleSubmit, formState: { errors }, watch, reset, setValue, getValues } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -39,7 +44,8 @@ export default function FormBonReception() {
             fournisseurNom: '', codeFournisseur: '', adresseFournisseur: '',
             factureN: '', classe: '',
             droitDouane: 0, fret: 0, transport: 0,
-            receptionnaire: user?.fullName || '', valorisePar: '', fichiste: '', comptabilite: '',
+            receptionnaire: defaults.receptionnaire || user?.fullName || '',
+            valorisePar: '', fichiste: '', comptabilite: '',
         }
     })
 
@@ -80,16 +86,19 @@ export default function FormBonReception() {
     const [printData, setPrintData] = useState(null)
     const onSubmit = () => {
         const fd = getValues()
-        setPrintData({
+        const data = {
             numero, numCommande: fd.numCommande, numLivraison: fd.numLivraison, dateLivraison: fd.dateLivraison,
             fournisseur: { nom: fd.fournisseurNom, code: fd.codeFournisseur, adresse: fd.adresseFournisseur },
             articles, totalGeneral,
             factureN: fd.factureN, classe: fd.classe,
             droitDouane: fd.droitDouane, fret: fd.fret, transport: fd.transport,
             signataires: { receptionnaire: fd.receptionnaire, valorisePar: fd.valorisePar, fichiste: fd.fichiste, comptabilite: fd.comptabilite },
-        })
+        }
+        setPrintData(data)
         setShowPreview(true)
         localStorage.removeItem(DRAFT_KEY)
+        // Archive to PostgreSQL (non-blocking)
+        saveDocument('BR', numero, data)
     }
 
 

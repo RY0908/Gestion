@@ -1,58 +1,58 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
-import { cn, initials } from '@/lib/utils.js'
+import { cn } from '@/lib/utils.js'
 import {
     Bell, Package, Wrench, Key, UserCheck, Settings,
-    Check, Archive, Clock, Filter
+    Check, Archive, Clock, Filter, RefreshCw
 } from 'lucide-react'
 
-const CATEGORIES = [
-    { id: 'all', label: 'Toutes', icon: Bell, count: null },
-    { id: 'assets', label: 'Actifs', icon: Package, count: 5 },
-    { id: 'maintenance', label: 'Maintenance', icon: Wrench, count: 3 },
-    { id: 'licenses', label: 'Licences', icon: Key, count: 2 },
-    { id: 'assignments', label: 'Affectations', icon: UserCheck, count: 4 },
-    { id: 'system', label: 'Système', icon: Settings, count: 1 },
-]
-
-const MOCK_NOTIFICATIONS = [
-    { id: 1, category: 'assets', title: 'Nouvel actif enregistré', desc: 'Laptop ThinkPad T14 ajouté à l\'inventaire par Amina Benali', time: 'Il y a 5 min', read: false, user: 'Amina Benali' },
-    { id: 2, category: 'maintenance', title: 'Ticket de maintenance créé', desc: 'Imprimante HP LaserJet — Bourrage papier récurrent', time: 'Il y a 30 min', read: false, user: 'Karim Meziani' },
-    { id: 3, category: 'licenses', title: 'Licence expirée', desc: 'Adobe Creative Suite — 3 postes impactés, renouvellement urgent', time: 'Il y a 1h', read: false, user: 'Système' },
-    { id: 4, category: 'assignments', title: 'Retour d\'équipement', desc: 'PC-2024-067 retourné par Yasmine Boudaoud (Direction Finances)', time: 'Il y a 2h', read: true, user: 'Yasmine Boudaoud' },
-    { id: 5, category: 'assets', title: 'Garantie bientôt expirée', desc: 'Dell Latitude 7420 (STR-LAP-2022-0012) — expire dans 15 jours', time: 'Il y a 3h', read: false, user: 'Système' },
-    { id: 6, category: 'maintenance', title: 'Maintenance terminée', desc: 'Serveur rack HP ProLiant — Mise à jour firmware complétée', time: 'Il y a 5h', read: true, user: 'Tarek Ould Ali' },
-    { id: 7, category: 'system', title: 'Exportation terminée', desc: 'Le rapport mensuel des actifs a été exporté avec succès', time: 'Il y a 6h', read: true, user: 'Système' },
-    { id: 8, category: 'assignments', title: 'Nouvelle affectation', desc: 'Laptop Lenovo ThinkPad assigné à Mohamed Hadj Ali (DSI)', time: 'Il y a 8h', read: true, user: 'Amina Benali' },
-    { id: 9, category: 'licenses', title: 'Alerte conformité', desc: 'Microsoft 365 — utilisation supérieure au nombre de licences achetées', time: 'Hier', read: false, user: 'Système' },
-    { id: 10, category: 'assets', title: 'Actif marqué perdé', desc: 'Tablette Samsung Galaxy Tab S7 (STR-TAB-2023-0005) signalée perdue', time: 'Hier', read: true, user: 'Nadia Saidi' },
-    { id: 11, category: 'maintenance', title: 'Pièce en commande', desc: 'Carte mère pour Dell OptiPlex 7080 — délai 5-7 jours ouvrés', time: 'Hier', read: true, user: 'Karim Meziani' },
-    { id: 12, category: 'assignments', title: 'Demande de prêt approuvée', desc: 'Vidéoprojecteur Epson accordé pour la réunion du 15/03', time: 'Il y a 2 jours', read: true, user: 'Amina Benali' },
-    { id: 13, category: 'assets', title: 'Stock bas alerte', desc: 'Clavier USB — seulement 2 unités restantes en stock', time: 'Il y a 2 jours', read: true, user: 'Système' },
-    { id: 14, category: 'assets', title: 'Nouveau lot reçu', desc: '10 souris sans fil Logitech MX Master 3 ajoutées au stock', time: 'Il y a 3 jours', read: true, user: 'Fouad Amokrane' },
-    { id: 15, category: 'system', title: 'Sauvegarde effectuée', desc: 'La sauvegarde automatique de la base de données a réussi', time: 'Il y a 3 jours', read: true, user: 'Système' },
-]
-
 const CATEGORY_ICON = {
-    assets: Package,
+    assets:      Package,
     maintenance: Wrench,
-    licenses: Key,
-    assignments: UserCheck,
-    system: Settings,
+    license:     Key,
+    request:     Settings,
+    assignment:  UserCheck,
 }
 
 const CATEGORY_COLOR = {
-    assets: 'text-blue-500 bg-blue-50 dark:bg-blue-900/20',
+    assets:      'text-blue-500 bg-blue-50 dark:bg-blue-900/20',
     maintenance: 'text-amber-500 bg-amber-50 dark:bg-amber-900/20',
-    licenses: 'text-red-500 bg-red-50 dark:bg-red-900/20',
-    assignments: 'text-purple-500 bg-purple-50 dark:bg-purple-900/20',
-    system: 'text-gray-500 bg-gray-100 dark:bg-gray-800',
+    license:     'text-red-500 bg-red-50 dark:bg-red-900/20',
+    request:     'text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20',
+    assignment:  'text-purple-500 bg-purple-50 dark:bg-purple-900/20',
 }
+
+const CATEGORIES = [
+    { id: 'all',         label: 'Toutes',      icon: Bell },
+    { id: 'license',     label: 'Licences',     icon: Key },
+    { id: 'maintenance', label: 'Maintenance',  icon: Wrench },
+    { id: 'request',     label: 'Tickets',      icon: Settings },
+    { id: 'assignment',  label: 'Affectations', icon: UserCheck },
+]
 
 export default function NotificationsPage() {
     const [activeCategory, setActiveCategory] = useState('all')
-    const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS)
+    const [notifications, setNotifications] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const fetchNotifications = async () => {
+        setLoading(true)
+        try {
+            const token = JSON.parse(localStorage.getItem('auth-store') || '{}')?.state?.token
+            const res = await fetch('/api/notifications', {
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            })
+            const json = await res.json()
+            setNotifications((json.data || []).map(n => ({ ...n, read: false })))
+        } catch (err) {
+            console.error('Notifications fetch error:', err)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => { fetchNotifications() }, [])
 
     const filtered = useMemo(() => {
         if (activeCategory === 'all') return notifications
@@ -71,11 +71,19 @@ export default function NotificationsPage() {
 
     return (
         <div className="p-6 max-w-6xl mx-auto space-y-6">
-            <PageHeader
+        <PageHeader
                 title="Notifications"
                 count={unreadCount}
-                description="Restez informé des événements importants."
+                description={loading ? 'Chargement des alertes...' : `${notifications.length} alertes actives du système.`}
             >
+                <button
+                    onClick={fetchNotifications}
+                    disabled={loading}
+                    className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] hover:bg-[var(--color-surface)] rounded-lg text-sm font-medium transition-colors btn-press"
+                >
+                    <RefreshCw className={cn('w-4 h-4', loading && 'animate-spin')} />
+                    Actualiser
+                </button>
                 <button
                     onClick={markAllRead}
                     className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] hover:bg-[var(--color-surface)] rounded-lg text-sm font-medium transition-colors btn-press"
@@ -108,8 +116,10 @@ export default function NotificationsPage() {
                             >
                                 <cat.icon className="w-4 h-4" />
                                 <span className="flex-1 text-left">{cat.label}</span>
-                                {cat.count && (
-                                    <span className="text-[10px] bg-[var(--color-bg)] px-1.5 py-0.5 rounded-full">{cat.count}</span>
+                                {cat.id !== 'all' && (
+                                    <span className="text-[10px] bg-[var(--color-bg)] px-1.5 py-0.5 rounded-full">
+                                        {notifications.filter(n => n.category === cat.id).length}
+                                    </span>
                                 )}
                             </button>
                         ))}
@@ -118,7 +128,9 @@ export default function NotificationsPage() {
 
                 {/* Notification List */}
                 <div className="flex-1 space-y-2">
-                    {filtered.length > 0 ? filtered.map((n, i) => {
+                {loading ? (
+                    <div className="space-y-2">{[...Array(5)].map((_,i) => <div key={i} className="h-16 skeleton-shimmer rounded-xl" />)}</div>
+                ) : filtered.length > 0 ? filtered.map((n, i) => {
                         const Icon = CATEGORY_ICON[n.category] || Bell
                         const colorCls = CATEGORY_COLOR[n.category] || ''
                         return (

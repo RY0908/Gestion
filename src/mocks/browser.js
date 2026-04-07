@@ -1,4 +1,5 @@
 import { setupWorker } from 'msw/browser'
+import { authHandlers } from './handlers/auth.handlers.js'
 import { assetHandlers } from './handlers/assets.handlers.js'
 import { userHandlers } from './handlers/users.handlers.js'
 import { assignmentHandlers } from './handlers/assignments.handlers.js'
@@ -11,6 +12,7 @@ import { bonReceptionHandlers } from './handlers/bon-receptions.handlers.js'
 import { dechargeHandlers } from './handlers/decharges.handlers.js'
 
 export const worker = setupWorker(
+    ...authHandlers,
     ...assetHandlers,
     ...userHandlers,
     ...assignmentHandlers,

@@ -14,6 +14,7 @@ import { FormRadioGroup } from '@/components/forms/FormRadioGroup.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
 
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE – Stratégie, Planification & Économie' },
@@ -49,17 +50,19 @@ export default function FormDemandeIntervention() {
     const [numero] = useState(generateNumero)
     const [showPreview, setShowPreview] = useState(false)
 
+    const { defaults } = useDocumentPrefill('DEMANDE_INTERV')
+
     const now = new Date()
     const { register, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: now.toISOString().split('T')[0],
-            heure: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
-            nom: user?.fullName || '',
-            matricule: '',
-            direction: '',
+            date: defaults.date || now.toISOString().split('T')[0],
+            heure: defaults.heure || `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+            nom: defaults.nom || user?.fullName || '',
+            matricule: defaults.matricule || '',
+            direction: defaults.direction || '',
             bureau: '',
-            telephone: '',
+            telephone: defaults.telephone || '',
             designation: '',
             marque: '',
             numSerie: '',

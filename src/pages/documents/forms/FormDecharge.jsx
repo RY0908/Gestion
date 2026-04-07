@@ -11,6 +11,8 @@ import { FormDatePicker } from '@/components/forms/FormDatePicker.jsx'
 import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
+import { saveDocument } from '@/lib/api/saveDocument.js'
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
 
 const schema = yup.object({
     activite: yup.string().required("L'activité est obligatoire"),
@@ -34,11 +36,17 @@ export default function FormDecharge() {
     const emptyRow = { designation: '', marque: '', modele: '', numSerie: '', observation: '' }
     const [articles, setArticles] = useState([emptyRow, emptyRow, emptyRow, emptyRow, emptyRow]) // min 5
 
+    const { defaults } = useDocumentPrefill('DECHARGE')
+
     const { register, handleSubmit, formState: { errors }, watch, reset, getValues } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            activite: 'Activité AVAL', structure: '', dateRemise: new Date().toISOString().split('T')[0],
-            cedantNom: '', cedantPrenom: '', cedantStructure: '',
+            activite: defaults.activite || 'Activité AVAL',
+            structure: defaults.structure || '',
+            dateRemise: defaults.dateRemise || new Date().toISOString().split('T')[0],
+            cedantNom: defaults.cedantNom || '',
+            cedantPrenom: defaults.cedantPrenom || '',
+            cedantStructure: defaults.cedantStructure || '',
             recevantNom: '', recevantPrenom: '', recevantStructure: '',
         }
     })
@@ -65,14 +73,17 @@ export default function FormDecharge() {
     const [printData, setPrintData] = useState(null)
     const onSubmit = () => {
         const fd = getValues()
-        setPrintData({
+        const data = {
             numero, activite: fd.activite, structure: fd.structure, dateRemise: fd.dateRemise,
             cedant: { nom: fd.cedantNom, prenom: fd.cedantPrenom, structure: fd.cedantStructure },
             recevant: { nom: fd.recevantNom, prenom: fd.recevantPrenom, structure: fd.recevantStructure },
             articles: articles.filter(a => a.designation),
-        })
+        }
+        setPrintData(data)
         setShowPreview(true)
         localStorage.removeItem(DRAFT_KEY)
+        // Archive to PostgreSQL (non-blocking)
+        saveDocument('DCH', numero, data)
     }
 
 

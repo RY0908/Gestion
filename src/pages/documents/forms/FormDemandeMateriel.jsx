@@ -15,6 +15,8 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE' }, { value: 'FIN', label: 'FIN' }, { value: 'RHU', label: 'RHU' },
     { value: 'BDM', label: 'BDM' }, { value: 'ACT', label: 'ACT' }, { value: 'JUR', label: 'JUR' },
@@ -40,12 +42,19 @@ export default function FormDemandeMateriel() {
     const [showPreview, setShowPreview] = useState(false)
     const [articles, setArticles] = useState([{ designation: '', quantite: 1, motif: '' }])
 
+    const { defaults } = useDocumentPrefill('DEMANDE_MATERIEL')
+
     const { register, handleSubmit, formState: { errors }, watch, reset, getValues } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0],
-            nom: user?.fullName?.split(' ')[1] || '', prenom: user?.fullName?.split(' ')[0] || '',
-            matricule: '', direction: '', structure: '', poste: user?.position || '', telephone: '',
+            date: defaults.date || new Date().toISOString().split('T')[0],
+            nom: defaults.nom || '',
+            prenom: defaults.prenom || '',
+            matricule: defaults.matricule || '',
+            direction: defaults.direction || '',
+            structure: defaults.structure || '',
+            poste: user?.position || '',
+            telephone: defaults.telephone || '',
             observations: '', urgence: 'Normal',
         }
     })

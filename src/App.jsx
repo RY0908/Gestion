@@ -13,6 +13,8 @@ import AssignmentListPage from '@/pages/assignments/AssignmentListPage.jsx'
 import LicenseListPage from '@/pages/licenses/LicenseListPage.jsx'
 import MaintenanceListPage from '@/pages/maintenance/MaintenanceListPage.jsx'
 import RequestListPage from '@/pages/requests/RequestListPage.jsx'
+import MyRequestsPage from '@/pages/requests/MyRequestsPage.jsx'
+import RequestDetailPage from '@/pages/requests/RequestDetailPage.jsx'
 import ReportsPage from '@/pages/reports/ReportsPage.jsx'
 import AuditLogPage from '@/pages/audit/AuditLogPage.jsx'
 import NotificationsPage from '@/pages/notifications/NotificationsPage.jsx'
@@ -31,6 +33,8 @@ import FormRapportIntervention from '@/pages/documents/forms/FormRapportInterven
 import FormFicheBesoin from '@/pages/documents/forms/FormFicheBesoin.jsx'
 import FormDemandeGarantie from '@/pages/documents/forms/FormDemandeGarantie.jsx'
 import { AnimatedRoutes } from '@/components/atoms/PageTransition.jsx'
+import ProfilePage from '@/pages/profile/ProfilePage.jsx'
+import PreferencesPage from '@/pages/settings/PreferencesPage.jsx'
 
 const NotFoundPage = () => <div className="p-6 h-full flex items-center justify-center text-gray-400">404 - Page Introuvable</div>
 
@@ -79,6 +83,8 @@ export default function App() {
         <Route path="/licenses" element={<P><LicenseListPage /></P>} />
         <Route path="/maintenance" element={<P><MaintenanceListPage /></P>} />
         <Route path="/requests" element={<P><RequestListPage /></P>} />
+        <Route path="/requests/:id" element={<P><RequestDetailPage /></P>} />
+        <Route path="/my-requests" element={<P><MyRequestsPage /></P>} />
         <Route path="/documents" element={<P><DocsHubPage /></P>} />
         <Route path="/documents/bon-sortie/nouveau" element={<P><FormBonSortie /></P>} />
         <Route path="/documents/demande-intervention/nouveau" element={<P><FormDemandeIntervention /></P>} />
@@ -96,6 +102,8 @@ export default function App() {
         <Route path="/audit-log" element={<P><AuditLogPage /></P>} />
         <Route path="/notifications" element={<P><NotificationsPage /></P>} />
         <Route path="/settings/users" element={<P><UsersPage /></P>} />
+        <Route path="/profile" element={<P><ProfilePage /></P>} />
+        <Route path="/settings/preferences" element={<P><PreferencesPage /></P>} />
         <Route path="/settings" element={<Navigate to="/settings/users" replace />} />
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />

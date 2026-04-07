@@ -14,6 +14,9 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { MoneyInput } from '@/components/forms/MoneyInput.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
+import { saveDocument } from '@/lib/api/saveDocument.js'
+
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
 
 const schema = yup.object({
     fournisseurNom: yup.string().required('Le nom du fournisseur est obligatoire'),
@@ -41,14 +44,17 @@ export default function FormBonCommande() {
     const [articles, setArticles] = useState([{ code: '', designation: '', quantite: 1, prixUnitaire: 0, montant: 0 }])
     const [tvaRate, setTvaRate] = useState('19')
 
+    const { defaults } = useDocumentPrefill('BON_COMMANDE')
+
     const { register, handleSubmit, formState: { errors }, watch, reset, setValue, getValues } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0],
+            date: defaults.date || new Date().toISOString().split('T')[0],
             fournisseurNom: '', fournisseurAdresse: '', fournisseurContact: '',
             refDevis: '', dateLivraison: '', modeExpedition: '', noteFournisseur: '',
             compteGeneral: '', compteAnalytique: '',
-            solliciteur: user?.fullName || '', approbateur: '',
+            solliciteur: defaults.demandeur || user?.fullName || '',
+            approbateur: '',
         }
     })
 
@@ -86,7 +92,7 @@ export default function FormBonCommande() {
     const [printData, setPrintData] = useState(null)
     const onSubmit = () => {
         const fd = getValues()
-        setPrintData({
+        const data = {
             numero, date: fd.date,
             fournisseur: { nom: fd.fournisseurNom, adresse: fd.fournisseurAdresse, contact: fd.fournisseurContact },
             articles: articles.map(a => ({ ...a, montant: fmt(a.montant) })),
@@ -94,9 +100,12 @@ export default function FormBonCommande() {
             totalHT, montantTVA, totalTTC, tvaRate,
             imputation: { compteGeneral: fd.compteGeneral, compteAnalytique: fd.compteAnalytique },
             solliciteur: fd.solliciteur, approbateur: fd.approbateur,
-        })
+        }
+        setPrintData(data)
         setShowPreview(true)
         localStorage.removeItem(DRAFT_KEY)
+        // Archive to PostgreSQL (non-blocking)
+        saveDocument('BC', numero, data)
     }
 
 

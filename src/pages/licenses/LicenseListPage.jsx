@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { useLicenses } from '@/hooks/useLicenses.js'
+import { useState, useMemo } from 'react'
+import { useLicenses, useDeleteLicense } from '@/hooks/useLicenses.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { KpiCard } from '@/components/atoms/KpiCard.jsx'
 import { StatusBadge } from '@/components/atoms/StatusBadge.jsx'
@@ -7,8 +7,9 @@ import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { CopyableText } from '@/components/atoms/CopyableText.jsx'
 import { formatDate, formatCurrency } from '@/lib/utils.js'
-import { Key, AlertTriangle, CheckCircle, ShieldCheck, Plus } from 'lucide-react'
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { Key, AlertTriangle, ShieldCheck, Plus, Edit2, Trash2 } from 'lucide-react'
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { LicenseFormModal } from './components/LicenseFormModal.jsx'
 
 const COMPLIANCE_ICONS = {
     COMPLIANT: { emoji: '✅', label: 'Conforme', bg: 'bg-green-50 dark:bg-green-900/20', text: 'text-green-700 dark:text-green-400' },
@@ -21,7 +22,27 @@ const UTIL_COLORS = ['#1B6B3A', '#e5e7eb']
 
 export default function LicenseListPage() {
     const { data, isLoading } = useLicenses({})
+    const deleteMutation = useDeleteLicense()
     const licenses = data?.data || []
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedLicense, setSelectedLicense] = useState(null)
+
+    const handleEdit = (license) => {
+        setSelectedLicense(license)
+        setIsModalOpen(true)
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cette licence ?")) {
+            deleteMutation.mutate(id)
+        }
+    }
+
+    const openNewModal = () => {
+        setSelectedLicense(null)
+        setIsModalOpen(true)
+    }
 
     // SAM Metrics
     const metrics = useMemo(() => {
@@ -98,9 +119,9 @@ export default function LicenseListPage() {
                 if (!d) return <span className="text-[var(--color-muted)]">—</span>
                 const expired = new Date(d) < new Date()
                 return (
-                    <span className={expired ? 'text-red-500 font-semibold' : ''}>
+                    <span className={expired ? 'text-red-500 font-semibold flex items-center gap-2' : ''}>
                         {formatDate(d)}
-                        {expired && <span className="ml-1 text-[10px] bg-red-50 dark:bg-red-900/20 text-red-500 px-1 rounded">Expiré</span>}
+                        {expired && <span className="text-[10px] bg-red-50 dark:bg-red-900/20 text-red-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Expiré</span>}
                     </span>
                 )
             }
@@ -117,6 +138,31 @@ export default function LicenseListPage() {
                     </span>
                 )
             }
+        },
+        {
+            id: 'actions',
+            header: '',
+            cell: info => {
+                const rowLic = info.row.original
+                return (
+                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                            onClick={() => handleEdit(rowLic)}
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"
+                            title="Modifier"
+                        >
+                            <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => handleDelete(rowLic.id)}
+                            className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                            title="Supprimer"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    </div>
+                )
+            }
         }
     ], [])
 
@@ -127,7 +173,10 @@ export default function LicenseListPage() {
                 count={metrics.total}
                 description="Software Asset Management — Suivez les licences et la conformité."
             >
-                <button className="flex items-center gap-2 px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press">
+                <button
+                    onClick={openNewModal}
+                    className="flex items-center gap-2 px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press"
+                >
                     <Plus className="w-4 h-4" /> Nouvelle Licence
                 </button>
             </PageHeader>
@@ -184,6 +233,7 @@ export default function LicenseListPage() {
                     columns={columns}
                     data={licenses}
                     isLoading={isLoading}
+                    rowClassName="group"
                 />
             ) : !isLoading && (
                 <EmptyState
@@ -191,9 +241,16 @@ export default function LicenseListPage() {
                     title="Aucune licence enregistrée"
                     description="Commencez par ajouter vos licences logicielles."
                     actionLabel="Ajouter une licence"
-                    onAction={() => { }}
+                    onAction={openNewModal}
                 />
             )}
+
+            <LicenseFormModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                license={selectedLicense}
+            />
         </div>
     )
 }
+

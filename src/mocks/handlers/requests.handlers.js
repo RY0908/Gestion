@@ -1,15 +1,22 @@
 import { http, HttpResponse, delay } from 'msw'
 import { requests } from '../fixtures/requests.fixtures.js'
 import { assets } from '../fixtures/assets.fixtures.js'
+import { users } from '../fixtures/users.fixtures.js'
 
 export const requestHandlers = [
     http.get('/api/requests', async ({ request }) => {
         await delay(350)
         const url = new URL(request.url)
         const status = url.searchParams.get('status')
+        const mine = url.searchParams.get('mine') === 'true'
+        const userId = url.searchParams.get('userId')
 
         let filtered = [...requests]
         if (status) filtered = filtered.filter(r => r.status === status)
+
+        if (mine && userId) {
+            filtered = filtered.filter(r => r.requestedBy?.id === userId)
+        }
 
         return HttpResponse.json({ data: filtered, total: filtered.length, page: 1, pageSize: 50, totalPages: 1 })
     }),
@@ -24,7 +31,17 @@ export const requestHandlers = [
     http.post('/api/requests', async ({ request }) => {
         await delay(500)
         const body = await request.json()
-        const newReq = { ...body, id: crypto.randomUUID(), status: 'PENDING', requestNumber: `REQ-2024-${Math.floor(Math.random() * 9000) + 1000}` }
+
+        const reqUser = users.find(u => u.id === body.requestedById) || users[0]
+
+        const newReq = { 
+            ...body, 
+            id: crypto.randomUUID(), 
+            status: 'PENDING', 
+            requestNumber: `REQ-2024-${Math.floor(Math.random() * 9000) + 1000}`,
+            requestedBy: reqUser,
+            createdAt: new Date().toISOString()
+        }
         requests.unshift(newReq)
         return HttpResponse.json({ data: newReq, success: true }, { status: 201 })
     }),
@@ -46,7 +63,6 @@ export const requestHandlers = [
 
         requests[idx].status = 'ASSIGNED'
         // Mock finding the user
-        const { users } = await import('../fixtures/users.fixtures.js')
         const technician = users.find(u => u.id === body.assignedToId)
         if (technician) requests[idx].assignedTo = technician;
 

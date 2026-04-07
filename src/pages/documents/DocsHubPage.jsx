@@ -64,10 +64,13 @@ export default function DocsHubPage() {
     const [expanded, setExpanded] = useState(null)
 
     useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('auth-store') || '{}')?.state?.token
+        const headers = token ? { Authorization: `Bearer ${token}` } : {}
+
         Promise.all([
-            fetch('/api/purchase-orders').then(r => r.json()).then(r => r.data).catch(() => []),
-            fetch('/api/bon-receptions').then(r => r.json()).then(r => r.data).catch(() => []),
-            fetch('/api/decharges').then(r => r.json()).then(r => r.data).catch(() => []),
+            fetch('/api/documents/purchase-orders', { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
+            fetch('/api/documents/bon-receptions',  { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
+            fetch('/api/documents/decharges',       { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
         ]).then(([bc, br, dch]) => {
             setOrders(bc || [])
             setReceptions(br || [])

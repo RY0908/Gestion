@@ -12,8 +12,11 @@ const PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT']
 const STATUSES = ['PENDING', 'ASSIGNED', 'RESOLVED']
 
 export const requests = Array.from({ length: 20 }).map((_, index) => {
-    // Users create requests (roles: USER)
-    const requestedBy = users.find(u => u.role === 'USER' && u.id === `usr-${1010 + (index % 10)}`) || users[15]
+    // Users create requests (roles: USER), let's assign index 0 and 1 to Ahmed Boudiaf (Admin) for testing
+    let requestedBy = users.find(u => u.role === 'USER' && u.id === `usr-${1010 + (index % 10)}`) || users[15]
+    if (index === 0 || index === 1) {
+        requestedBy = users.find(u => u.id === 'usr-1') || requestedBy; // Ahmed Boudiaf
+    }
     const status = STATUSES[index % STATUSES.length]
     const priority = PRIORITIES[index % PRIORITIES.length]
     const requestedFor = requestedBy

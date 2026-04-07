@@ -15,6 +15,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const schema = yup.object({
     designation: yup.string().required('La désignation est obligatoire'),
     marque: yup.string().required('La marque est obligatoire'),
@@ -38,16 +40,19 @@ export default function FormDemandeGarantie() {
     const [docs, setDocs] = useState({ bonCommande: false, facture: false, certificat: false, ficheTechnique: false, autre: false })
     const [autreDoc, setAutreDoc] = useState('')
 
+    const { defaults } = useDocumentPrefill('DEMANDE_GARANTIE')
+
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0],
+            date: defaults.date || new Date().toISOString().split('T')[0],
             designation: '', marque: '', modele: '', numSerie: '', numInventaire: '', numBonCommande: '',
             dateAcquisition: '', dateFinGarantie: '',
             fournisseurNom: '', fournisseurContact: '',
             descriptionPanne: '',
             dateEnvoiFournisseur: '', dateRetourPrevue: '', remplacement: 'Non fourni',
-            technicien: user?.fullName || '', chefDepartement: '',
+            technicien: defaults.demandeur || user?.fullName || '',
+            chefDepartement: '',
         }
     })
 

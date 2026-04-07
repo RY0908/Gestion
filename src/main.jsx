@@ -5,10 +5,12 @@ import App from './App.jsx'
 import './index.css'
 
 async function enableMocking() {
-  if (import.meta.env.DEV) {
+  // Disabled mocks entirely to use real backend database
+  if (import.meta.env.VITE_USE_MOCKS === 'true') {
     const { worker } = await import('./mocks/browser.js')
     return worker.start({ onUnhandledRequest: 'bypass' })
   }
+  return Promise.resolve()
 }
 
 const queryClient = new QueryClient({

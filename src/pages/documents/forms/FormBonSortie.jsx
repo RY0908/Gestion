@@ -17,6 +17,8 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE – Stratégie, Planification & Économie' },
     { value: 'FIN', label: 'FIN – Finances' },
@@ -60,18 +62,21 @@ export default function FormBonSortie() {
     const [showPreview, setShowPreview] = useState(false)
     const [articles, setArticles] = useState([{ codeArticle: '', designation: '', marque: '', modele: '', numSerie: '', numInventaire: '', quantite: 1, observations: '' }])
 
+    const { defaults } = useDocumentPrefill('BON_SORTIE')
+    const nameParts = (user?.fullName || '').split(' ')
+
     const { register, handleSubmit, formState: { errors }, setValue, watch, getValues, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0],
-            direction: '',
-            beneficiaireNom: user?.fullName?.split(' ')[1] || '',
-            beneficiairePrenom: user?.fullName?.split(' ')[0] || '',
+            date: defaults.date || new Date().toISOString().split('T')[0],
+            direction: defaults.structure || '',
+            beneficiaireNom: nameParts.slice(1).join(' ') || '',
+            beneficiairePrenom: nameParts[0] || '',
             beneficiaireMatricule: '',
             beneficiairePoste: user?.position || '',
             motif: '',
             motifPrecision: '',
-            gestionnaire: user?.fullName || '',
+            gestionnaire: defaults.emetteur || user?.fullName || '',
             responsableISI: '',
         }
     })

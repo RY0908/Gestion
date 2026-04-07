@@ -35,7 +35,7 @@ export const ActivityFeed = ({ activities = [], isLoading }) => {
                             <span className="font-medium"> {item.action.replace('_', ' ').toLowerCase()}</span>
                         </p>
                         <p className="text-sm text-[var(--color-muted)] mt-0.5">{item.description}</p>
-                        <p className="text-xs text-[var(--color-muted)] mt-1.5">{formatRelative(item.performedAt)}</p>
+                        <p className="text-xs text-[var(--color-muted)] mt-1.5">{item.performedAt ? formatRelative(item.performedAt) : 'Date inconnue'}</p>
                     </div>
                 </div>
             ))}

@@ -15,6 +15,8 @@ import { MoneyInput } from '@/components/forms/MoneyInput.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const schema = yup.object({
     structure: yup.string().required('La structure est obligatoire'),
     justification: yup.string().required('La justification est obligatoire'),
@@ -33,12 +35,16 @@ export default function FormFicheBesoin() {
     const [showPreview, setShowPreview] = useState(false)
     const [articles, setArticles] = useState([{ designation: '', quantite: 1, specifications: '', prixEstimatif: 0, montantTotal: 0 }])
 
+    const { defaults } = useDocumentPrefill('FICHE_BESOIN')
+
     const { register, handleSubmit, formState: { errors }, watch, reset, setValue } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: new Date().toISOString().split('T')[0], structure: '',
+            date: defaults.date || new Date().toISOString().split('T')[0],
+            structure: defaults.structure || '',
             nature: 'Nouveau', justification: '', budget: '', imputation: '',
-            etabliPar: user?.fullName || '', approuvePar: '',
+            etabliPar: defaults.demandeur || user?.fullName || '',
+            approuvePar: '',
         }
     })
 

@@ -6,11 +6,20 @@ export const assignmentHandlers = [
         await delay(350)
         const url = new URL(request.url)
         const status = url.searchParams.get('status')
+        const userId = url.searchParams.get('userId')
+        const page = Number(url.searchParams.get('page') ?? 1)
+        const pageSize = Number(url.searchParams.get('pageSize') ?? 20)
 
         let filtered = [...assignments]
         if (status) filtered = filtered.filter(a => a.status === status)
+        if (userId) filtered = filtered.filter(a =>
+            a.assignedTo?.id === userId ||
+            a.assignedTo === userId
+        )
 
-        return HttpResponse.json({ data: filtered, total: filtered.length, page: 1, pageSize: 100, totalPages: 1 })
+        const total = filtered.length
+        const data = filtered.slice((page - 1) * pageSize, page * pageSize)
+        return HttpResponse.json({ data, total, page, pageSize, totalPages: Math.ceil(total / pageSize) })
     }),
 
     http.get('/api/assignments/:id', async ({ params }) => {

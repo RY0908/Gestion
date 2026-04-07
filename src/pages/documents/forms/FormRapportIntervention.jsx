@@ -15,6 +15,8 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE' }, { value: 'FIN', label: 'FIN' }, { value: 'RHU', label: 'RHU' },
     { value: 'BDM', label: 'BDM' }, { value: 'ACT', label: 'ACT' }, { value: 'JUR', label: 'JUR' },
@@ -39,12 +41,17 @@ export default function FormRapportIntervention() {
     const [typeRapport, setTypeRapport] = useState('unique')
     const [interventions, setInterventions] = useState([{ date: '', utilisateur: '', materiel: '', typePanne: 'Matérielle', duree: 0, resultat: 'Résolu' }])
 
+    const { defaults } = useDocumentPrefill('RAPPORT_INTERV')
+
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            dateDebut: new Date().toISOString().split('T')[0], dateFin: '',
-            etabliPar: user?.fullName || '', matricule: '',
-            refDemande: '', dateDeclaration: '', utilisateur: '', direction: '', bureau: '', materiel: '', numSerie: '', dateIntervention: '', duree: '',
+            dateDebut: defaults.date || new Date().toISOString().split('T')[0], dateFin: '',
+            etabliPar: defaults.technicien || user?.fullName || '',
+            matricule: defaults.technicienMatricule || '',
+            refDemande: '', dateDeclaration: '', utilisateur: '',
+            direction: defaults.direction || '',
+            bureau: '', materiel: '', numSerie: '', dateIntervention: '', duree: '',
             cause: '', typePanne: 'Matérielle', actionsRealisees: '', resultat: 'Résolu', preconisations: '',
         }
     })

@@ -19,6 +19,7 @@ import {
     History,
     FileText,
     FolderOpen,
+    UserCircle2,
 } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore.js'
 import { useAuthStore } from '@/store/authStore.js'
@@ -31,13 +32,17 @@ const NAV_ITEMS = [
     { label: 'Tableau de bord', icon: LayoutDashboard, to: '/dashboard' },
     { label: 'Inventaire', icon: Package, to: '/assets', badgeKey: 'assets', action: 'asset:view' },
     { label: 'Affectations', icon: UserCheck, to: '/assignments', action: 'asset:assign' },
+    { label: 'Salles & Locaux', icon: DoorOpen, to: '/rooms' },
     { label: 'Licences', icon: Key, to: '/licenses', action: 'license:manage' },
     { label: 'Maintenance / Tickets', icon: Wrench, to: '/maintenance', action: 'maintenance:manage', badgeKey: 'maintenance' },
-    { label: 'Demandes (Intervention / Matériel)', icon: ClipboardList, to: '/requests' }, // Everyone sees requests
+    { label: 'Demandes (Globale)', icon: ClipboardList, to: '/requests', action: 'maintenance:manage' }, // Admin/Tech
+    { label: 'Mes Demandes', icon: ClipboardList, to: '/my-requests' }, // Everyone
+    { label: 'Mon Profil', icon: UserCircle2, to: '/profile' },
     { divider: true },
     { label: 'Documents & Décharges', icon: FolderOpen, to: '/documents', action: 'asset:view' },
     { divider: true },
     { label: 'Rapports', icon: BarChart2, to: '/reports', action: 'report:export' },
+    { label: 'Journal d\'Audit', icon: History, to: '/audit-log', action: 'user:manage' },
     { divider: true },
     { label: 'Paramètres', icon: Settings, to: '/settings', action: 'user:manage' },
 ]

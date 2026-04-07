@@ -14,6 +14,8 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE' }, { value: 'FIN', label: 'FIN' }, { value: 'RHU', label: 'RHU' },
     { value: 'BDM', label: 'BDM' }, { value: 'ACT', label: 'ACT' }, { value: 'JUR', label: 'JUR' },
@@ -50,11 +52,17 @@ export default function FormFicheInventaire() {
     const [typeInventaire, setTypeInventaire] = useState('par_bureau')
     const [articles, setArticles] = useState([{ numInventaire: '', categorie: '', designation: '', quantite: 1, marque: '', modele: '', numSerie: '', dateAcquisition: '', etat: 'Bon état', affectation: '', numBureau: '', observations: '' }])
 
+    const { defaults } = useDocumentPrefill('FICHE_INVENTAIRE')
+    const nameParts = (user?.fullName || '').split(' ')
+
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            direction: '', sousStructure: '', dateInventaire: new Date().toISOString().split('T')[0],
-            agentNom: user?.fullName?.split(' ')[1] || '', agentPrenom: user?.fullName?.split(' ')[0] || '',
+            direction: defaults.structure || '',
+            sousStructure: '',
+            dateInventaire: defaults.date || new Date().toISOString().split('T')[0],
+            agentNom: nameParts.slice(1).join(' ') || '',
+            agentPrenom: nameParts[0] || '',
             bureau: '', etage: '', responsableBureau: '',
             activite: '', categorieDoc: 'Tout',
         }

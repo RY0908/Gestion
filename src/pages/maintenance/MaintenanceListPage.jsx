@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useMaintenances } from '@/hooks/useMaintenances.js'
+import { useMaintenances, useDeleteMaintenance } from '@/hooks/useMaintenances.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { CopyableText } from '@/components/atoms/CopyableText.jsx'
 import { StatusBadge } from '@/components/atoms/StatusBadge.jsx'
@@ -8,12 +8,13 @@ import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { formatDate } from '@/lib/utils.js'
 import { cn } from '@/lib/utils.js'
-import { Kanban, List, Wrench, Clock, User, ArrowRight } from 'lucide-react'
+import { Kanban, List, Wrench, Clock, User, Plus, Edit2, Trash2 } from 'lucide-react'
+import { MaintenanceFormModal } from './components/MaintenanceFormModal.jsx'
 
 const KANBAN_COLUMNS = [
     { id: 'SCHEDULED', label: 'À faire', color: 'border-t-blue-500', bg: 'bg-blue-50/50 dark:bg-blue-900/10', emoji: '📋' },
     { id: 'IN_PROGRESS', label: 'En cours', color: 'border-t-amber-500', bg: 'bg-amber-50/50 dark:bg-amber-900/10', emoji: '🔧' },
-    { id: 'CANCELLED', label: 'En attente pièces', color: 'border-t-purple-500', bg: 'bg-purple-50/50 dark:bg-purple-900/10', emoji: '⏸️' },
+    { id: 'CANCELLED', label: 'En attente pièces', color: 'border-t-purple-500', bg: 'bg-purple-50/50 dark:bg-purple-900/10', emoji: '⏸️' }, // we map it broadly
     { id: 'COMPLETED', label: 'Résolu', color: 'border-t-green-500', bg: 'bg-green-50/50 dark:bg-green-900/10', emoji: '✅' },
 ]
 
@@ -25,25 +26,35 @@ const priorityFromType = (type) => {
 }
 
 // Kanban ticket card
-const KanbanCard = ({ ticket }) => {
+const KanbanCard = ({ ticket, onClick, onDelete }) => {
     const priority = priorityFromType(ticket.type)
     return (
-        <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-3.5 shadow-sm card-hover cursor-pointer group">
-            <div className="flex items-center justify-between mb-2">
+        <div 
+            onClick={() => onClick(ticket)}
+            className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-3.5 shadow-sm card-hover cursor-pointer group relative"
+        >
+            <button 
+                onClick={(e) => { e.stopPropagation(); onDelete(ticket.id) }} 
+                className="absolute top-2.5 right-2 opacity-0 group-hover:opacity-100 p-1 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-all"
+                title="Supprimer"
+            >
+                <Trash2 className="w-3.5 h-3.5" />
+            </button>
+            <div className="flex items-center justify-between mb-2 pr-6">
                 <PriorityBadge priority={priority} />
-                <span className="text-[10px] font-mono text-[var(--color-muted)]">#{ticket.id.slice(-4)}</span>
+                <span className="text-[10px] font-mono text-[var(--color-muted)]">#{ticket.id?.slice(-4) || 'TICK'}</span>
             </div>
             <div className="mb-2">
-                <p className="text-sm font-medium leading-tight line-clamp-2">{ticket.description}</p>
+                <p className="text-sm font-medium leading-tight line-clamp-2">{ticket.description || 'Aucune description'}</p>
                 <p className="text-xs text-[var(--color-muted)] mt-1 flex items-center gap-1">
                     <Wrench className="w-3 h-3" />
                     {ticket.asset?.assetTag || 'N/A'} — {ticket.asset?.brand}
                 </p>
             </div>
             <div className="flex items-center justify-between text-[10px] text-[var(--color-muted)] pt-2 border-t border-[var(--color-border)]">
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 line-clamp-1">
                     <User className="w-3 h-3" />
-                    {ticket.technicianName?.split(' ').slice(0, 2).join(' ') || 'Non assigné'}
+                    {ticket.technician || 'Non assigné'}
                 </span>
                 <span className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
@@ -57,8 +68,28 @@ const KanbanCard = ({ ticket }) => {
 export default function MaintenanceListPage() {
     const [viewMode, setViewMode] = useState('kanban')
     const { data, isLoading } = useMaintenances({})
+    const deleteMutation = useDeleteMaintenance()
 
     const tickets = data?.data || []
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedTicket, setSelectedTicket] = useState(null)
+
+    const handleEdit = (ticket) => {
+        setSelectedTicket(ticket)
+        setIsModalOpen(true)
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce ticket de maintenance ?")) {
+            deleteMutation.mutate(id)
+        }
+    }
+
+    const openNewModal = () => {
+        setSelectedTicket(null)
+        setIsModalOpen(true)
+    }
 
     // Group tickets by status for kanban
     const grouped = useMemo(() => {
@@ -71,7 +102,7 @@ export default function MaintenanceListPage() {
         return groups
     }, [tickets])
 
-    const listColumns = [
+    const listColumns = useMemo(() => [
         {
             accessorKey: 'asset.assetTag',
             header: 'Actif',
@@ -98,27 +129,56 @@ export default function MaintenanceListPage() {
         { accessorKey: 'description', header: 'Description' },
         {
             accessorKey: 'startDate',
-            header: "Date d'intervention",
+            header: "Date prévue",
             cell: info => formatDate(info.getValue())
         },
         {
-            accessorKey: 'technicianName',
-            header: 'Technicien',
-            cell: info => (
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-sonatrach-green/10 text-sonatrach-green flex items-center justify-center text-[10px] font-bold">
-                        {info.getValue()?.charAt(0) || '?'}
+            accessorKey: 'technician',
+            header: 'Intervenant',
+            cell: info => {
+                const tech = info.getValue()
+                if (!tech) return <span className="text-xs text-[var(--color-muted)]">Non assigné</span>
+                return (
+                    <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-sonatrach-green/10 text-sonatrach-green flex items-center justify-center text-[10px] font-bold uppercase">
+                            {tech.charAt(0) || '?'}
+                        </div>
+                        <span className="text-sm">{tech}</span>
                     </div>
-                    <span className="text-sm">{info.getValue()}</span>
-                </div>
-            )
+                )
+            }
         },
         {
             accessorKey: 'status',
             header: 'Statut',
             cell: info => <StatusBadge status={info.getValue()} />
+        },
+        {
+            id: 'actions',
+            header: '',
+            cell: info => {
+                const rowTicket = info.row.original
+                return (
+                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                            onClick={() => handleEdit(rowTicket)}
+                            className="p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"
+                            title="Modifier"
+                        >
+                            <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                            onClick={() => handleDelete(rowTicket.id)}
+                            className="p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                            title="Supprimer"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    </div>
+                )
+            }
         }
-    ]
+    ], [])
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -128,7 +188,7 @@ export default function MaintenanceListPage() {
                 description="Planifiez et suivez les interventions sur le matériel."
             >
                 {/* View Toggle */}
-                <div className="flex items-center border border-[var(--color-border)] rounded-lg overflow-hidden">
+                <div className="flex items-center border border-[var(--color-border)] rounded-lg overflow-hidden mr-4">
                     <button
                         onClick={() => setViewMode('kanban')}
                         className={cn(
@@ -152,6 +212,13 @@ export default function MaintenanceListPage() {
                         <List className="w-4 h-4" /> Liste
                     </button>
                 </div>
+                
+                <button
+                    onClick={openNewModal}
+                    className="flex items-center gap-2 px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press"
+                >
+                    <Plus className="w-4 h-4" /> Nouveau Ticket
+                </button>
             </PageHeader>
 
             {viewMode === 'kanban' ? (
@@ -172,7 +239,7 @@ export default function MaintenanceListPage() {
                                 <div className="space-y-3">
                                     {colTickets.length > 0 ? (
                                         colTickets.map(ticket => (
-                                            <KanbanCard key={ticket.id} ticket={ticket} />
+                                            <KanbanCard key={ticket.id} ticket={ticket} onClick={handleEdit} onDelete={handleDelete} />
                                         ))
                                     ) : (
                                         <div className="text-center py-8 text-sm text-[var(--color-muted)]">
@@ -190,6 +257,7 @@ export default function MaintenanceListPage() {
                         columns={listColumns}
                         data={tickets}
                         isLoading={isLoading}
+                        rowClassName="group"
                     />
                 ) : (
                     <EmptyState
@@ -197,10 +265,17 @@ export default function MaintenanceListPage() {
                         title="Aucune intervention"
                         description="Aucun ticket de maintenance n'a été créé."
                         actionLabel="Planifier une intervention"
-                        onAction={() => { }}
+                        onAction={openNewModal}
                     />
                 )
             )}
+
+            <MaintenanceFormModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                maintenance={selectedTicket}
+            />
         </div>
     )
 }
+

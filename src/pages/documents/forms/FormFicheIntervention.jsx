@@ -15,6 +15,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
+import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+
 const schema = yup.object({
     nomTechnicien: yup.string().required('Le nom du technicien est obligatoire'),
     matriculeTechnicien: yup.string().required('Le matricule est obligatoire'),
@@ -35,16 +37,17 @@ export default function FormFicheIntervention() {
     const [autreType, setAutreType] = useState('')
     const [pieces, setPieces] = useState([{ designation: '', reference: '', quantite: 1, numSerieRemplace: '' }])
 
+    const { defaults } = useDocumentPrefill('FICHE_INTERV')
     const now = new Date()
     const { register, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            date: now.toISOString().split('T')[0],
-            heureDebut: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+            date: defaults.date || now.toISOString().split('T')[0],
+            heureDebut: defaults.heure || `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
             heureFin: '',
             numeroDemande: '',
-            nomTechnicien: user?.fullName || '',
-            matriculeTechnicien: '',
+            nomTechnicien: defaults.technicienNom || user?.fullName || '',
+            matriculeTechnicien: defaults.technicienMatricule || '',
             service: 'Support Informatique (Helpdesk)',
             designation: '',
             numSerie: '',

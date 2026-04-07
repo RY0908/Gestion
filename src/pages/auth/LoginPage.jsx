@@ -35,13 +35,23 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    // Mock login logic
-    const user = users.find((u) => u.email === data.email);
-    if (user && data.password === "sigma2024") {
-      login(user, `mock-token-${Date.now()}`);
-      navigate("/dashboard");
-    } else {
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      const result = await res.json();
+
+      if (result.success) {
+        login(result.user, result.token);
+        navigate("/dashboard");
+      } else {
+        setErrorShake(true);
+        setTimeout(() => setErrorShake(false), 500);
+      }
+    } catch (err) {
       setErrorShake(true);
       setTimeout(() => setErrorShake(false), 500);
     }
