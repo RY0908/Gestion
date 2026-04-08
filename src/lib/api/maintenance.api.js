@@ -7,6 +7,6 @@ export const fetchMaintenances = (params = {}) => {
 
 export const fetchMaintenance = (id) => api.get(`/maintenance/${id}`)
 export const createMaintenance = (data) => api.post('/maintenance', data)
-export const updateMaintenance = (id, data) => api.put(`/maintenance/${id}`, data)
+export const updateMaintenance = (id, data) => api.patch(`/maintenance/${id}`, data)
 export const completeMaintenance = (id, data) => api.patch(`/maintenance/${id}/complete`, data)
 export const deleteMaintenance = (id) => api.delete(`/maintenance/${id}`)

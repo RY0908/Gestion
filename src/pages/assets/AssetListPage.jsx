@@ -11,7 +11,8 @@ import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { ASSET_STATUSES, ASSET_CATEGORIES } from '@/lib/constants.js'
 import { useAuthStore } from '@/store/authStore.js'
-import { canViewAsset } from '@/lib/permissions.js'
+import { ACTIONS, canDo, canViewAsset } from '@/lib/permissions.js'
+import { summarizeSpecifications } from '@/lib/specifications.js'
 import { cn } from '@/lib/utils.js'
 
 const VIEW_MODES = [
@@ -83,6 +84,15 @@ export default function AssetListPage() {
             }
         },
         {
+            accessorKey: 'specifications',
+            header: 'Spécifications',
+            cell: info => {
+                const row = info.row.original
+                const summary = summarizeSpecifications(row.category, info.getValue(), 'asset')
+                return summary ? <span className="text-xs text-[var(--color-muted)] line-clamp-2">{summary}</span> : <span className="text-xs text-[var(--color-muted)]">—</span>
+            }
+        },
+        {
             accessorKey: 'status',
             header: 'Statut',
             cell: info => <StatusBadge status={info.getValue()} />
@@ -106,13 +116,15 @@ export default function AssetListPage() {
                     <Download className="w-4 h-4" />
                     Exporter
                 </button>
-                <button
-                    onClick={() => navigate('/assets/new')}
-                    className="flex items-center gap-2 px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press"
-                >
-                    <Plus className="w-4 h-4" />
-                    Nouvel Actif
-                </button>
+                {canDo(user?.role, ACTIONS.ASSET_CREATE) && (
+                    <button
+                        onClick={() => navigate('/assets/new')}
+                        className="flex items-center gap-2 px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Nouvel Actif
+                    </button>
+                )}
             </PageHeader>
 
             {/* Filters Bar */}

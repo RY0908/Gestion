@@ -14,8 +14,13 @@ import { CopyableText } from '@/components/atoms/CopyableText.jsx'
 import { AssetTypeBadge } from '@/components/atoms/AssetTypeBadge.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { LoadingSkeleton } from '@/components/atoms/LoadingSkeleton.jsx'
+import { ActivityFeed } from '@/components/organisms/ActivityFeed.jsx'
 import { formatCurrency, formatDate } from '@/lib/utils.js'
 import { cn } from '@/lib/utils.js'
+import { useAuthStore } from '@/store/authStore.js'
+import { ACTIONS, canDo } from '@/lib/permissions.js'
+import { useDeleteAsset } from '@/hooks/useAssets.js'
+import { getSpecificationEntries, summarizeSpecifications } from '@/lib/specifications.js'
 
 // Collapsible section component
 const Section = ({ icon: Icon, title, children, defaultOpen = true }) => {
@@ -48,10 +53,20 @@ export default function AssetDetailPage() {
     const { id } = useParams()
     const navigate = useNavigate()
     const [showQR, setShowQR] = useState(false)
+    const deleteMutation = useDeleteAsset()
+    const user = useAuthStore(s => s.user)
+    const canEditAsset = canDo(user?.role, ACTIONS.ASSET_EDIT)
+    const canDeleteAsset = user?.role === 'ADMIN'
+    const canAssignAsset = canDo(user?.role, ACTIONS.ASSET_ASSIGN)
 
     const { data: res, isLoading } = useQuery({
         queryKey: ['asset', id],
         queryFn: () => api.get(`/assets/${id}`),
+    })
+    const { data: historyRes } = useQuery({
+        queryKey: ['asset-history', id],
+        queryFn: () => api.get(`/assets/${id}/history`),
+        enabled: Boolean(id),
     })
 
     if (isLoading) return (
@@ -75,6 +90,8 @@ export default function AssetDetailPage() {
     )
 
     const warrantyExpired = asset.warrantyExpiry && new Date(asset.warrantyExpiry) < new Date()
+    const assetSpecs = getSpecificationEntries(asset.category, asset.specifications, 'asset')
+    const assetHistory = historyRes?.data || asset.history || []
 
     return (
         <div className="p-6 max-w-5xl mx-auto space-y-6">
@@ -121,15 +138,29 @@ export default function AssetDetailPage() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <button
-                        onClick={() => navigate(`/assets/${id}/edit`)}
-                        className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] hover:bg-[var(--color-surface)] rounded-lg text-sm font-medium transition-colors btn-press"
-                    >
-                        <Edit className="w-4 h-4" /> Modifier
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900/50 dark:text-red-400 dark:hover:bg-red-500/10 rounded-lg text-sm font-medium transition-colors btn-press">
-                        <Trash2 className="w-4 h-4" /> Retirer
-                    </button>
+                    {canEditAsset && (
+                        <button
+                            onClick={() => navigate(`/assets/${id}/edit`)}
+                            className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] hover:bg-[var(--color-surface)] rounded-lg text-sm font-medium transition-colors btn-press"
+                        >
+                            <Edit className="w-4 h-4" /> Modifier
+                        </button>
+                    )}
+                    {canDeleteAsset && (
+                        <button
+                            onClick={() => {
+                                if (window.confirm("Êtes-vous sûr de vouloir retirer ce matériel de l'inventaire ?")) {
+                                    deleteMutation.mutate(id, {
+                                        onSuccess: () => navigate('/assets'),
+                                    })
+                                }
+                            }}
+                            disabled={deleteMutation.isPending}
+                            className="flex items-center gap-2 px-4 py-2 border border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900/50 dark:text-red-400 dark:hover:bg-red-500/10 rounded-lg text-sm font-medium transition-colors btn-press disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            <Trash2 className="w-4 h-4" /> Retirer
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -172,7 +203,7 @@ export default function AssetDetailPage() {
                                         <Field label="N° d'inventaire Phys."><CopyableText value={asset.inventoryNumber} /></Field>
                                     )}
                                     <Field label="État physique">
-                                        {asset.condition === 'EXCELLENT' ? 'Excellent' :
+                                        {asset.condition === 'NEW' ? 'Neuf' :
                                             asset.condition === 'GOOD' ? 'Bon' :
                                                 asset.condition === 'FAIR' ? 'Passable' : 'Mauvais'}
                                     </Field>
@@ -196,9 +227,11 @@ export default function AssetDetailPage() {
                                 ) : (
                                     <div className="text-center py-6">
                                         <p className="text-[var(--color-muted)] mb-4">Cet équipement n'est actuellement affecté à aucun employé.</p>
-                                        <button className="px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press">
-                                            Assigner l'équipement
-                                        </button>
+                                        {canAssignAsset && (
+                                            <button className="px-4 py-2 bg-sonatrach-green hover:bg-sonatrach-green-light text-white rounded-lg text-sm font-medium transition-colors btn-press">
+                                                Assigner l'équipement
+                                            </button>
+                                        )}
                                     </div>
                                 )}
                             </Section>
@@ -208,21 +241,38 @@ export default function AssetDetailPage() {
                                     {asset.notes || <span className="text-[var(--color-muted)] italic">Aucune note.</span>}
                                 </p>
                             </Section>
+
+                            <Section icon={FileText} title="Spécifications techniques" defaultOpen={true}>
+                                {assetSpecs.some(spec => spec.value) ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {assetSpecs.map(spec => (
+                                            <Field key={spec.key} label={spec.label}>
+                                                {spec.value || '—'}
+                                            </Field>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-sm text-[var(--color-muted)]">
+                                        Aucune spécification renseignée pour cet équipement.
+                                    </div>
+                                )}
+                                {summarizeSpecifications(asset.category, asset.specifications, 'asset') && (
+                                    <div className="mt-4 text-xs text-[var(--color-muted)]">
+                                        {summarizeSpecifications(asset.category, asset.specifications, 'asset')}
+                                    </div>
+                                )}
+                            </Section>
                         </div>
 
                         <div className="space-y-6">
                             <Section icon={MapPin} title="Localisation">
                                 <div className="text-sm space-y-3">
                                     <div>
-                                        <div className="font-medium">{asset.location?.name}</div>
-                                        <div className="text-[var(--color-muted)] mt-0.5">{asset.location?.building} • {asset.location?.city}</div>
+                                        <div className="font-medium text-sonatrach-green">{asset.location}</div>
                                     </div>
                                     <div className="pt-3 border-t border-[var(--color-border)]">
-                                        <span className="text-[var(--color-muted)] text-xs block mb-1">Département & Structure</span>
-                                        <span className="font-medium block text-sm">{asset.department?.name} ({asset.department?.code})</span>
-                                        {asset.affectation && <span className="font-medium text-sonatrach-green block mt-1.5 text-sm">Affectation: {asset.affectation}</span>}
-                                        {asset.bureau && <span className="font-medium block mt-1 text-sm text-[var(--color-muted)]">N° Bureau: {asset.bureau}</span>}
-                                        {asset.etage && <span className="font-medium block mt-1 text-sm text-[var(--color-muted)]">Étage: {asset.etage}</span>}
+                                        <span className="text-[var(--color-muted)] text-xs block mb-1">Notes de localisation</span>
+                                        <span className="text-[var(--color-muted)] italic text-xs block">Cette information inclut la structure, le bureau et l'étage consolidés.</span>
                                     </div>
                                 </div>
                             </Section>
@@ -231,10 +281,10 @@ export default function AssetDetailPage() {
                                 <div className="space-y-4 text-sm">
                                     <Field label="Fournisseur">{typeof asset.supplier === 'object' ? asset.supplier?.name : asset.supplier}</Field>
                                     <div className="grid grid-cols-2 gap-4">
-                                        <Field label="Date d'achat">{formatDate(asset.purchaseDate)}</Field>
+                                        <Field label="Date d'achat">{formatDate(asset.acquisitionDate)}</Field>
                                         <Field label="Garantie jusqu'au">
                                             <span className={warrantyExpired ? 'text-red-500' : 'text-sonatrach-green'}>
-                                                {formatDate(asset.warrantyExpiry)}
+                                                {formatDate(asset.warrantyDate)}
                                             </span>
                                             {warrantyExpired && (
                                                 <span className="ml-1 text-[10px] bg-red-50 dark:bg-red-900/20 text-red-500 px-1.5 py-0.5 rounded-full font-semibold">Expiré</span>
@@ -256,11 +306,15 @@ export default function AssetDetailPage() {
                 {/* Tab: Historique */}
                 <Tabs.Content value="history" className="animate-fade-in">
                     <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-6 shadow-sm">
-                        <EmptyState
-                            icon={History}
-                            title="Historique des actions"
-                            description="L'historique complet des modifications sera affiché ici (assignations, maintenance, transferts...)."
-                        />
+                        {assetHistory.length > 0 ? (
+                            <ActivityFeed activities={assetHistory} />
+                        ) : (
+                            <EmptyState
+                                icon={History}
+                                title="Historique des actions"
+                                description="L'historique complet des modifications sera affiché ici (assignations, maintenance, transferts...)."
+                            />
+                        )}
                     </div>
                 </Tabs.Content>
 

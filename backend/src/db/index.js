@@ -1,4 +1,5 @@
 import pg from 'pg'
+import dotenv from 'dotenv'
 import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
@@ -7,17 +8,55 @@ import bcrypt from 'bcryptjs'
 const { Pool } = pg
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+dotenv.config({ path: join(__dirname, '..', '..', '.env') })
+
 let pool = null
 
-export function getPool() {
-    if (!pool) {
-        pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            max: 10,                  // max 10 connections in pool
+function buildPoolConfigs() {
+    const hosts = [process.env.PGHOST || 'localhost', '127.0.0.1']
+    const port = Number(process.env.PGPORT || 5432)
+    const database = process.env.PGDATABASE || 'postgres'
+    const user = process.env.PGUSER || 'postgres'
+    const password = process.env.PGPASSWORD
+
+    const configs = []
+
+    if (process.env.DATABASE_URL) {
+        configs.push({ connectionString: process.env.DATABASE_URL })
+    }
+
+    for (const host of hosts) {
+        configs.push({
+            host,
+            port,
+            database,
+            user,
+            password,
+            max: 10,
             idleTimeoutMillis: 30000,
             connectionTimeoutMillis: 5000,
         })
 
+        if (!password) {
+            configs.push({
+                host,
+                port,
+                database,
+                user,
+                password: 'postgres',
+                max: 10,
+                idleTimeoutMillis: 30000,
+                connectionTimeoutMillis: 5000,
+            })
+        }
+    }
+
+    return configs
+}
+
+export function getPool() {
+    if (!pool) {
+        pool = new Pool(buildPoolConfigs()[0])
         pool.on('error', (err) => {
             console.error('[DB] Unexpected pool error', err)
         })
@@ -26,7 +65,33 @@ export function getPool() {
 }
 
 export async function initDb() {
-    const client = await getPool().connect()
+    const poolConfigs = buildPoolConfigs()
+    let lastError = null
+    let workingPool = null
+
+    for (const config of poolConfigs) {
+        const candidate = new Pool(config)
+        candidate.on('error', (err) => {
+            console.error('[DB] Unexpected pool error', err)
+        })
+
+        try {
+            const client = await candidate.connect()
+            client.release()
+            workingPool = candidate
+            break
+        } catch (err) {
+            lastError = err
+            await candidate.end().catch(() => {})
+        }
+    }
+
+    if (!workingPool) {
+        throw lastError || new Error('Unable to connect to PostgreSQL.')
+    }
+
+    pool = workingPool
+    const client = await pool.connect()
     try {
         console.log('[DB] Applying schema...')
         const schema = readFileSync(join(__dirname, 'schema.sql'), 'utf8')

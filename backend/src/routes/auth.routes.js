@@ -6,6 +6,26 @@ import { logAudit } from '../middleware/audit.js'
 
 const router = Router()
 
+function mapUserRow(user, employee = null) {
+    const department = employee?.structure
+        ? { code: employee.structure, name: employee.structure }
+        : null
+
+    return {
+        id: `usr-${user.id}`,
+        fullName: user.nom_complet,
+        email: user.email,
+        role: user.role,
+        employeeId: employee?.matricule || null,
+        phone: employee?.telephone || null,
+        position: employee?.poste_occupe || null,
+        structure: employee?.structure || null,
+        department,
+        isActive: user.est_actif,
+        hireDate: employee?.date_embauche || null,
+    }
+}
+
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
     try {
@@ -24,6 +44,12 @@ router.post('/login', async (req, res) => {
         const valid = await bcrypt.compare(password, user.mot_de_passe)
         if (!valid) return res.status(401).json({ success: false, message: 'Identifiants incorrects.' })
 
+        const { rows: empRows } = await pool.query(
+            'SELECT matricule, telephone, structure, poste_occupe, date_embauche FROM employes WHERE email = $1',
+            [user.email]
+        )
+        const employee = empRows[0] || null
+
         const token = jwt.sign(
             { id: user.id, email: user.email, role: user.role, fullName: user.nom_complet },
             process.env.JWT_SECRET,
@@ -35,7 +61,7 @@ router.post('/login', async (req, res) => {
         res.json({
             success: true,
             token,
-            user: { id: `usr-${user.id}`, email: user.email, role: user.role, fullName: user.nom_complet }
+            user: mapUserRow(user, employee)
         })
     } catch (err) {
         console.error('[Auth] Login error:', err)
@@ -59,10 +85,14 @@ router.post('/logout', async (req, res) => {
 router.get('/me', async (req, res) => {
     if (!req.user) return res.status(401).json({ success: false })
     try {
-        const { rows } = await getPool().query('SELECT id, nom_complet, email, role FROM utilisateurs WHERE id = $1', [req.user.id])
+        const { rows } = await getPool().query('SELECT id, nom_complet, email, role, est_actif FROM utilisateurs WHERE id = $1', [req.user.id])
         const u = rows[0]
         if (!u) return res.status(404).json({ success: false })
-        res.json({ success: true, user: { id: `usr-${u.id}`, fullName: u.nom_complet, email: u.email, role: u.role } })
+        const { rows: empRows } = await getPool().query(
+            'SELECT matricule, telephone, structure, poste_occupe, date_embauche FROM employes WHERE email = $1',
+            [u.email]
+        )
+        res.json({ success: true, user: mapUserRow(u, empRows[0] || null) })
     } catch (err) {
         res.status(500).json({ success: false })
     }

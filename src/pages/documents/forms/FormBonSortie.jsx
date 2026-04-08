@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -18,6 +18,8 @@ import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE – Stratégie, Planification & Économie' },
@@ -81,29 +83,37 @@ export default function FormBonSortie() {
         }
     })
 
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `BON_SORTIE-${user?.id || 'guest'}`,
+        values: {
+            date: defaults.date || new Date().toISOString().split('T')[0],
+            direction: defaults.structure || '',
+            beneficiaireNom: nameParts.slice(1).join(' ') || '',
+            beneficiairePrenom: nameParts[0] || '',
+            beneficiaireMatricule: '',
+            beneficiairePoste: user?.position || '',
+            motif: '',
+            motifPrecision: '',
+            gestionnaire: defaults.emetteur || user?.fullName || '',
+            responsableISI: '',
+        },
+    })
+
     const motifValue = watch('motif')
 
     // ── Auto-save draft ──────────────────────────────────────────────
-    useEffect(() => {
-        const saved = localStorage.getItem(DRAFT_KEY)
-        if (saved) {
-            try {
-                const draft = JSON.parse(saved)
-                if (draft.formData) reset(draft.formData)
-                if (draft.articles) setArticles(draft.articles)
-            } catch { /* ignore */ }
-        }
-    }, [reset])
-
-    const saveDraft = useCallback(() => {
-        const formData = watch()
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData, articles, savedAt: Date.now() }))
-    }, [watch, articles])
-
-    useEffect(() => {
-        const interval = setInterval(saveDraft, 30000)
-        return () => clearInterval(interval)
-    }, [saveDraft])
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.articles) setArticles(draft.articles)
+        },
+        buildDraft: (formData) => ({ formData, articles }),
+    })
 
     // ── Table handlers ───────────────────────────────────────────────
     const addRow = () => setArticles(prev => [...prev, { codeArticle: '', designation: '', marque: '', modele: '', numSerie: '', numInventaire: '', quantite: 1, observations: '' }])

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { authApi } from "@/lib/api/auth.api.js";
 import { useAuthStore } from "@/store/authStore.js";
-import { users } from "@/mocks/fixtures/users.fixtures.js";
 import { Flame } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils.js";
@@ -37,12 +37,10 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: data.email, password: data.password }),
+      const result = await authApi.login({
+        email: data.email,
+        password: data.password,
       });
-      const result = await res.json();
 
       if (result.success) {
         login(result.user, result.token);

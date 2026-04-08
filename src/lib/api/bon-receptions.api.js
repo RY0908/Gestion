@@ -1,9 +1,9 @@
-import { apiClient } from './client.js'
+import { documentsApi } from './documents.api.js'
 
 export const bonReceptionsApi = {
-    getAll: (params = {}) => apiClient.get('/api/bon-receptions', { params }),
-    getById: (id) => apiClient.get(`/api/bon-receptions/${id}`),
-    create: (data) => apiClient.post('/api/bon-receptions', data),
-    update: (id, data) => apiClient.put(`/api/bon-receptions/${id}`, data),
-    validate: (id) => apiClient.patch(`/api/bon-receptions/${id}/validate`),
+    getAll: () => documentsApi.getBonReceptions(),
+    getById: (id) => documentsApi.getById(id),
+    create: (data) => documentsApi.createArchive({ type: 'BR', ...data }),
+    update: (id, data) => documentsApi.update(id, data),
+    validate: (id) => documentsApi.updateStatus(id, 'VALIDATED'),
 }

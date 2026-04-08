@@ -1,19 +1,19 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useRequests, useDeleteRequest } from '@/hooks/useRequests.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { formatDate, cn } from '@/lib/utils.js'
 import { AssetTypeBadge } from '@/components/atoms/AssetTypeBadge.jsx'
 import { REQUEST_STATES } from '@/lib/constants.js'
-import { ACTIONS } from '@/lib/permissions.js'
 import { useAuthStore } from '@/store/authStore.js'
 import { ClipboardList, Plus, Edit2, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { RequestFormModal } from './components/RequestFormModal.jsx'
 import { RequestActionModal } from './components/RequestActionModal.jsx'
+import { summarizeSpecifications } from '@/lib/specifications.js'
 
 export default function MyRequestsPage() {
     const navigate = useNavigate()
-    const { user, canDo } = useAuthStore()
+    const { user } = useAuthStore()
 
     // Send { mine: true, userId: user?.id } to the backend/mock
     const { data, isLoading } = useRequests({ mine: true, userId: user?.id })
@@ -30,13 +30,15 @@ export default function MyRequestsPage() {
         setActionConfig({ isOpen: false, request: null, type: null })
     }
 
+    const myRequests = (data?.data || []).filter(req => req.requestedBy?.id === user?.id)
+
     const handleDelete = (id) => {
         if (window.confirm("Voulez-vous vraiment annuler/supprimer cette demande ?")) {
             deleteMutation.mutate(id)
         }
     }
 
-    const columns = useMemo(() => [
+    const columns = [
         {
             accessorKey: 'requestNumber',
             header: 'N° Demande',
@@ -46,6 +48,15 @@ export default function MyRequestsPage() {
             accessorKey: 'assetCategory',
             header: 'Catégorie',
             cell: info => <AssetTypeBadge category={info.getValue()} />
+        },
+        {
+            accessorKey: 'specifications',
+            header: 'Spécifications',
+            cell: info => {
+                const row = info.row.original
+                const summary = summarizeSpecifications(row.assetCategory, info.getValue(), 'request')
+                return summary ? <span className="text-xs text-[var(--color-muted)] line-clamp-2">{summary}</span> : <span className="text-xs text-[var(--color-muted)]">—</span>
+            }
         },
         {
             accessorKey: 'createdAt',
@@ -98,7 +109,7 @@ export default function MyRequestsPage() {
             cell: info => {
                 const req = info.row.original
                 // User can only delete their request if it's pending (or admin)
-                const canDelete = req.status === 'PENDING' || user.role === 'ADMIN'
+                const canDelete = req.status === 'PENDING' || user?.role === 'ADMIN'
 
                 return (
                     <div className="flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
@@ -115,7 +126,7 @@ export default function MyRequestsPage() {
                 )
             }
         }
-    ], [user])
+    ]
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -134,15 +145,16 @@ export default function MyRequestsPage() {
 
             <DataTable
                 columns={columns}
-                data={data?.data}
+                data={myRequests}
                 isLoading={isLoading}
                 onRowClick={(row) => navigate(`/requests/${row.id}`)}
                 emptyMessage="Vous n'avez soumis aucune demande."
             />
 
-            <RequestFormModal 
-                isOpen={isFormOpen} 
-                onClose={() => setIsFormOpen(false)} 
+            <RequestFormModal
+                key={`my-request-form-${isFormOpen ? 'open' : 'closed'}`}
+                isOpen={isFormOpen}
+                onClose={() => setIsFormOpen(false)}
             />
 
             {actionConfig.isOpen && (

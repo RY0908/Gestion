@@ -1,14 +1,15 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Search, Plus, Eye, ChevronDown, ChevronUp, FileText, Receipt, ArrowLeftRight,
     Package, Building2, DollarSign, Printer, Clock, CheckCircle, AlertTriangle,
-    Truck, User, PenLine, FileSignature, Wrench, ClipboardList, Shield,
-    BarChart2, FolderOpen, Filter
+    Truck, User, FileSignature, Wrench, ClipboardList, Shield,
+    BarChart2
 } from 'lucide-react'
 import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { cn } from '@/lib/utils.js'
+import { useDocumentsCatalog } from '@/hooks/useDocuments.js'
 
 // ─── Status maps ────────────────────────────────────────────────────
 const BC_STATUS = {
@@ -57,27 +58,12 @@ export default function DocsHubPage() {
     const [search, setSearch] = useState('')
 
     // ── Data states ──────────────────────────────────────────────────
-    const [orders, setOrders] = useState([])
-    const [receptions, setReceptions] = useState([])
-    const [decharges, setDecharges] = useState([])
-    const [loading, setLoading] = useState(true)
+    const { data, isLoading } = useDocumentsCatalog()
     const [expanded, setExpanded] = useState(null)
+    const orders = useMemo(() => data?.orders || [], [data])
+    const receptions = useMemo(() => data?.receptions || [], [data])
+    const decharges = useMemo(() => data?.decharges || [], [data])
 
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem('auth-store') || '{}')?.state?.token
-        const headers = token ? { Authorization: `Bearer ${token}` } : {}
-
-        Promise.all([
-            fetch('/api/documents/purchase-orders', { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
-            fetch('/api/documents/bon-receptions',  { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
-            fetch('/api/documents/decharges',       { headers }).then(r => r.json()).then(r => r.data).catch(() => []),
-        ]).then(([bc, br, dch]) => {
-            setOrders(bc || [])
-            setReceptions(br || [])
-            setDecharges(dch || [])
-            setLoading(false)
-        })
-    }, [])
 
     // ── Filtered data ────────────────────────────────────────────────
     const q = search.toLowerCase()
@@ -224,7 +210,7 @@ export default function DocsHubPage() {
             {/* TAB: Bons de Commande                                  */}
             {/* ─────────────────────────────────────────────────────── */}
             {activeTab === 'commandes' && (
-                loading ? (
+                isLoading ? (
                     <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-14 skeleton-shimmer rounded-lg" />)}</div>
                 ) : filteredOrders.length === 0 ? (
                     <EmptyState title="Aucun bon de commande" description="Aucune commande ne correspond à vos critères." />
@@ -302,7 +288,7 @@ export default function DocsHubPage() {
             {/* TAB: Bons de Réception                                 */}
             {/* ─────────────────────────────────────────────────────── */}
             {activeTab === 'receptions' && (
-                loading ? (
+                isLoading ? (
                     <div className="space-y-4">{Array.from({ length: 3 }).map((_, i) => <div key={i} className="h-32 skeleton-shimmer rounded-xl" />)}</div>
                 ) : filteredReceptions.length === 0 ? (
                     <EmptyState title="Aucun bon de réception" description="Aucun bon de réception trouvé." />
@@ -395,7 +381,7 @@ export default function DocsHubPage() {
             {/* TAB: Décharges                                         */}
             {/* ─────────────────────────────────────────────────────── */}
             {activeTab === 'decharges' && (
-                loading ? (
+                isLoading ? (
                     <div className="grid gap-4 md:grid-cols-2">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-48 skeleton-shimmer rounded-xl" />)}</div>
                 ) : filteredDecharges.length === 0 ? (
                     <EmptyState title="Aucune décharge" description="Aucune décharge trouvée." />

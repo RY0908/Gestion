@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ArrowLeft, Save } from 'lucide-react'
@@ -8,6 +7,8 @@ import { api } from '@/lib/api/client.js'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { ASSET_CATEGORIES, ASSET_STATUSES, STRUCTURES } from '@/lib/constants.js'
+import { compactSpecifications, getAssetSpecificationFields } from '@/lib/specifications.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const schema = z.object({
     category: z.string().min(1, 'Requis'),
@@ -15,10 +16,14 @@ const schema = z.object({
     model: z.string().min(2, 'Trop court'),
     serialNumber: z.string().min(4, 'Trop court'),
     status: z.string().min(1, 'Requis'),
-    condition: z.enum(['EXCELLENT', 'GOOD', 'FAIR', 'POOR']),
+    condition: z.enum(['NEW', 'GOOD', 'FAIR', 'POOR']),
     supplier: z.string().min(2, 'Trop court'),
     purchasePrice: z.number().min(0, 'La valeur doit être positive'),
-    inventoryNumber: z.string().optional(),
+    currentValue: z.number().min(0, 'La valeur doit être positive').optional(),
+    assetTag: z.string().min(1, 'Requis'),
+    acquisitionDate: z.string().optional(),
+    warrantyDate: z.string().optional(),
+    invoiceNumber: z.string().optional(),
     affectation: z.string().optional(),
     bureau: z.string().optional(),
     etage: z.string().optional(),
@@ -37,28 +42,66 @@ export default function AssetFormPage() {
         enabled: isEditing
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            condition: 'GOOD',
-            status: 'IN_STOCK'
+            condition: 'NEW',
+            status: 'IN_STOCK',
+            purchasePrice: 0,
+            currentValue: 0,
+            specifications: {},
         }
     })
+    const selectedCategory = useWatch({ control, name: 'category' })
+    const specificationFields = getAssetSpecificationFields(selectedCategory)
 
-    useEffect(() => {
-        if (isEditing && assetRes?.data) {
-            reset(assetRes.data)
-        }
-    }, [isEditing, assetRes, reset])
+    useHydratedFormDefaults({
+        enabled: isEditing && Boolean(assetRes?.data),
+        reset,
+        signature: assetRes?.data?.id || id || 'asset',
+        values: isEditing && assetRes?.data ? (() => {
+            const d = assetRes.data
+            return {
+                ...d,
+                assetTag: d.assetTag || d.inventoryNumber,
+                acquisitionDate: d.acquisitionDate ? new Date(d.acquisitionDate).toISOString().split('T')[0] : '',
+                warrantyDate: d.warrantyDate ? new Date(d.warrantyDate).toISOString().split('T')[0] : '',
+                specifications: d.specifications || {},
+            }
+        })() : null,
+    })
 
     const mutation = useMutation({
-        mutationFn: (data) => isEditing ? api.put(`/assets/${id}`, data) : api.post('/assets', data),
+        mutationFn: (data) => {
+            // Optimize info flow: Consolidate location info
+            const locationParts = []
+            if (data.affectation) locationParts.push(data.affectation)
+            if (data.bureau) locationParts.push(`Bureau ${data.bureau}`)
+            if (data.etage) locationParts.push(data.etage)
+            
+            const payload = {
+                ...data,
+                location: locationParts.join(' - ') || 'Non localisé',
+                // Ensure field names match backend expectation
+                assetTag: data.assetTag,
+                specifications: compactSpecifications(data.specifications || {}),
+            }
+
+            return isEditing ? api.put(`/assets/${id}`, payload) : api.post('/assets', payload)
+        },
         onSuccess: (res) => {
             toast.success(isEditing ? 'Actif modifié' : 'Actif créé')
+            // Invalidate everything related to assets to ensure fresh data everywhere
             queryClient.invalidateQueries({ queryKey: ['assets'] })
+            if (isEditing) {
+                queryClient.invalidateQueries({ queryKey: ['asset', id] })
+            }
             navigate(isEditing ? `/assets/${id}` : '/assets')
         },
-        onError: () => toast.error('Une erreur est survenue')
+        onError: (err) => {
+            console.error(err)
+            toast.error(err.message || 'Une erreur est survenue')
+        }
     })
 
     const onSubmit = (data) => mutation.mutate(data)
@@ -66,7 +109,7 @@ export default function AssetFormPage() {
     if (isEditing && isLoadingAsset) return <div className="p-6 max-w-3xl mx-auto">Chargement...</div>
 
     return (
-        <div className="p-6 max-w-3xl mx-auto space-y-6">
+        <div className="p-6 max-w-3xl mx-auto space-y-6 pb-20">
             <div className="flex items-center gap-4 text-sm mb-2 text-[var(--color-muted)]">
                 <button onClick={() => navigate('/assets')} className="hover:text-[var(--color-text)] flex items-center gap-1">
                     <ArrowLeft className="w-4 h-4" /> Retour
@@ -79,7 +122,19 @@ export default function AssetFormPage() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl p-6 shadow-sm space-y-6">
+                {/* Section 1: Informations de Base */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium mb-1.5 font-semibold text-sonatrach-green">Code d'inventaire (Tag) *</label>
+                        <input 
+                            type="text" 
+                            {...register('assetTag')} 
+                            placeholder="Ex: INV-PC-2024-001"
+                            className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green font-mono" 
+                        />
+                        {errors.assetTag && <p className="text-red-500 text-xs mt-1">{errors.assetTag.message}</p>}
+                    </div>
+
                     <div>
                         <label className="block text-sm font-medium mb-1.5">Catégorie *</label>
                         <select {...register('category')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green">
@@ -116,37 +171,52 @@ export default function AssetFormPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1.5">État *</label>
+                        <label className="block text-sm font-medium mb-1.5">État physique *</label>
                         <select {...register('condition')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green">
-                            <option value="EXCELLENT">Excellent (Neuf)</option>
+                            <option value="NEW">Neuf</option>
                             <option value="GOOD">Bon</option>
                             <option value="FAIR">Passable</option>
                             <option value="POOR">Mauvais</option>
                         </select>
                         {errors.condition && <p className="text-red-500 text-xs mt-1">{errors.condition.message}</p>}
                     </div>
+                </div>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1.5">Fournisseur *</label>
-                        <input type="text" {...register('supplier')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
-                        {errors.supplier && <p className="text-red-500 text-xs mt-1">{errors.supplier.message}</p>}
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1.5">Prix d'achat (DZD) *</label>
-                        <input type="number" {...register('purchasePrice', { valueAsNumber: true })} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
-                        {errors.purchasePrice && <p className="text-red-500 text-xs mt-1">{errors.purchasePrice.message}</p>}
+                {/* Section 2: Acquisition & Finances */}
+                <div className="border-t border-[var(--color-border)] pt-6">
+                    <h3 className="text-sm font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-4">Acquisition & Valeur</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">Fournisseur</label>
+                            <input type="text" {...register('supplier')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">N° Facture</label>
+                            <input type="text" {...register('invoiceNumber')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">Date d'acquisition</label>
+                            <input type="date" {...register('acquisitionDate')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">Date fin de garantie</label>
+                            <input type="date" {...register('warrantyDate')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">Prix d'achat (DZD)</label>
+                            <input type="number" {...register('purchasePrice', { valueAsNumber: true })} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1.5">Valeur actuelle (DZD)</label>
+                            <input type="number" {...register('currentValue', { valueAsNumber: true })} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
+                        </div>
                     </div>
                 </div>
 
-                {/* Sonatrach-specific fields */}
+                {/* Section 3: Sonatrach-specific fields */}
                 <div className="border-t border-[var(--color-border)] pt-6">
-                    <h3 className="text-sm font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-4">Informations Sonatrach</h3>
+                    <h3 className="text-sm font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-4">Localisation & Affectation</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium mb-1.5">N° d'inventaire</label>
-                            <input type="text" {...register('inventoryNumber')} placeholder="INV-PC-0001" className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
-                        </div>
                         <div>
                             <label className="block text-sm font-medium mb-1.5">Affectation / Structure</label>
                             <select {...register('affectation')} className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green">
@@ -163,6 +233,30 @@ export default function AssetFormPage() {
                             <input type="text" {...register('etage')} placeholder="Ex: 5ème, RDC" className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green" />
                         </div>
                     </div>
+                </div>
+
+                <div className="border-t border-[var(--color-border)] pt-6">
+                    <h3 className="text-sm font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-4">
+                        Spécifications selon la catégorie
+                    </h3>
+                    {!selectedCategory ? (
+                        <p className="text-sm text-[var(--color-muted)]">Choisissez d’abord une catégorie pour afficher les champs spécifiques.</p>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {specificationFields.map(field => (
+                                <div key={field.key}>
+                                    <label className="block text-sm font-medium mb-1.5">{field.label}</label>
+                                    <input
+                                        type={field.type === 'number' ? 'number' : 'text'}
+                                        min={field.min}
+                                        placeholder={field.placeholder}
+                                        {...register(`specifications.${field.key}`)}
+                                        className="w-full px-3 py-2 border border-[var(--color-border)] rounded-md bg-transparent focus:outline-none focus:ring-1 focus:ring-sonatrach-green"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div>

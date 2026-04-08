@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Modal } from '@/components/atoms/Modal.jsx'
 import { useCreateLicense, useUpdateLicense } from '@/hooks/useLicenses.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 export function LicenseFormModal({ isOpen, onClose, license }) {
     const isEditing = !!license
@@ -19,31 +19,26 @@ export function LicenseFormModal({ isOpen, onClose, license }) {
         }
     })
 
-    // Update form when editing
-    useEffect(() => {
-        if (isOpen) {
-            if (isEditing && license) {
-                reset({
-                    softwareName: license.softwareName || '',
-                    vendor: license.vendor || '',
-                    licenseKey: license.licenseKey || '',
-                    totalSeats: license.totalSeats || 1,
-                    cost: license.cost || 0,
-                    // format date for input type="date"
-                    expiryDate: license.expiryDate ? new Date(license.expiryDate).toISOString().split('T')[0] : '',
-                })
-            } else {
-                reset({
-                    softwareName: '',
-                    vendor: '',
-                    licenseKey: '',
-                    totalSeats: 1,
-                    cost: 0,
-                    expiryDate: '',
-                })
-            }
-        }
-    }, [isOpen, isEditing, license, reset])
+    useHydratedFormDefaults({
+        enabled: isOpen,
+        reset,
+        signature: `${isEditing ? license?.id || 'edit' : 'new'}-${isOpen ? 'open' : 'closed'}`,
+        values: isEditing && license ? {
+            softwareName: license.softwareName || '',
+            vendor: license.vendor || '',
+            licenseKey: license.licenseKey || '',
+            totalSeats: license.totalSeats || 1,
+            cost: license.cost || 0,
+            expiryDate: license.expiryDate ? new Date(license.expiryDate).toISOString().split('T')[0] : '',
+        } : {
+            softwareName: '',
+            vendor: '',
+            licenseKey: '',
+            totalSeats: 1,
+            cost: 0,
+            expiryDate: '',
+        },
+    })
 
     const onSubmit = (data) => {
         // format numbers and handle empty dates correctly

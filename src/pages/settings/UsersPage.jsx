@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useUsers, useDeleteUser } from '@/hooks/useUsers.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { cn, initials } from '@/lib/utils.js'
@@ -30,7 +30,7 @@ export default function UsersPage() {
         setIsModalOpen(true)
     }
 
-    const columns = useMemo(() => [
+    const columns = [
         {
             accessorFn: row => row.fullName,
             id: 'user',
@@ -110,7 +110,7 @@ export default function UsersPage() {
                 )
             }
         }
-    ], [currentUser])
+    ]
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">

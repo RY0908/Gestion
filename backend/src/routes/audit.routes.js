@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { getPool } from '../db/index.js'
+import { requireRole } from '../middleware/auth.js'
 
 const router = Router()
 
 // GET /api/audit
-router.get('/', async (req, res) => {
+router.get('/', requireRole('ADMIN'), async (req, res) => {
     try {
         const { entityType, limit = 100 } = req.query
         const pool = getPool()

@@ -1,9 +1,9 @@
-import { apiClient } from './client.js'
+import { documentsApi } from './documents.api.js'
 
 export const purchaseOrdersApi = {
-    getAll: (params = {}) => apiClient.get('/api/purchase-orders', { params }),
-    getById: (id) => apiClient.get(`/api/purchase-orders/${id}`),
-    create: (data) => apiClient.post('/api/purchase-orders', data),
-    update: (id, data) => apiClient.put(`/api/purchase-orders/${id}`, data),
-    delete: (id) => apiClient.delete(`/api/purchase-orders/${id}`),
+    getAll: () => documentsApi.getPurchaseOrders(),
+    getById: (id) => documentsApi.getById(id),
+    create: (data) => documentsApi.createArchive({ type: 'BC', ...data }),
+    update: (id, data) => documentsApi.update(id, data),
+    delete: (id) => documentsApi.delete(id),
 }

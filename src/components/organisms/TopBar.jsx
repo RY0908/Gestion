@@ -200,7 +200,7 @@ export const TopBar = () => {
                                 <Link to="/profile" className="w-full inline-block">Mon profil</Link>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item asChild className="px-3 py-2 text-sm outline-none cursor-pointer hover:bg-[var(--color-bg)] focus:bg-[var(--color-bg)]">
-                                <Link to="/requests" className="w-full inline-block">Mes demandes</Link>
+                                <Link to="/my-requests" className="w-full inline-block">Mes demandes</Link>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item asChild className="px-3 py-2 text-sm outline-none cursor-pointer hover:bg-[var(--color-bg)] focus:bg-[var(--color-bg)]">
                                 <Link to="/settings/preferences" className="w-full inline-block">Préférences</Link>

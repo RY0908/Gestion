@@ -1,42 +1,46 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 import './components/print/print.css'
 import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from '@/store/authStore.js'
+import { canDo } from '@/lib/permissions.js'
 import LoginPage from '@/pages/auth/LoginPage.jsx'
 import { Sidebar } from '@/components/organisms/Sidebar.jsx'
 import { TopBar } from '@/components/organisms/TopBar.jsx'
-import DashboardPage from '@/pages/dashboard/DashboardPage.jsx'
-import AssetListPage from '@/pages/assets/AssetListPage.jsx'
-import AssetDetailPage from '@/pages/assets/AssetDetailPage.jsx'
-import AssetFormPage from '@/pages/assets/AssetFormPage.jsx'
-import AssignmentListPage from '@/pages/assignments/AssignmentListPage.jsx'
-import LicenseListPage from '@/pages/licenses/LicenseListPage.jsx'
-import MaintenanceListPage from '@/pages/maintenance/MaintenanceListPage.jsx'
-import RequestListPage from '@/pages/requests/RequestListPage.jsx'
-import MyRequestsPage from '@/pages/requests/MyRequestsPage.jsx'
-import RequestDetailPage from '@/pages/requests/RequestDetailPage.jsx'
-import ReportsPage from '@/pages/reports/ReportsPage.jsx'
-import AuditLogPage from '@/pages/audit/AuditLogPage.jsx'
-import NotificationsPage from '@/pages/notifications/NotificationsPage.jsx'
-import RoomsPage from '@/pages/rooms/RoomsPage.jsx'
-import UsersPage from '@/pages/settings/UsersPage.jsx'
-import DocsHubPage from '@/pages/documents/DocsHubPage.jsx'
-import FormBonSortie from '@/pages/documents/forms/FormBonSortie.jsx'
-import FormDemandeIntervention from '@/pages/documents/forms/FormDemandeIntervention.jsx'
-import FormFicheIntervention from '@/pages/documents/forms/FormFicheIntervention.jsx'
-import FormBonCommande from '@/pages/documents/forms/FormBonCommande.jsx'
-import FormBonReception from '@/pages/documents/forms/FormBonReception.jsx'
-import FormDecharge from '@/pages/documents/forms/FormDecharge.jsx'
-import FormDemandeMateriel from '@/pages/documents/forms/FormDemandeMateriel.jsx'
-import FormFicheInventaire from '@/pages/documents/forms/FormFicheInventaire.jsx'
-import FormRapportIntervention from '@/pages/documents/forms/FormRapportIntervention.jsx'
-import FormFicheBesoin from '@/pages/documents/forms/FormFicheBesoin.jsx'
-import FormDemandeGarantie from '@/pages/documents/forms/FormDemandeGarantie.jsx'
+const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage.jsx'))
+const AssetListPage = lazy(() => import('@/pages/assets/AssetListPage.jsx'))
+const AssetDetailPage = lazy(() => import('@/pages/assets/AssetDetailPage.jsx'))
+const AssetFormPage = lazy(() => import('@/pages/assets/AssetFormPage.jsx'))
+const AssignmentListPage = lazy(() => import('@/pages/assignments/AssignmentListPage.jsx'))
+const AssignmentDetailPage = lazy(() => import('@/pages/assignments/AssignmentDetailPage.jsx'))
+const LicenseListPage = lazy(() => import('@/pages/licenses/LicenseListPage.jsx'))
+const MaintenanceListPage = lazy(() => import('@/pages/maintenance/MaintenanceListPage.jsx'))
+const RequestListPage = lazy(() => import('@/pages/requests/RequestListPage.jsx'))
+const MyRequestsPage = lazy(() => import('@/pages/requests/MyRequestsPage.jsx'))
+const RequestDetailPage = lazy(() => import('@/pages/requests/RequestDetailPage.jsx'))
+const ReportsPage = lazy(() => import('@/pages/reports/ReportsPage.jsx'))
+const AuditLogPage = lazy(() => import('@/pages/audit/AuditLogPage.jsx'))
+const NotificationsPage = lazy(() => import('@/pages/notifications/NotificationsPage.jsx'))
+const RoomsPage = lazy(() => import('@/pages/rooms/RoomsPage.jsx'))
+const UsersPage = lazy(() => import('@/pages/settings/UsersPage.jsx'))
+const DocsHubPage = lazy(() => import('@/pages/documents/DocsHubPage.jsx'))
+const FormBonSortie = lazy(() => import('@/pages/documents/forms/FormBonSortie.jsx'))
+const FormDemandeIntervention = lazy(() => import('@/pages/documents/forms/FormDemandeIntervention.jsx'))
+const FormFicheIntervention = lazy(() => import('@/pages/documents/forms/FormFicheIntervention.jsx'))
+const FormBonCommande = lazy(() => import('@/pages/documents/forms/FormBonCommande.jsx'))
+const FormBonReception = lazy(() => import('@/pages/documents/forms/FormBonReception.jsx'))
+const FormDecharge = lazy(() => import('@/pages/documents/forms/FormDecharge.jsx'))
+const FormDemandeMateriel = lazy(() => import('@/pages/documents/forms/FormDemandeMateriel.jsx'))
+const FormFicheInventaire = lazy(() => import('@/pages/documents/forms/FormFicheInventaire.jsx'))
+const FormRapportIntervention = lazy(() => import('@/pages/documents/forms/FormRapportIntervention.jsx'))
+const FormFicheBesoin = lazy(() => import('@/pages/documents/forms/FormFicheBesoin.jsx'))
+const FormDemandeGarantie = lazy(() => import('@/pages/documents/forms/FormDemandeGarantie.jsx'))
 import { AnimatedRoutes } from '@/components/atoms/PageTransition.jsx'
-import ProfilePage from '@/pages/profile/ProfilePage.jsx'
-import PreferencesPage from '@/pages/settings/PreferencesPage.jsx'
+const ProfilePage = lazy(() => import('@/pages/profile/ProfilePage.jsx'))
+const PreferencesPage = lazy(() => import('@/pages/settings/PreferencesPage.jsx'))
 
 const NotFoundPage = () => <div className="p-6 h-full flex items-center justify-center text-gray-400">404 - Page Introuvable</div>
+const RouteLoader = () => <div className="p-6 h-full flex items-center justify-center text-[var(--color-muted)]">Chargement...</div>
 
 const MainLayout = ({ children }) => (
   <div className="flex h-screen overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
@@ -55,11 +59,21 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
+const AuthorizedRoute = ({ children, roles = [], action = null }) => {
+  const user = useAuthStore(s => s.user)
+  const isAllowedRole = roles.length === 0 || roles.includes(user?.role)
+  const isAllowedAction = !action || canDo(user?.role, action)
+  if (!isAllowedRole || !isAllowedAction) return <Navigate to="/dashboard" replace />
+  return children
+}
+
 // Helper to wrap routes in shared layout
 const P = ({ children }) => (
   <ProtectedRoute>
     <MainLayout>
-      <AnimatedRoutes>{children}</AnimatedRoutes>
+      <Suspense fallback={<RouteLoader />}>
+        <AnimatedRoutes>{children}</AnimatedRoutes>
+      </Suspense>
     </MainLayout>
   </ProtectedRoute>
 )
@@ -76,32 +90,33 @@ export default function App() {
 
         <Route path="/dashboard" element={<P><DashboardPage /></P>} />
         <Route path="/assets" element={<P><AssetListPage /></P>} />
-        <Route path="/assets/new" element={<P><AssetFormPage /></P>} />
+        <Route path="/assets/new" element={<P><AuthorizedRoute action="asset:create"><AssetFormPage /></AuthorizedRoute></P>} />
         <Route path="/assets/:id" element={<P><AssetDetailPage /></P>} />
-        <Route path="/assets/:id/edit" element={<P><AssetFormPage /></P>} />
-        <Route path="/assignments" element={<P><AssignmentListPage /></P>} />
-        <Route path="/licenses" element={<P><LicenseListPage /></P>} />
-        <Route path="/maintenance" element={<P><MaintenanceListPage /></P>} />
-        <Route path="/requests" element={<P><RequestListPage /></P>} />
+        <Route path="/assets/:id/edit" element={<P><AuthorizedRoute action="asset:edit"><AssetFormPage /></AuthorizedRoute></P>} />
+        <Route path="/assignments" element={<P><AuthorizedRoute action="asset:assign"><AssignmentListPage /></AuthorizedRoute></P>} />
+        <Route path="/assignments/:id" element={<P><AuthorizedRoute action="asset:assign"><AssignmentDetailPage /></AuthorizedRoute></P>} />
+        <Route path="/licenses" element={<P><AuthorizedRoute action="license:manage"><LicenseListPage /></AuthorizedRoute></P>} />
+        <Route path="/maintenance" element={<P><AuthorizedRoute action="maintenance:manage"><MaintenanceListPage /></AuthorizedRoute></P>} />
+        <Route path="/requests" element={<P><AuthorizedRoute action="request:manage"><RequestListPage /></AuthorizedRoute></P>} />
         <Route path="/requests/:id" element={<P><RequestDetailPage /></P>} />
         <Route path="/my-requests" element={<P><MyRequestsPage /></P>} />
         <Route path="/documents" element={<P><DocsHubPage /></P>} />
-        <Route path="/documents/bon-sortie/nouveau" element={<P><FormBonSortie /></P>} />
-        <Route path="/documents/demande-intervention/nouveau" element={<P><FormDemandeIntervention /></P>} />
-        <Route path="/documents/fiche-intervention/nouveau" element={<P><FormFicheIntervention /></P>} />
-        <Route path="/documents/bon-commande/nouveau" element={<P><FormBonCommande /></P>} />
-        <Route path="/documents/bon-reception/nouveau" element={<P><FormBonReception /></P>} />
-        <Route path="/documents/decharge/nouveau" element={<P><FormDecharge /></P>} />
-        <Route path="/documents/demande-materiel/nouveau" element={<P><FormDemandeMateriel /></P>} />
-        <Route path="/documents/inventaire/nouveau" element={<P><FormFicheInventaire /></P>} />
-        <Route path="/documents/rapport-intervention/nouveau" element={<P><FormRapportIntervention /></P>} />
-        <Route path="/documents/fiche-besoin/nouveau" element={<P><FormFicheBesoin /></P>} />
-        <Route path="/documents/demande-garantie/nouveau" element={<P><FormDemandeGarantie /></P>} />
-        <Route path="/reports" element={<P><ReportsPage /></P>} />
+        <Route path="/documents/bon-sortie/nouveau" element={<P><AuthorizedRoute action="document:create"><FormBonSortie /></AuthorizedRoute></P>} />
+        <Route path="/documents/demande-intervention/nouveau" element={<P><AuthorizedRoute action="document:create"><FormDemandeIntervention /></AuthorizedRoute></P>} />
+        <Route path="/documents/fiche-intervention/nouveau" element={<P><AuthorizedRoute action="document:create"><FormFicheIntervention /></AuthorizedRoute></P>} />
+        <Route path="/documents/bon-commande/nouveau" element={<P><AuthorizedRoute action="document:create"><FormBonCommande /></AuthorizedRoute></P>} />
+        <Route path="/documents/bon-reception/nouveau" element={<P><AuthorizedRoute action="document:create"><FormBonReception /></AuthorizedRoute></P>} />
+        <Route path="/documents/decharge/nouveau" element={<P><AuthorizedRoute action="document:create"><FormDecharge /></AuthorizedRoute></P>} />
+        <Route path="/documents/demande-materiel/nouveau" element={<P><AuthorizedRoute action="document:create"><FormDemandeMateriel /></AuthorizedRoute></P>} />
+        <Route path="/documents/inventaire/nouveau" element={<P><AuthorizedRoute action="document:create"><FormFicheInventaire /></AuthorizedRoute></P>} />
+        <Route path="/documents/rapport-intervention/nouveau" element={<P><AuthorizedRoute action="document:create"><FormRapportIntervention /></AuthorizedRoute></P>} />
+        <Route path="/documents/fiche-besoin/nouveau" element={<P><AuthorizedRoute action="document:create"><FormFicheBesoin /></AuthorizedRoute></P>} />
+        <Route path="/documents/demande-garantie/nouveau" element={<P><AuthorizedRoute action="document:create"><FormDemandeGarantie /></AuthorizedRoute></P>} />
+        <Route path="/reports" element={<P><AuthorizedRoute roles={['ADMIN']}><ReportsPage /></AuthorizedRoute></P>} />
         <Route path="/rooms" element={<P><RoomsPage /></P>} />
-        <Route path="/audit-log" element={<P><AuditLogPage /></P>} />
+        <Route path="/audit-log" element={<P><AuthorizedRoute roles={['ADMIN']}><AuditLogPage /></AuthorizedRoute></P>} />
         <Route path="/notifications" element={<P><NotificationsPage /></P>} />
-        <Route path="/settings/users" element={<P><UsersPage /></P>} />
+        <Route path="/settings/users" element={<P><AuthorizedRoute roles={['ADMIN']}><UsersPage /></AuthorizedRoute></P>} />
         <Route path="/profile" element={<P><ProfilePage /></P>} />
         <Route path="/settings/preferences" element={<P><PreferencesPage /></P>} />
         <Route path="/settings" element={<Navigate to="/settings/users" replace />} />

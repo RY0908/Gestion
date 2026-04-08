@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Plus, Edit2, Trash2, UserCheck, XCircle } from 'lucide-react'
 import { useRequests, useDeleteRequest } from '@/hooks/useRequests.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { formatDate, cn } from '@/lib/utils.js'
@@ -6,11 +8,9 @@ import { AssetTypeBadge } from '@/components/atoms/AssetTypeBadge.jsx'
 import { REQUEST_STATES } from '@/lib/constants.js'
 import { ACTIONS } from '@/lib/permissions.js'
 import { useAuthStore } from '@/store/authStore.js'
-import { Check, ClipboardList, Plus, Edit2, Trash2, UserCheck } from 'lucide-react'
 import { RequestFormModal } from './components/RequestFormModal.jsx'
 import { RequestActionModal } from './components/RequestActionModal.jsx'
-
-import { useNavigate } from 'react-router-dom'
+import { summarizeSpecifications } from '@/lib/specifications.js'
 
 export default function RequestListPage() {
     const navigate = useNavigate()
@@ -21,21 +21,13 @@ export default function RequestListPage() {
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [actionConfig, setActionConfig] = useState({ isOpen: false, request: null, type: null })
 
-    const openAction = (request, type) => {
-        setActionConfig({ isOpen: true, request, type })
-    }
-
-    const closeAction = () => {
-        setActionConfig({ isOpen: false, request: null, type: null })
-    }
-
     const handleDelete = (id) => {
-        if (window.confirm("Voulez-vous vraiment annuler/supprimer cette demande ?")) {
+        if (window.confirm('Voulez-vous vraiment annuler/supprimer cette demande ?')) {
             deleteMutation.mutate(id)
         }
     }
 
-    const columns = useMemo(() => [
+    const columns = [
         {
             accessorKey: 'requestNumber',
             header: 'N° Demande',
@@ -51,6 +43,38 @@ export default function RequestListPage() {
             cell: info => <AssetTypeBadge category={info.getValue()} />
         },
         {
+            accessorKey: 'specifications',
+            header: 'Spécifications',
+            cell: info => {
+                const row = info.row.original
+                const summary = summarizeSpecifications(row.assetCategory, info.getValue(), 'request')
+                return summary ? <span className="text-xs text-[var(--color-muted)] line-clamp-2">{summary}</span> : <span className="text-xs text-[var(--color-muted)]">—</span>
+            }
+        },
+        {
+            accessorFn: row => row.assetCategory === 'MAINTENANCE'
+                ? row.maintenanceAsset
+                : row.stockAvailability,
+            id: 'stockAvailability',
+            header: 'Actif concerné',
+            cell: info => {
+                const value = info.getValue()
+                const isMaintenance = info.row.original.assetCategory === 'MAINTENANCE'
+                return (
+                    <span className={cn(
+                        'px-2.5 py-1 rounded text-xs font-semibold border',
+                        isMaintenance
+                            ? 'bg-blue-50 text-blue-700 border-blue-200'
+                            : (value?.hasStock ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200')
+                    )}>
+                        {isMaintenance
+                            ? (value?.assetTag || 'Non renseigné')
+                            : (value?.hasStock ? `${value.availableCount} dispo` : 'Rupture')}
+                    </span>
+                )
+            }
+        },
+        {
             accessorKey: 'createdAt',
             header: 'Date de demande',
             cell: info => formatDate(info.getValue())
@@ -62,11 +86,11 @@ export default function RequestListPage() {
                 const priority = info.getValue()
                 return (
                     <span className={cn(
-                        "px-2 py-0.5 rounded text-xs font-medium border",
+                        'px-2 py-0.5 rounded text-xs font-medium border',
                         priority === 'URGENT' ? 'border-red-200 text-red-700 bg-red-50 dark:bg-red-900/20' :
-                            priority === 'HIGH' ? 'border-orange-200 text-orange-700 bg-orange-50 dark:bg-orange-900/20' :
-                                priority === 'MEDIUM' ? 'border-blue-200 text-blue-700 bg-blue-50 dark:bg-blue-900/20' :
-                                    'border-gray-200 text-gray-700 bg-gray-50 dark:bg-gray-800'
+                        priority === 'HIGH' ? 'border-orange-200 text-orange-700 bg-orange-50 dark:bg-orange-900/20' :
+                        priority === 'MEDIUM' ? 'border-blue-200 text-blue-700 bg-blue-50 dark:bg-blue-900/20' :
+                        'border-gray-200 text-gray-700 bg-gray-50 dark:bg-gray-800'
                     )}>
                         {priority}
                     </span>
@@ -81,7 +105,7 @@ export default function RequestListPage() {
                 const stateObj = REQUEST_STATES.find(s => s.value === status)
                 return (
                     <span className={cn(
-                        "px-2.5 py-1 rounded text-xs font-medium border",
+                        'px-2.5 py-1 rounded text-xs font-medium border',
                         stateObj?.color || 'bg-gray-100 border-gray-200 text-gray-800 dark:bg-gray-800 dark:border-gray-700'
                     )}>
                         {stateObj?.label || status}
@@ -100,35 +124,40 @@ export default function RequestListPage() {
             header: '',
             cell: info => {
                 const req = info.row.original
-                
                 const isMine = req.requestedBy?.id === user?.id
-                const canAssign = (req.status === 'PENDING' || req.status === 'APPROVED') && canDo(ACTIONS.TICKET_ASSIGN)
-                const canResolve = req.status === 'ASSIGNED' && canDo(ACTIONS.TICKET_RESOLVE) && (user.role === 'ADMIN' || req.assignedTo?.id === user.id)
-                const canEditDelete = isMine || user.role === 'ADMIN' || user.role === 'SUPERVISOR'
+                const canAccept = req.status === 'PENDING' && canDo(ACTIONS.REQUEST_MANAGE)
+                const canReject = req.status === 'PENDING' && canDo(ACTIONS.REQUEST_MANAGE)
+                const canEditDelete = isMine || user?.role === 'ADMIN' || user?.role === 'SUPERVISOR'
+                const canProceed = req.assetCategory === 'MAINTENANCE'
+                    ? Boolean(req.maintenanceAsset?.assetId)
+                    : req.stockAvailability?.hasStock
 
                 return (
                     <div className="flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                        {canAssign && (
+                        {canAccept && (
                             <button
-                                onClick={(e) => { e.stopPropagation(); setActionConfig({ isOpen: true, request: req, type: 'ASSIGN' }) }}
-                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded transition-colors"
+                                onClick={(e) => { e.stopPropagation(); setActionConfig({ isOpen: true, request: req, type: 'accept' }) }}
+                                disabled={!canProceed}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                title={req.assetCategory === 'MAINTENANCE'
+                                    ? (canProceed ? 'Créer le ticket de maintenance' : 'Aucun équipement sélectionné')
+                                    : (canProceed ? 'Accepter la demande' : 'Aucun matériel en stock')}
                             >
-                                <UserCheck className="w-3.5 h-3.5" /> Assigner
+                                <UserCheck className="w-3.5 h-3.5" /> {req.assetCategory === 'MAINTENANCE' ? 'Créer ticket' : 'Accepter'}
                             </button>
                         )}
-                        {canResolve && (
+                        {canReject && (
                             <button
-                                onClick={(e) => { e.stopPropagation(); openAction(req, 'resolve') }}
-                                className="p-1.5 text-sonatrach-green hover:bg-sonatrach-green/10 rounded transition-colors"
-                                title="Clôturer/Résoudre la demande"
+                                onClick={(e) => { e.stopPropagation(); setActionConfig({ isOpen: true, request: req, type: 'reject' }) }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-red-50 text-red-700 hover:bg-red-100 rounded transition-colors"
                             >
-                                <Check className="w-4 h-4" />
+                                <XCircle className="w-3.5 h-3.5" /> Refuser
                             </button>
                         )}
                         {canEditDelete && (
                             <>
                                 <button
-                                    onClick={(e) => { e.stopPropagation(); openAction(req, 'edit') }}
+                                    onClick={(e) => { e.stopPropagation(); setActionConfig({ isOpen: true, request: req, type: 'edit' }) }}
                                     className="p-1.5 text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                                     title="Modifier l'état manuellement"
                                 >
@@ -147,7 +176,7 @@ export default function RequestListPage() {
                 )
             }
         }
-    ], [user, canDo])
+    ]
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -172,15 +201,16 @@ export default function RequestListPage() {
                 emptyMessage="Aucune demande trouvée."
             />
 
-            <RequestFormModal 
-                isOpen={isFormOpen} 
-                onClose={() => setIsFormOpen(false)} 
+            <RequestFormModal
+                key={`request-form-${isFormOpen ? 'open' : 'closed'}`}
+                isOpen={isFormOpen}
+                onClose={() => setIsFormOpen(false)}
             />
 
             {actionConfig.isOpen && (
                 <RequestActionModal
                     isOpen={actionConfig.isOpen}
-                    onClose={closeAction}
+                    onClose={() => setActionConfig({ isOpen: false, request: null, type: null })}
                     request={actionConfig.request}
                     actionType={actionConfig.type}
                 />
@@ -188,4 +218,3 @@ export default function RequestListPage() {
         </div>
     )
 }
-

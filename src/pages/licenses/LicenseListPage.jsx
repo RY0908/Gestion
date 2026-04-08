@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useLicenses, useDeleteLicense } from '@/hooks/useLicenses.js'
 import { DataTable } from '@/components/molecules/DataTable.jsx'
 import { KpiCard } from '@/components/atoms/KpiCard.jsx'
@@ -8,7 +8,7 @@ import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { CopyableText } from '@/components/atoms/CopyableText.jsx'
 import { formatDate, formatCurrency } from '@/lib/utils.js'
 import { Key, AlertTriangle, ShieldCheck, Plus, Edit2, Trash2 } from 'lucide-react'
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell } from 'recharts'
 import { LicenseFormModal } from './components/LicenseFormModal.jsx'
 
 const COMPLIANCE_ICONS = {
@@ -45,7 +45,7 @@ export default function LicenseListPage() {
     }
 
     // SAM Metrics
-    const metrics = useMemo(() => {
+    const metrics = (() => {
         const total = licenses.length
         const now = new Date()
         const in30 = new Date(now.getTime() + 30 * 86400000)
@@ -57,14 +57,14 @@ export default function LicenseListPage() {
         const compliant = licenses.filter(l => l.complianceStatus === 'COMPLIANT').length
         const complianceRate = total > 0 ? Math.round((compliant / total) * 100) : 0
         return { total, expiring, expired, utilization, complianceRate, totalSeats, usedSeats }
-    }, [licenses])
+    })()
 
     const utilizationData = [
         { name: 'Utilisé', value: metrics.usedSeats },
         { name: 'Disponible', value: Math.max(0, metrics.totalSeats - metrics.usedSeats) }
     ]
 
-    const columns = useMemo(() => [
+    const columns = [
         {
             accessorKey: 'softwareName',
             header: 'Logiciel',
@@ -164,7 +164,7 @@ export default function LicenseListPage() {
                 )
             }
         }
-    ], [])
+    ]
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -201,13 +201,11 @@ export default function LicenseListPage() {
                 />
                 <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg p-4 shadow-sm flex items-center gap-4" style={{ borderLeft: '3px solid #DDA73B' }}>
                     <div className="w-14 h-14 shrink-0">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie data={utilizationData} cx="50%" cy="50%" innerRadius={16} outerRadius={24} paddingAngle={2} dataKey="value" strokeWidth={0}>
-                                    {utilizationData.map((_, i) => <Cell key={i} fill={UTIL_COLORS[i]} />)}
-                                </Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
+                        <PieChart width={56} height={56}>
+                            <Pie data={utilizationData} cx={28} cy={28} innerRadius={16} outerRadius={24} paddingAngle={2} dataKey="value" strokeWidth={0}>
+                                {utilizationData.map((_, i) => <Cell key={i} fill={UTIL_COLORS[i]} />)}
+                            </Pie>
+                        </PieChart>
                     </div>
                     <div>
                         <p className="text-xs text-[var(--color-muted)] uppercase tracking-wider">Utilisation</p>

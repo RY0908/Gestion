@@ -46,6 +46,7 @@ export function useUpdateRequest() {
         onSuccess: (_, { id }) => {
             qc.invalidateQueries({ queryKey: ['requests', id] })
             qc.invalidateQueries({ queryKey: ['requests'] })
+            qc.invalidateQueries({ queryKey: ['maintenance'] })
             toast.success('Demande mise à jour')
         },
         onError: (err) => toast.error(err.message),

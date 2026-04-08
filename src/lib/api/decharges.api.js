@@ -1,9 +1,9 @@
-import { apiClient } from './client.js'
+import { documentsApi } from './documents.api.js'
 
 export const dechargesApi = {
-    getAll: (params = {}) => apiClient.get('/api/decharges', { params }),
-    getById: (id) => apiClient.get(`/api/decharges/${id}`),
-    create: (data) => apiClient.post('/api/decharges', data),
-    sign: (id) => apiClient.patch(`/api/decharges/${id}/sign`),
-    delete: (id) => apiClient.delete(`/api/decharges/${id}`),
+    getAll: () => documentsApi.getDecharges(),
+    getById: (id) => documentsApi.getById(id),
+    create: (data) => documentsApi.createArchive({ type: 'DCH', ...data }),
+    sign: (id) => documentsApi.updateStatus(id, 'SIGNED'),
+    delete: (id) => documentsApi.delete(id),
 }

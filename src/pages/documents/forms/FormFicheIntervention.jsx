@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,6 +16,8 @@ import { DynamicTable } from '@/components/forms/DynamicTable.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const schema = yup.object({
     nomTechnicien: yup.string().required('Le nom du technicien est obligatoire'),
@@ -58,6 +60,27 @@ export default function FormFicheIntervention() {
         }
     })
 
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `FICHE_INTERV-${user?.id || 'guest'}`,
+        values: {
+            date: defaults.date || now.toISOString().split('T')[0],
+            heureDebut: defaults.heure || `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+            heureFin: '',
+            numeroDemande: '',
+            nomTechnicien: defaults.technicienNom || user?.fullName || '',
+            matriculeTechnicien: defaults.technicienMatricule || '',
+            service: 'Support Informatique (Helpdesk)',
+            designation: '',
+            numSerie: '',
+            numInventaire: '',
+            descriptionTravaux: '',
+            resultat: '',
+            observations: '',
+        },
+    })
+
     const heureDebut = watch('heureDebut')
     const heureFin = watch('heureFin')
     const duree = (() => {
@@ -72,16 +95,17 @@ export default function FormFicheIntervention() {
     })()
 
     // ── Draft ────────────────────────────────────────────────────────
-    useEffect(() => {
-        const saved = localStorage.getItem(DRAFT_KEY)
-        if (saved) { try { const d = JSON.parse(saved); if (d.formData) reset(d.formData); if (d.pieces) setPieces(d.pieces); if (d.typeIntervention) setTypeIntervention(d.typeIntervention) } catch { } }
-    }, [reset])
-
-    const saveDraft = useCallback(() => {
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), pieces, typeIntervention, savedAt: Date.now() }))
-    }, [watch, pieces, typeIntervention])
-
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.pieces) setPieces(draft.pieces)
+            if (draft?.typeIntervention) setTypeIntervention(draft.typeIntervention)
+        },
+        buildDraft: (formData) => ({ formData, pieces, typeIntervention }),
+    })
 
     // ── Table handlers ───────────────────────────────────────────────
     const addPiece = () => setPieces(prev => [...prev, { designation: '', reference: '', quantite: 1, numSerieRemplace: '' }])

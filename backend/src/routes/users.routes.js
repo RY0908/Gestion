@@ -3,32 +3,60 @@ import bcrypt from 'bcryptjs'
 import { getPool } from '../db/index.js'
 import { requireRole } from '../middleware/auth.js'
 import { logAudit } from '../middleware/audit.js'
+import { parsePrefixedId } from '../utils/ids.js'
 
 const router = Router()
+
+function mapUserRow(row) {
+    return {
+        id: `usr-${row.id}`,
+        fullName: row.nom_complet,
+        email: row.email,
+        role: row.role,
+        isActive: row.est_actif,
+        createdAt: row.date_creation,
+        employeeId: row.matricule || null,
+        structure: row.structure || null,
+        department: row.structure ? { code: row.structure, name: row.structure } : null,
+        position: row.poste_occupe || null,
+        phone: row.telephone || null,
+        hireDate: row.date_embauche || null,
+    }
+}
 
 // GET /api/users
 router.get('/', async (req, res) => {
     try {
         const { rows } = await getPool().query(`
             SELECT u.id, u.nom_complet, u.email, u.role, u.est_actif, u.date_creation,
-                   e.matricule, e.structure, e.poste_occupe, e.telephone
+                   e.matricule, e.structure, e.poste_occupe, e.telephone, e.date_embauche
             FROM utilisateurs u
             LEFT JOIN employes e ON u.email = e.email
             ORDER BY u.id
         `)
-        const data = rows.map(u => ({
-            id: `usr-${u.id}`,
-            fullName: u.nom_complet,
-            email: u.email,
-            role: u.role,
-            isActive: u.est_actif,
-            createdAt: u.date_creation,
-            matricule: u.matricule,
-            structure: u.structure,
-            position: u.poste_occupe,
-            phone: u.telephone,
-        }))
+        const data = rows.map(mapUserRow)
         res.json({ data, success: true })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ success: false, message: 'Erreur serveur.' })
+    }
+})
+
+// GET /api/users/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const cleanId = parsePrefixedId(req.params.id, 'usr')
+        if (!cleanId) return res.status(400).json({ success: false, message: 'Identifiant utilisateur invalide.' })
+        const { rows } = await getPool().query(`
+            SELECT u.id, u.nom_complet, u.email, u.role, u.est_actif, u.date_creation,
+                   e.matricule, e.structure, e.poste_occupe, e.telephone, e.date_embauche
+            FROM utilisateurs u
+            LEFT JOIN employes e ON u.email = e.email
+            WHERE u.id = $1
+        `, [cleanId])
+
+        if (!rows.length) return res.status(404).json({ success: false, message: 'Utilisateur introuvable.' })
+        res.json({ success: true, data: mapUserRow(rows[0]) })
     } catch (err) {
         console.error(err)
         res.status(500).json({ success: false, message: 'Erreur serveur.' })
@@ -72,8 +100,16 @@ router.post('/', requireRole('ADMIN'), async (req, res) => {
             ]
         )
 
+        const { rows: createdRows } = await pool.query(`
+            SELECT u.id, u.nom_complet, u.email, u.role, u.est_actif, u.date_creation,
+                   e.matricule, e.structure, e.poste_occupe, e.telephone, e.date_embauche
+            FROM utilisateurs u
+            LEFT JOIN employes e ON u.email = e.email
+            WHERE u.id = $1
+        `, [newId])
+
         await logAudit({ action: 'CREATE', entityType: 'UTILISATEUR', entityId: newId, description: `Utilisateur créé: ${email}`, userId: req.user?.id })
-        res.status(201).json({ success: true, message: 'Utilisateur créé.' })
+        res.status(201).json({ success: true, data: mapUserRow(createdRows[0]), message: 'Utilisateur créé.' })
     } catch (err) {
         console.error(err)
         res.status(500).json({ success: false, message: 'Erreur serveur.' })
@@ -83,9 +119,18 @@ router.post('/', requireRole('ADMIN'), async (req, res) => {
 // PATCH /api/users/:id — Admin only
 router.patch('/:id', requireRole('ADMIN'), async (req, res) => {
     try {
-        const cleanId = String(req.params.id).replace('usr-', '')
-        const { fullName, role, isActive, structure, position } = req.body
+        const cleanId = parsePrefixedId(req.params.id, 'usr')
+        if (!cleanId) return res.status(400).json({ success: false, message: 'Identifiant utilisateur invalide.' })
+        const { fullName, role, isActive, structure, position, phone, password } = req.body
         const pool = getPool()
+
+        const existing = await pool.query('SELECT id FROM utilisateurs WHERE id = $1', [cleanId])
+        if (!existing.rows.length) return res.status(404).json({ success: false, message: 'Utilisateur introuvable.' })
+
+        if (password) {
+            const hash = await bcrypt.hash(password, 10)
+            await pool.query('UPDATE utilisateurs SET mot_de_passe = $1 WHERE id = $2', [hash, cleanId])
+        }
 
         await pool.query(
             `UPDATE utilisateurs SET nom_complet = COALESCE($1, nom_complet), role = COALESCE($2, role), est_actif = COALESCE($3, est_actif) WHERE id = $4`,
@@ -96,14 +141,22 @@ router.patch('/:id', requireRole('ADMIN'), async (req, res) => {
             const { rows } = await pool.query('SELECT email FROM utilisateurs WHERE id = $1', [cleanId])
             if (rows.length > 0) {
                 await pool.query(
-                    `UPDATE employes SET structure = COALESCE($1, structure), poste_occupe = COALESCE($2, poste_occupe) WHERE email = $3`,
-                    [structure || null, position || null, rows[0].email]
+                    `UPDATE employes SET structure = COALESCE($1, structure), poste_occupe = COALESCE($2, poste_occupe), telephone = COALESCE($3, telephone) WHERE email = $4`,
+                    [structure || null, position || null, phone || null, rows[0].email]
                 )
             }
         }
 
+        const { rows: updatedRows } = await pool.query(`
+            SELECT u.id, u.nom_complet, u.email, u.role, u.est_actif, u.date_creation,
+                   e.matricule, e.structure, e.poste_occupe, e.telephone, e.date_embauche
+            FROM utilisateurs u
+            LEFT JOIN employes e ON u.email = e.email
+            WHERE u.id = $1
+        `, [cleanId])
+
         await logAudit({ action: 'UPDATE', entityType: 'UTILISATEUR', entityId: Number(cleanId), description: `Utilisateur modifié: ${cleanId}`, userId: req.user?.id })
-        res.json({ success: true, message: 'Utilisateur modifié.' })
+        res.json({ success: true, data: mapUserRow(updatedRows[0]), message: 'Utilisateur modifié.' })
     } catch (err) {
         console.error(err)
         res.status(500).json({ success: false, message: 'Erreur serveur.' })
@@ -113,8 +166,12 @@ router.patch('/:id', requireRole('ADMIN'), async (req, res) => {
 // DELETE /api/users/:id — Admin only
 router.delete('/:id', requireRole('ADMIN'), async (req, res) => {
     try {
-        const cleanId = String(req.params.id).replace('usr-', '')
-        await getPool().query('UPDATE utilisateurs SET est_actif = FALSE WHERE id = $1', [cleanId])
+        const cleanId = parsePrefixedId(req.params.id, 'usr')
+        if (!cleanId) return res.status(400).json({ success: false, message: 'Identifiant utilisateur invalide.' })
+        const pool = getPool()
+        const existing = await pool.query('SELECT id FROM utilisateurs WHERE id = $1', [cleanId])
+        if (!existing.rows.length) return res.status(404).json({ success: false, message: 'Utilisateur introuvable.' })
+        await pool.query('UPDATE utilisateurs SET est_actif = FALSE WHERE id = $1', [cleanId])
         await logAudit({ action: 'DELETE', entityType: 'UTILISATEUR', entityId: Number(cleanId), description: `Utilisateur désactivé: ${cleanId}`, userId: req.user?.id })
         res.json({ success: true })
     } catch (err) {

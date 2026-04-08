@@ -5,7 +5,7 @@ describe('Utils', () => {
     describe('cn()', () => {
         it('merges tailwind classes correctly', () => {
             expect(cn('px-2 py-1', 'bg-red-50')).toBe('px-2 py-1 bg-red-50')
-            expect(cn('px-2 py-1', false && 'bg-blue-50', 'text-sm')).toBe('px-2 py-1 text-sm')
+            expect(cn('px-2 py-1', undefined, 'text-sm')).toBe('px-2 py-1 text-sm')
             expect(cn('p-4 px-2')).toBe('p-4 px-2') // tailwind-merge handles specificity
         })
     })

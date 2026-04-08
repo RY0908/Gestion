@@ -86,8 +86,27 @@ app.get('/api/notifications', async (req, res) => {
             notifications.push({
                 id: id++, category: 'request', read: false,
                 title: `Ticket en attente d'assignation`,
-                desc: `${r.num_demande} — ${r.objet} (priorité : ${r.priorite})`,
+                desc: `${r.num_demande} ??? ${r.objet} (priorit?? : ${r.priorite})`,
                 time: new Date(r.date_demande).toLocaleDateString('fr-FR'),
+            })
+        }
+
+        // Refused maintenance requests
+        const { rows: refusedMaint } = await pool.query(
+            `SELECT d.num_demande, d.notes, d.date_demande, d.date_resolution, e.code_inventaire
+             FROM demandes d
+             LEFT JOIN maintenance m ON m.id_demande = d.id
+             LEFT JOIN equipements e ON e.id = m.id_equipement
+             WHERE d.statut = 'REJECTED' AND d.categorie_actif = 'MAINTENANCE'
+             ORDER BY d.date_resolution DESC NULLS LAST, d.date_demande DESC
+             LIMIT 5`
+        )
+        for (const r of refusedMaint) {
+            notifications.push({
+                id: id++, category: 'request', read: false,
+                title: `Demande de maintenance refus?e`,
+                desc: `${r.num_demande}${r.code_inventaire ? ` ? ${r.code_inventaire}` : ''}${r.notes ? ` (${r.notes})` : ''}`,
+                time: r.date_resolution ? new Date(r.date_resolution).toLocaleDateString('fr-FR') : new Date(r.date_demande).toLocaleDateString('fr-FR'),
             })
         }
 

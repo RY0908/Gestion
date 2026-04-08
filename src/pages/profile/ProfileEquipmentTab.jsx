@@ -40,8 +40,24 @@ function SkeletonCard() {
 }
 
 export default function ProfileEquipmentTab({ userId }) {
-    const { data, isLoading } = useAssignments({ userId, status: 'ACTIVE', pageSize: 50 })
+    const { data, isLoading } = useAssignments(
+        userId
+            ? { userId, status: 'ACTIVE', pageSize: 50 }
+            : { enabled: false }
+    )
     const assignments = data?.data || []
+
+    if (!userId) {
+        return (
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-12 text-center shadow-sm">
+                <div className="w-16 h-16 rounded-2xl bg-[var(--color-bg)] flex items-center justify-center mx-auto mb-4">
+                    <Package className="w-8 h-8 text-[var(--color-muted)]" />
+                </div>
+                <h3 className="font-semibold mb-1">Chargement du profil</h3>
+                <p className="text-sm text-[var(--color-muted)]">Les équipements affectés apparaîtront dès que la session utilisateur est disponible.</p>
+            </div>
+        )
+    }
 
     if (isLoading) {
         return (

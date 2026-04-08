@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -13,6 +13,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { saveDocument } from '@/lib/api/saveDocument.js'
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const schema = yup.object({
     activite: yup.string().required("L'activité est obligatoire"),
@@ -51,12 +53,33 @@ export default function FormDecharge() {
         }
     })
 
-    useEffect(() => {
-        const saved = localStorage.getItem(DRAFT_KEY)
-        if (saved) { try { const d = JSON.parse(saved); if (d.formData) reset(d.formData); if (d.articles) setArticles(d.articles) } catch { } }
-    }, [reset])
-    const saveDraft = useCallback(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), articles, savedAt: Date.now() })) }, [watch, articles])
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    useHydratedFormDefaults({
+        enabled: true,
+        reset,
+        signature: `DECHARGE-${numero}`,
+        values: {
+            activite: defaults.activite || 'Activité AVAL',
+            structure: defaults.structure || '',
+            dateRemise: defaults.dateRemise || new Date().toISOString().split('T')[0],
+            cedantNom: defaults.cedantNom || '',
+            cedantPrenom: defaults.cedantPrenom || '',
+            cedantStructure: defaults.cedantStructure || '',
+            recevantNom: '',
+            recevantPrenom: '',
+            recevantStructure: '',
+        },
+    })
+
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.articles) setArticles(draft.articles)
+        },
+        buildDraft: (formData) => ({ formData, articles }),
+    })
 
     const updateCell = (idx, key, val) => setArticles(prev => prev.map((row, i) => i === idx ? { ...row, [key]: val } : row))
     const addRow = () => setArticles(prev => [...prev, { ...emptyRow }])

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -15,6 +15,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE' }, { value: 'FIN', label: 'FIN' }, { value: 'RHU', label: 'RHU' },
@@ -68,9 +70,35 @@ export default function FormFicheInventaire() {
         }
     })
 
-    useEffect(() => { const s = localStorage.getItem(DRAFT_KEY); if (s) { try { const d = JSON.parse(s); if (d.formData) reset(d.formData); if (d.articles) setArticles(d.articles); if (d.type) setTypeInventaire(d.type) } catch { } } }, [reset])
-    const saveDraft = useCallback(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), articles, type: typeInventaire, savedAt: Date.now() })) }, [watch, articles, typeInventaire])
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `FICHE_INVENTAIRE-${user?.id || 'guest'}`,
+        values: {
+            direction: defaults.structure || '',
+            sousStructure: '',
+            dateInventaire: defaults.date || new Date().toISOString().split('T')[0],
+            agentNom: nameParts.slice(1).join(' ') || '',
+            agentPrenom: nameParts[0] || '',
+            bureau: '',
+            etage: '',
+            responsableBureau: '',
+            activite: '',
+            categorieDoc: 'Tout',
+        },
+    })
+
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.articles) setArticles(draft.articles)
+            if (draft?.type) setTypeInventaire(draft.type)
+        },
+        buildDraft: (formData) => ({ formData, articles, type: typeInventaire }),
+    })
 
     const updateCell = (idx, key, val) => setArticles(prev => prev.map((r, i) => i === idx ? { ...r, [key]: val } : r))
     const addRow = () => setArticles(prev => [...prev, { numInventaire: '', categorie: '', designation: '', quantite: 1, marque: '', modele: '', numSerie: '', dateAcquisition: '', etat: 'Bon état', affectation: '', numBureau: '', observations: '' }])

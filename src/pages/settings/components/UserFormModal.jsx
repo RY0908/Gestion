@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Modal } from '@/components/atoms/Modal.jsx'
 import { useCreateUser, useUpdateUser } from '@/hooks/useUsers.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 export function UserFormModal({ isOpen, onClose, user }) {
     const isEditing = !!user
@@ -14,51 +14,57 @@ export function UserFormModal({ isOpen, onClose, user }) {
             email: '',
             password: '', // only required on create
             employeeId: '',
-            departmentId: '', // Ideally we fetch departments, for now just text or we leave it if not required
+            structure: '',
+            phone: '',
             position: '',
             role: 'USER',
         }
     })
 
-    // Update form when editing a specific user
-    useEffect(() => {
-        if (isOpen) {
-            if (isEditing && user) {
-                reset({
-                    fullName: user.fullName || '',
-                    email: user.email || '',
-                    password: '', // leave empty, backend might ignore if empty on update
-                    employeeId: user.employeeId || '',
-                    departmentId: user.departmentId || '',
-                    position: user.position || '',
-                    role: user.role || 'USER',
-                })
-            } else {
-                reset({
-                    fullName: '',
-                    email: '',
-                    password: '',
-                    employeeId: '',
-                    departmentId: '',
-                    position: '',
-                    role: 'USER',
-                })
+    useHydratedFormDefaults({
+        enabled: isOpen,
+        reset,
+        signature: `${isEditing ? user?.id || 'edit' : 'new'}-${isOpen ? 'open' : 'closed'}`,
+        values: isEditing && user
+            ? {
+                fullName: user.fullName || '',
+                email: user.email || '',
+                password: '',
+                employeeId: user.employeeId || '',
+                structure: user.structure || user.department?.name || '',
+                phone: user.phone || '',
+                position: user.position || '',
+                role: user.role || 'USER',
             }
-        }
-    }, [isOpen, isEditing, user, reset])
+            : {
+                fullName: '',
+                email: '',
+                password: '',
+                employeeId: '',
+                structure: '',
+                phone: '',
+                position: '',
+                role: 'USER',
+            },
+    })
 
     const onSubmit = (data) => {
-        // Clean up empty password if editing
-        if (isEditing && !data.password) {
-            delete data.password
+        const payload = {
+            ...data,
+            structure: data.structure || null,
+            phone: data.phone || null,
+        }
+
+        if (isEditing && !payload.password) {
+            delete payload.password
         }
 
         if (isEditing) {
-            updateMutation.mutate({ id: user.id, data }, {
+            updateMutation.mutate({ id: user.id, data: payload }, {
                 onSuccess: () => onClose()
             })
         } else {
-            createMutation.mutate(data, {
+            createMutation.mutate(payload, {
                 onSuccess: () => onClose()
             })
         }
@@ -117,6 +123,28 @@ export function UserFormModal({ isOpen, onClose, user }) {
                             {...register('employeeId')}
                             className="w-full form-input h-9 px-3 rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] text-sm outline-none focus:border-sonatrach-green focus:ring-1 focus:ring-sonatrach-green/20"
                             placeholder="Ex: MAT12345"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium">Structure</label>
+                        <input
+                            type="text"
+                            {...register('structure')}
+                            className="w-full form-input h-9 px-3 rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] text-sm outline-none focus:border-sonatrach-green focus:ring-1 focus:ring-sonatrach-green/20"
+                            placeholder="Ex: Direction IT"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="text-sm font-medium">Téléphone</label>
+                        <input
+                            type="tel"
+                            {...register('phone')}
+                            className="w-full form-input h-9 px-3 rounded-md border border-[var(--color-border)] bg-[var(--color-bg)] text-sm outline-none focus:border-sonatrach-green focus:ring-1 focus:ring-sonatrach-green/20"
+                            placeholder="Ex: 0550 00 00 00"
                         />
                     </div>
                 </div>

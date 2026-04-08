@@ -2,14 +2,17 @@ import { useQuery, useMutation, useQueryClient, queryOptions } from '@tanstack/r
 import { fetchAssignments, fetchAssignment, createAssignment, updateAssignment, deleteAssignment, returnAssignment } from '@/lib/api/assignments.api.js'
 import toast from 'react-hot-toast'
 
-export const assignmentsQueryOptions = (params) =>
-    queryOptions({
-        queryKey: ['assignments', params],
-        queryFn: () => fetchAssignments(params),
+export const assignmentsQueryOptions = (params = {}) => {
+    const { enabled = true, ...queryParams } = params
+    return queryOptions({
+        queryKey: ['assignments', queryParams],
+        queryFn: () => fetchAssignments(queryParams),
+        enabled,
         staleTime: 2 * 60 * 1000,
         gcTime: 10 * 60 * 1000,
         placeholderData: (prev) => prev,
     })
+}
 
 export const assignmentDetailQueryOptions = (id) =>
     queryOptions({
@@ -33,6 +36,7 @@ export function useCreateAssignment() {
         mutationFn: createAssignment,
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['assignments'] })
+            qc.invalidateQueries({ queryKey: ['requests'] })
             qc.invalidateQueries({ queryKey: ['assets'] })
             toast.success('Affectation créée avec succès')
         },

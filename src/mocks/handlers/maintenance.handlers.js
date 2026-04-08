@@ -28,7 +28,7 @@ export const maintenanceHandlers = [
         return HttpResponse.json({ data: newMte, success: true }, { status: 201 })
     }),
 
-    http.put('/api/maintenance/:id', async ({ params, request }) => {
+    http.patch('/api/maintenance/:id', async ({ params, request }) => {
         await delay(300)
         const body = await request.json()
         const idx = maintenance.findIndex(m => m.id === params.id)

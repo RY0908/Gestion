@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,6 +16,8 @@ import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { saveDocument } from '@/lib/api/saveDocument.js'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const schema = yup.object({
     numCommande: yup.string().required('Le N° de commande est obligatoire'),
@@ -49,12 +51,39 @@ export default function FormBonReception() {
         }
     })
 
-    useEffect(() => {
-        const saved = localStorage.getItem(DRAFT_KEY)
-        if (saved) { try { const d = JSON.parse(saved); if (d.formData) reset(d.formData); if (d.articles) setArticles(d.articles) } catch { } }
-    }, [reset])
-    const saveDraft = useCallback(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), articles, savedAt: Date.now() })) }, [watch, articles])
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `BON_RECEPTION-${user?.id || 'guest'}`,
+        values: {
+            numCommande: '',
+            numLivraison: '',
+            dateLivraison: '',
+            fournisseurNom: '',
+            codeFournisseur: '',
+            adresseFournisseur: '',
+            factureN: '',
+            classe: '',
+            droitDouane: 0,
+            fret: 0,
+            transport: 0,
+            receptionnaire: defaults.receptionnaire || user?.fullName || '',
+            valorisePar: '',
+            fichiste: '',
+            comptabilite: '',
+        },
+    })
+
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.articles) setArticles(draft.articles)
+        },
+        buildDraft: (formData) => ({ formData, articles }),
+    })
 
     const updateCell = (idx, key, val) => {
         setArticles(prev => prev.map((row, i) => {

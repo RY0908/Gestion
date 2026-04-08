@@ -35,14 +35,14 @@ const NAV_ITEMS = [
     { label: 'Salles & Locaux', icon: DoorOpen, to: '/rooms' },
     { label: 'Licences', icon: Key, to: '/licenses', action: 'license:manage' },
     { label: 'Maintenance / Tickets', icon: Wrench, to: '/maintenance', action: 'maintenance:manage', badgeKey: 'maintenance' },
-    { label: 'Demandes (Globale)', icon: ClipboardList, to: '/requests', action: 'maintenance:manage' }, // Admin/Tech
+    { label: 'Demandes (Globale)', icon: ClipboardList, to: '/requests', action: 'request:manage' },
     { label: 'Mes Demandes', icon: ClipboardList, to: '/my-requests' }, // Everyone
     { label: 'Mon Profil', icon: UserCircle2, to: '/profile' },
     { divider: true },
     { label: 'Documents & Décharges', icon: FolderOpen, to: '/documents', action: 'asset:view' },
     { divider: true },
     { label: 'Rapports', icon: BarChart2, to: '/reports', action: 'report:export' },
-    { label: 'Journal d\'Audit', icon: History, to: '/audit-log', action: 'user:manage' },
+    { label: 'Journal d\'Audit', icon: History, to: '/audit-log', action: 'audit:view' },
     { divider: true },
     { label: 'Paramètres', icon: Settings, to: '/settings', action: 'user:manage' },
 ]

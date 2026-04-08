@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { PageHeader } from '@/components/layout/PageHeader.jsx'
 import { EmptyState } from '@/components/atoms/EmptyState.jsx'
 import { cn } from '@/lib/utils.js'
@@ -6,6 +6,7 @@ import {
     Bell, Package, Wrench, Key, UserCheck, Settings,
     Check, Archive, Clock, Filter, RefreshCw
 } from 'lucide-react'
+import { useNotifications } from '@/hooks/useNotifications.js'
 
 const CATEGORY_ICON = {
     assets:      Package,
@@ -33,26 +34,12 @@ const CATEGORIES = [
 
 export default function NotificationsPage() {
     const [activeCategory, setActiveCategory] = useState('all')
-    const [notifications, setNotifications] = useState([])
-    const [loading, setLoading] = useState(true)
-
-    const fetchNotifications = async () => {
-        setLoading(true)
-        try {
-            const token = JSON.parse(localStorage.getItem('auth-store') || '{}')?.state?.token
-            const res = await fetch('/api/notifications', {
-                headers: token ? { Authorization: `Bearer ${token}` } : {}
-            })
-            const json = await res.json()
-            setNotifications((json.data || []).map(n => ({ ...n, read: false })))
-        } catch (err) {
-            console.error('Notifications fetch error:', err)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => { fetchNotifications() }, [])
+    const [readIds, setReadIds] = useState([])
+    const { data, isLoading, refetch } = useNotifications()
+    const notifications = useMemo(
+        () => (data?.notifications || []).map(n => ({ ...n, read: readIds.includes(n.id) })),
+        [data, readIds]
+    )
 
     const filtered = useMemo(() => {
         if (activeCategory === 'all') return notifications
@@ -62,11 +49,11 @@ export default function NotificationsPage() {
     const unreadCount = notifications.filter(n => !n.read).length
 
     const markRead = (id) => {
-        setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))
+        setReadIds(prev => (prev.includes(id) ? prev : [...prev, id]))
     }
 
     const markAllRead = () => {
-        setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+        setReadIds(notifications.map(n => n.id))
     }
 
     return (
@@ -74,14 +61,14 @@ export default function NotificationsPage() {
         <PageHeader
                 title="Notifications"
                 count={unreadCount}
-                description={loading ? 'Chargement des alertes...' : `${notifications.length} alertes actives du système.`}
+                description={isLoading ? 'Chargement des alertes...' : `${notifications.length} alertes actives du système.`}
             >
                 <button
-                    onClick={fetchNotifications}
-                    disabled={loading}
+                    onClick={() => refetch()}
+                    disabled={isLoading}
                     className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg)] border border-[var(--color-border)] hover:bg-[var(--color-surface)] rounded-lg text-sm font-medium transition-colors btn-press"
                 >
-                    <RefreshCw className={cn('w-4 h-4', loading && 'animate-spin')} />
+                    <RefreshCw className={cn('w-4 h-4', isLoading && 'animate-spin')} />
                     Actualiser
                 </button>
                 <button
@@ -128,7 +115,7 @@ export default function NotificationsPage() {
 
                 {/* Notification List */}
                 <div className="flex-1 space-y-2">
-                {loading ? (
+                {isLoading ? (
                     <div className="space-y-2">{[...Array(5)].map((_,i) => <div key={i} className="h-16 skeleton-shimmer rounded-xl" />)}</div>
                 ) : filtered.length > 0 ? filtered.map((n, i) => {
                         const Icon = CATEGORY_ICON[n.category] || Bell

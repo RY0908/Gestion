@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,6 +16,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE' }, { value: 'FIN', label: 'FIN' }, { value: 'RHU', label: 'RHU' },
@@ -56,9 +58,43 @@ export default function FormRapportIntervention() {
         }
     })
 
-    useEffect(() => { const s = localStorage.getItem(DRAFT_KEY); if (s) { try { const d = JSON.parse(s); if (d.formData) reset(d.formData); if (d.interventions) setInterventions(d.interventions); if (d.type) setTypeRapport(d.type) } catch { } } }, [reset])
-    const saveDraft = useCallback(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), interventions, type: typeRapport, savedAt: Date.now() })) }, [watch, interventions, typeRapport])
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `RAPPORT_INTERV-${user?.id || 'guest'}`,
+        values: {
+            dateDebut: defaults.date || new Date().toISOString().split('T')[0],
+            dateFin: '',
+            etabliPar: defaults.technicien || user?.fullName || '',
+            matricule: defaults.technicienMatricule || '',
+            refDemande: '',
+            dateDeclaration: '',
+            utilisateur: '',
+            direction: defaults.direction || '',
+            bureau: '',
+            materiel: '',
+            numSerie: '',
+            dateIntervention: '',
+            duree: '',
+            cause: '',
+            typePanne: 'Matérielle',
+            actionsRealisees: '',
+            resultat: 'Résolu',
+            preconisations: '',
+        },
+    })
+
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.interventions) setInterventions(draft.interventions)
+            if (draft?.type) setTypeRapport(draft.type)
+        },
+        buildDraft: (formData) => ({ formData, interventions, type: typeRapport }),
+    })
 
     const updateCell = (idx, key, val) => setInterventions(prev => prev.map((r, i) => i === idx ? { ...r, [key]: val } : r))
     const addRow = () => setInterventions(prev => [...prev, { date: '', utilisateur: '', materiel: '', typePanne: 'Matérielle', duree: 0, resultat: 'Résolu' }])

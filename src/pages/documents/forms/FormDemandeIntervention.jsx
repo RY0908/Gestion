@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -15,6 +15,8 @@ import { FormSection } from '@/components/forms/FormSection.jsx'
 import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const DIRECTIONS = [
     { value: 'SPE', label: 'SPE – Stratégie, Planification & Économie' },
@@ -74,20 +76,39 @@ export default function FormDemandeIntervention() {
         }
     })
 
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `DEMANDE_INTERV-${user?.id || 'guest'}`,
+        values: {
+            date: defaults.date || now.toISOString().split('T')[0],
+            heure: defaults.heure || `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+            nom: defaults.nom || user?.fullName || '',
+            matricule: defaults.matricule || '',
+            direction: defaults.direction || '',
+            bureau: '',
+            telephone: defaults.telephone || '',
+            designation: '',
+            marque: '',
+            numSerie: '',
+            numInventaire: '',
+            localisation: '',
+            descriptionPanne: '',
+            urgence: 'Normal',
+            historique: 'Non',
+        },
+    })
+
     // ── Auto-save draft ──────────────────────────────────────────────
-    useEffect(() => {
-        const saved = localStorage.getItem(DRAFT_KEY)
-        if (saved) { try { const d = JSON.parse(saved); if (d.formData) reset(d.formData) } catch { } }
-    }, [reset])
-
-    const saveDraft = useCallback(() => {
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), savedAt: Date.now() }))
-    }, [watch])
-
-    useEffect(() => {
-        const i = setInterval(saveDraft, 30000)
-        return () => clearInterval(i)
-    }, [saveDraft])
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+        },
+        buildDraft: (formData) => ({ formData }),
+    })
 
     const [printData, setPrintData] = useState(null)
     const onSubmit = () => {

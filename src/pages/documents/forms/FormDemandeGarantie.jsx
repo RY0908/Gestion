@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,6 +16,8 @@ import { PrintManager } from '@/components/print/PrintManager.jsx'
 import { cn } from '@/lib/utils.js'
 
 import { useDocumentPrefill } from '@/hooks/useDocumentPrefill.js'
+import { useDraftAutosave } from '@/hooks/useDraftAutosave.js'
+import { useHydratedFormDefaults } from '@/hooks/useHydratedFormDefaults.js'
 
 const schema = yup.object({
     designation: yup.string().required('La désignation est obligatoire'),
@@ -56,9 +58,41 @@ export default function FormDemandeGarantie() {
         }
     })
 
-    useEffect(() => { const s = localStorage.getItem(DRAFT_KEY); if (s) { try { const d = JSON.parse(s); if (d.formData) reset(d.formData); if (d.docs) setDocs(d.docs) } catch { } } }, [reset])
-    const saveDraft = useCallback(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify({ formData: watch(), docs, savedAt: Date.now() })) }, [watch, docs])
-    useEffect(() => { const i = setInterval(saveDraft, 30000); return () => clearInterval(i) }, [saveDraft])
+    useHydratedFormDefaults({
+        enabled: Boolean(user),
+        reset,
+        signature: `DEMANDE_GARANTIE-${user?.id || 'guest'}`,
+        values: {
+            date: defaults.date || new Date().toISOString().split('T')[0],
+            designation: '',
+            marque: '',
+            modele: '',
+            numSerie: '',
+            numInventaire: '',
+            numBonCommande: '',
+            dateAcquisition: '',
+            dateFinGarantie: '',
+            fournisseurNom: '',
+            fournisseurContact: '',
+            descriptionPanne: '',
+            dateEnvoiFournisseur: '',
+            dateRetourPrevue: '',
+            remplacement: 'Non fourni',
+            technicien: defaults.demandeur || user?.fullName || '',
+            chefDepartement: '',
+        },
+    })
+
+    const saveDraft = useDraftAutosave({
+        draftKey: DRAFT_KEY,
+        watch,
+        reset,
+        onLoadDraft: (draft, resetFn) => {
+            if (draft?.formData) resetFn(draft.formData)
+            if (draft?.docs) setDocs(draft.docs)
+        },
+        buildDraft: (formData) => ({ formData, docs }),
+    })
 
     const dateFinGarantie = watch('dateFinGarantie')
     const garantieValide = dateFinGarantie ? new Date(dateFinGarantie) >= new Date() : null

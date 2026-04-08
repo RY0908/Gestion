@@ -68,7 +68,8 @@ export default function DashboardPage() {
     const { data: assignmentsRes, isLoading: asgLoading } = useAssignments({})
     const { data: licensesRes, isLoading: licLoading } = useLicenses({})
     const { data: maintenanceRes, isLoading: mteLoading } = useMaintenances({})
-    const { data: auditRes, isLoading: auditLoading } = useAuditLog()
+    const canViewAudit = user?.role === 'ADMIN'
+    const { data: auditRes, isLoading: auditLoading } = useAuditLog({ enabled: canViewAudit })
 
     const assets = assetsRes?.data || []
     const assignments = assignmentsRes?.data || []
@@ -294,7 +295,7 @@ export default function DashboardPage() {
                         Activité Récente
                     </h3>
                     <div className="flex-1 overflow-y-auto pr-2 -mr-2">
-                        <ActivityFeed activities={audits} isLoading={auditLoading} />
+                        <ActivityFeed activities={canViewAudit ? audits : []} isLoading={canViewAudit ? auditLoading : false} />
                     </div>
                 </div>
             </div>
